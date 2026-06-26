@@ -23,6 +23,15 @@ else
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
 fi
 
+# Optionally install Claude Code (official native installer). Never let a
+# failed/declined install abort the rest of bootstrap: '|| reply=""' handles a
+# non-interactive stdin (EOF), and the install runs in its own guarded block.
+read -rp 'Install Claude Code on this machine? [y/N] ' reply || reply=""
+if [[ "$reply" == [Yy]* ]]; then
+  echo "[install] Claude Code"
+  curl -fsSL https://claude.ai/install.sh | bash || echo "  [warn] Claude Code install failed; continuing"
+fi
+
 echo
 echo "Running install.sh..."
 "$REPO_DIR/install.sh"
