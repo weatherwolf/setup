@@ -12,17 +12,54 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SUDO=""
 if [[ "$(id -u)" -ne 0 ]]; then SUDO="sudo"; fi
 
-# Install prerequisites (Debian/Ubuntu only). Each package is installed just
-# once, and skipped if already present.
+# Prerequisites (Debian/Ubuntu). Package names, not binary names:
+#   git/curl/zsh   - shell + clone tooling
+#   neovim/tmux    - editors the configs are for
+#   build-essential- compiler + make, for telescope-fzf-native (build = 'make')
+#   ripgrep        - live_grep backend for telescope and fzf-lua  (binary: rg)
+#   fd-find        - faster file finding for telescope/fzf-lua     (binary: fdfind)
+#   fzf            - required by the fzf-lua plugin
+#   python3-pynvim - remote-plugin support for wilder.nvim (:UpdateRemotePlugins)
+#   xclip          - system clipboard on X11 (tmux/nvim, non-SSH)
+#   wl-clipboard   - system clipboard on Wayland
+PACKAGES=(git curl zsh neovim tmux build-essential ripgrep fd-find fzf
+          python3-pynvim xclip wl-clipboard)
+
+# Install only packages not already present (checked by package name via dpkg).
 if command -v apt-get >/dev/null 2>&1; then
   missing=()
-  for pkg in git curl zsh; do
-    command -v "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
+  for pkg in "${PACKAGES[@]}"; do
+    dpkg -s "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
   done
   if (( ${#missing[@]} )); then
     echo "[deps]  installing: ${missing[*]}"
     $SUDO apt-get update
     $SUDO apt-get install -y "${missing[@]}"
+  fi
+fi
+
+# Debian installs fd as 'fdfind'; telescope/fzf-lua look for 'fd'. Bridge it.
+if command -v fdfind >/dev/null 2>&1 && ! command -v fd >/dev/null 2>&1; then
+  mkdir -p "$HOME/.local/bin"
+  ln -sf "$(command -v fdfind)" "$HOME/.local/bin/fd"
+  echo "[link]  fd -> $(command -v fdfind)"
+fi
+
+# MesloLGS Nerd Font (recommended by powerlevel10k; needed for nvim icons).
+# Only useful where the terminal renders LOCALLY. On a remote/SSH VM the font
+# must instead live on your local machine, so this is skipped when fontconfig
+# (fc-cache) is absent.
+if command -v fc-cache >/dev/null 2>&1; then
+  font_dir="$HOME/.local/share/fonts"
+  if [[ ! -f "$font_dir/MesloLGS NF Regular.ttf" ]]; then
+    echo "[font]  installing MesloLGS NF -> $font_dir"
+    mkdir -p "$font_dir"
+    base="https://github.com/romkatv/powerlevel10k-media/raw/master"
+    curl -fsSL "$base/MesloLGS%20NF%20Regular.ttf"       -o "$font_dir/MesloLGS NF Regular.ttf"      || echo "  [warn] font download failed"
+    curl -fsSL "$base/MesloLGS%20NF%20Bold.ttf"          -o "$font_dir/MesloLGS NF Bold.ttf"         || echo "  [warn] font download failed"
+    curl -fsSL "$base/MesloLGS%20NF%20Italic.ttf"        -o "$font_dir/MesloLGS NF Italic.ttf"       || echo "  [warn] font download failed"
+    curl -fsSL "$base/MesloLGS%20NF%20Bold%20Italic.ttf" -o "$font_dir/MesloLGS NF Bold Italic.ttf"  || echo "  [warn] font download failed"
+    fc-cache -f >/dev/null 2>&1 || true
   fi
 fi
 
@@ -47,6 +84,17 @@ if [[ -d "$P10K_DIR/.git" ]]; then
 else
   echo "[clone] powerlevel10k -> $P10K_DIR"
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
+fi
+
+# TPM (Tmux Plugin Manager): third-party, required by ~/.tmux.conf to load its
+# plugins. Clone from upstream (not vendored). After tmux starts, press
+# prefix + I (Ctrl-a then Shift-i) to install the plugins.
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if [[ -d "$TPM_DIR/.git" ]]; then
+  echo "[ok]    tpm already present at $TPM_DIR"
+else
+  echo "[clone] tpm -> $TPM_DIR"
+  git clone --depth=1 https://github.com/tmux-plugins/tpm.git "$TPM_DIR"
 fi
 
 # Optionally install Claude Code (official native installer). Never let a
