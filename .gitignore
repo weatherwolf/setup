@@ -1,0 +1,21 @@
+# Machine-specific overrides (kept untracked, created per machine)
+*.local
+.zshrc.local
+
+# Backups created by install.sh
+*.bak.*
+
+# OS / editor cruft
+.DS_Store
+*.swp
+*~
+
+# nvim runtime / plugin data must never be tracked (it lives outside this repo
+# under ~/.local/share/nvim, ~/.local/state/nvim, ~/.cache/nvim). These guards
+# catch anything that might leak into the tracked nvim config dir.
+nvim/.config/nvim/.claude/
+nvim/.config/nvim/plugin/packer_compiled.lua
+nvim/.config/nvim/spell/
+
+# Claude local settings (only the shared CLAUDE.md is tracked)
+claude/.claude/settings.local.json
