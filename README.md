@@ -15,7 +15,12 @@ zsh/.p10k.zsh              -> ~/.p10k.zsh
 tmux/.tmux.conf            -> ~/.tmux.conf
 nvim/.config/nvim          -> ~/.config/nvim
 claude/.claude/CLAUDE.md   -> ~/.claude/CLAUDE.md
+claude/.claude/settings.json -> ~/.claude/settings.json
+claude/.claude/statusline.py -> ~/.claude/statusline.py
 ```
+
+Machine-specific Claude overrides go in `~/.claude/settings.local.json`
+(untracked; Claude merges it over the shared `settings.json`).
 
 ## Install on a fresh machine
 

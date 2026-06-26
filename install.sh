@@ -21,6 +21,8 @@ LINKS=(
   "tmux/.tmux.conf|$HOME/.tmux.conf"
   "nvim/.config/nvim|$HOME/.config/nvim"
   "claude/.claude/CLAUDE.md|$HOME/.claude/CLAUDE.md"
+  "claude/.claude/settings.json|$HOME/.claude/settings.json"
+  "claude/.claude/statusline.py|$HOME/.claude/statusline.py"
 )
 
 # Back up an existing real file/dir, then symlink src -> dst.

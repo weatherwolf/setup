@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "env": {
+    "TZ": "Europe/Amsterdam"
+  },
+  "model": "opus[1m]",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.py"
+  },
+  "effortLevel": "medium",
+  "theme": "dark",
+  "skipAutoPermissionPrompt": true
+}
