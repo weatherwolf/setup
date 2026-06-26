@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 #
-# install_configs.sh — clone (or update) my config repos from GitHub, then
+# install_config.sh - clone (or update) my config repos from GitHub, then
 # symlink each config into its target location. Re-runnable. Backs up any
 # existing real file before replacing it.
+#
+# Linux only for now (also works under WSL/Git Bash). A native Windows
+# installer (PowerShell) can be added later.
 #
 set -euo pipefail
 
 GH_USER="weatherwolf"
-# Where the repos get cloned. Override with: CONFIG_REPO_DIR=/path ./install_configs.sh
+# Where the repos get cloned. Override with: CONFIG_REPO_DIR=/path ./install_config.sh
 REPO_DIR="${CONFIG_REPO_DIR:-$HOME/.config-repos}"
 
 # Repos to clone/update.
@@ -28,14 +31,22 @@ LINKS=(
 
 ts="$(date +%Y%m%d-%H%M%S)"
 
+# Make sure git is available before we try to use it.
+if ! command -v git >/dev/null 2>&1; then
+  echo "error: git is not installed or not on PATH" >&2
+  exit 1
+fi
+
 # Clone a repo, or fast-forward it if already present.
 clone_or_update() {
   local repo="$1" dest="$REPO_DIR/$repo"
   if [[ -d "$dest/.git" ]]; then
-    echo "  ⟳ updating $repo"
-    git -C "$dest" pull --ff-only
+    echo "  [update] $repo"
+    # Do not abort the whole run if the repo has local commits / diverged.
+    git -C "$dest" pull --ff-only \
+      || echo "  [warn] could not fast-forward $repo (local changes?); skipping update"
   else
-    echo "  ⬇ cloning $repo"
+    echo "  [clone]  $repo"
     git clone "https://github.com/$GH_USER/$repo.git" "$dest"
   fi
 }
@@ -45,20 +56,29 @@ link() {
   local src="$1" dst="$2"
 
   if [[ ! -e "$src" ]]; then
-    echo "  ✗ source missing, skipping: $src"
+    echo "  [skip]   source missing: $src"
     return
   fi
+  # Already pointing at the right place: nothing to do.
   if [[ -L "$dst" && "$(readlink -f "$dst")" == "$(readlink -f "$src")" ]]; then
-    echo "  = already linked: $dst"
+    echo "  [ok]     already linked: $dst"
     return
   fi
-  if [[ -e "$dst" || -L "$dst" ]]; then
-    mv "$dst" "$dst.bak.$ts"
-    echo "  ↳ backed up existing $dst -> $dst.bak.$ts"
-  fi
+
   mkdir -p "$(dirname "$dst")"
+
+  if [[ -L "$dst" ]]; then
+    # Stale/incorrect symlink: just remove it, no point backing up a link.
+    rm -f "$dst"
+    echo "  [relink] removed stale link: $dst"
+  elif [[ -e "$dst" ]]; then
+    # Real file or directory: preserve it.
+    mv "$dst" "$dst.bak.$ts"
+    echo "  [backup] $dst -> $dst.bak.$ts"
+  fi
+
   ln -s "$src" "$dst"
-  echo "  ✓ linked $dst -> $src"
+  echo "  [link]   $dst -> $src"
 }
 
 echo "Cloning/updating repos into $REPO_DIR:"
