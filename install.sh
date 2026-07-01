@@ -23,8 +23,11 @@ LINKS=(
   "claude/.claude/CLAUDE.md|$HOME/.claude/CLAUDE.md"
   "claude/.claude/settings.json|$HOME/.claude/settings.json"
   "claude/.claude/statusline.py|$HOME/.claude/statusline.py"
-  "claude/.claude/skills|$HOME/.claude/skills"
   "claude/.claude/hooks|$HOME/.claude/hooks"
+  # Skill manifest only. The skill *content* under ~/.claude/skills is owned by
+  # the `skills` CLI (npx skills), so ~/.claude/skills is deliberately NOT linked
+  # here -- linking it would clobber the npx-managed directory on install.
+  "claude/.agents/.skill-lock.json|$HOME/.agents/.skill-lock.json"
 )
 
 # Back up an existing real file/dir, then symlink src -> dst.

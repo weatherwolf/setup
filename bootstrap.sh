@@ -110,6 +110,40 @@ echo
 echo "Running install.sh..."
 "$REPO_DIR/install.sh"
 
+# Reproduce the Claude Code skill set from the tracked manifest. install.sh (run
+# just above) symlinks ~/.agents/.skill-lock.json to the copy in this repo. The
+# CLI's `experimental_install` only restores *project* lockfiles, so for this
+# *global* manifest we parse it and re-add each source with its exact skill list
+# (`skills add <source> -g -y -s <skill,skill,...>`). This is faithful to the
+# recipe: only the skills recorded in the lockfile are installed. Requires npx
+# (Node) and python3; skipped with a warning if either is absent. Never blocks.
+LOCK="$HOME/.agents/.skill-lock.json"
+if command -v npx >/dev/null 2>&1 && command -v python3 >/dev/null 2>&1; then
+  if [[ -f "$LOCK" ]]; then
+    echo "[skills] reproducing skill set from $LOCK"
+    # Emit one "<source>\t<comma-separated skill names>" line per source.
+    python3 - "$LOCK" <<'PY' | while IFS=$'\t' read -r source skills; do
+import json, sys
+from collections import defaultdict
+data = json.load(open(sys.argv[1]))
+by_source = defaultdict(list)
+for name, info in data.get("skills", {}).items():
+    by_source[info["source"]].append(name)
+for source, names in by_source.items():
+    print(source + "\t" + ",".join(sorted(names)))
+PY
+      [[ -z "$source" ]] && continue
+      echo "  [skills] $source -> $skills"
+      npx --yes skills add "$source" -g -y -s "$skills" \
+        || echo "  [warn] failed to install skills from $source; run manually: npx skills add $source -g -y -s $skills"
+    done || echo "  [warn] could not parse $LOCK; skipping skill install"
+  else
+    echo "  [warn] $LOCK missing; skipping skill install"
+  fi
+else
+  echo "  [warn] npx or python3 not found; skipping skill install"
+fi
+
 echo
 echo "All set. Start a fresh shell to load the new config: exec zsh"
 echo "(Or just open a new terminal. If chsh ran, a full re-login applies it everywhere.)"
