@@ -17,7 +17,13 @@ nvim/.config/nvim          -> ~/.config/nvim
 claude/.claude/CLAUDE.md   -> ~/.claude/CLAUDE.md
 claude/.claude/settings.json -> ~/.claude/settings.json
 claude/.claude/statusline.py -> ~/.claude/statusline.py
+claude/.claude/skills         -> ~/.claude/skills      (directory)
+claude/.claude/hooks          -> ~/.claude/hooks       (directory)
 ```
+
+`skills/` and `hooks/` are symlinked as whole directories, so any skill or
+hook you add later is tracked automatically. A hook also needs an entry under
+`"hooks"` in `settings.json` (tracked) to actually run.
 
 Machine-specific Claude overrides go in `~/.claude/settings.local.json`
 (untracked; Claude merges it over the shared `settings.json`).
