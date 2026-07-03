@@ -1,9 +1,9 @@
 {
-  "permissions": {
-    "defaultMode": "auto"
-  },
   "env": {
     "TZ": "Europe/Amsterdam"
+  },
+  "permissions": {
+    "defaultMode": "auto"
   },
   "model": "opus[1m]",
   "statusLine": {
@@ -12,5 +12,19 @@
   },
   "effortLevel": "medium",
   "theme": "dark",
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "hooks": {
+    "SessionEnd": [
+      {
+        "matcher": "clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/wolf/.claude/hooks/rename-on-clear.sh",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
 }

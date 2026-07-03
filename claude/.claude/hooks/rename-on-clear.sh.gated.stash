@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+# rename-on-clear.sh -- Claude Code SessionEnd hook (matcher: "clear")
+#
+# When a conversation is cleared with /clear, if enough new discussion has
+# happened since it was last titled, summarize it and durably re-title it, then
+# record it in a searchable index for the find-convo skill.
+#
+# Gate (see the /grill design):
+#   anchor  = line of the last custom-title record (none -> start of file).
+#             ai-title records are ignored (the app rewrites those every turn).
+#   count   = user+assistant message lines AFTER the anchor.
+#   N       = MIN_MESSAGES_SINCE_TITLE (env RENAME_MIN_MESSAGES overrides; default 10).
+#   count < N            -> do nothing at all ("the hook does not fire").
+#   count >= N           -> summarize (aware of the old title; keep it if still
+#                           apt, else refine). If the new title differs from the
+#                           old one, append custom-title + agent-name records.
+#                           Refresh the index either way.
+#
+# Titles live inside the transcript JSONL as:
+#   {"type":"custom-title","customTitle":"<name>","sessionId":"<id>"}
+#   {"type":"agent-name","agentName":"<name>","sessionId":"<id>"}
+# which is what /resume reads and survives /clear (unlike ~/.claude/sessions/*.json).
+#
+# Best-effort: always exits 0 so it can never block or error out /clear.
+# Diagnostics go to ~/.claude/rename-on-clear.log.
+set -uo pipefail
+
+MIN_MESSAGES_SINCE_TITLE="${RENAME_MIN_MESSAGES:-10}"
+
+LOG="${HOME}/.claude/rename-on-clear.log"
+INDEX="${HOME}/.claude/conversation-index.tsv"
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+log() { printf '%s %s\n' "$(date -Iseconds 2>/dev/null || echo now)" "$*" >> "$LOG"; }
+
+input="$(cat)"
+session_id="$(printf '%s' "$input" | jq -r '.session_id // empty' 2>/dev/null)"
+transcript="$(printf '%s' "$input" | jq -r '.transcript_path // empty' 2>/dev/null)"
+cwd="$(printf '%s' "$input" | jq -r '.cwd // empty' 2>/dev/null)"
+
+if [ -z "$transcript" ] || [ ! -f "$transcript" ]; then
+  log "skip: no transcript (session=$session_id)"
+  exit 0
+fi
+
+# --- Gate: enough new messages since the last title CHANGE? --------------------
+# The app re-emits the CURRENT custom-title record on nearly every turn (same
+# value), so "the last custom-title line" is not the last rename. We want the
+# last point where the title VALUE changed = the start of the trailing run of the
+# current title. Anchor there; old_title = that current value ("" if never set).
+anchor=0
+old_title=""
+prev=""
+while IFS=$'\t' read -r ln title; do
+  [ -z "$ln" ] && continue
+  if [ "$title" != "$prev" ]; then
+    anchor="$ln"
+    prev="$title"
+  fi
+  old_title="$title"
+done < <(grep -n '"type":"custom-title"' "$transcript" 2>/dev/null \
+  | while IFS=: read -r n rest; do
+      t="$(printf '%s' "$rest" | jq -r --arg sid "$session_id" 'select(.sessionId == $sid) | .customTitle // empty' 2>/dev/null)"
+      [ -n "$t" ] && printf '%s\t%s\n' "$n" "$t"
+    done)
+
+# Count user/assistant message lines after the anchor.
+msgs="$(tail -n "+$((anchor + 1))" "$transcript" \
+  | jq -rR 'fromjson? | select(.type == "user" or .type == "assistant") | .type' 2>/dev/null \
+  | wc -l | tr -d ' ')"
+[ -z "$msgs" ] && msgs=0
+
+if [ "$msgs" -lt "$MIN_MESSAGES_SINCE_TITLE" ]; then
+  log "skip: only $msgs msg(s) since last title (need $MIN_MESSAGES_SINCE_TITLE) session=$session_id old_title='$old_title'"
+  exit 0
+fi
+
+# --- Summarize (aware of the old title) ----------------------------------------
+convo="$(jq -rs '
+  [ .[]
+    | select(.type == "user" or .type == "assistant")
+    | .message.content
+    | if type == "string" then .
+      elif type == "array" then ([ .[] | select(.type == "text") | .text ] | join(" "))
+      else empty end
+  ] | join("\n")
+' "$transcript" 2>/dev/null | head -c 8000)"
+
+if [ "${#convo}" -lt 40 ]; then
+  log "skip: transcript too short (session=$session_id)"
+  exit 0
+fi
+
+if [ -n "$old_title" ]; then
+  old_title_instruction="The conversation's current title is \"$old_title\". Keep that exact title if it still captures the main topic; only produce a different title if the topic has clearly moved on."
+else
+  old_title_instruction="The conversation has no title yet."
+fi
+
+read -r -d '' prompt <<EOF || true
+Read this conversation transcript and output a short, searchable title for its
+MAIN topic. $old_title_instruction
+Rules: 3 to 6 words, lowercase, hyphen-separated, only ASCII letters/numbers/
+hyphens, no dates, no filler words. Output ONLY the title.
+
+TRANSCRIPT:
+$convo
+EOF
+
+raw="$(claude -p --model claude-haiku-4-5-20251001 "$prompt" 2>>"$LOG" | head -n1)"
+
+slug="$(printf '%s' "$raw" \
+  | tr '[:upper:]' '[:lower:]' \
+  | tr -c 'a-z0-9' '-' \
+  | sed -E 's/-+/-/g; s/^-//; s/-$//' \
+  | cut -c1-60)"
+
+if [ -z "$slug" ]; then
+  log "skip: empty slug from model (raw='$raw', session=$session_id)"
+  exit 0
+fi
+
+# --- Apply title only if it changed --------------------------------------------
+if [ "$slug" = "$old_title" ]; then
+  log "ok: title unchanged ('$slug') after $msgs msg(s); skipping title write session=$session_id"
+else
+  if title_out="$("$DIR/set-custom-title.sh" "$slug" "$session_id" "$transcript" 2>&1)"; then
+    log "ok: $title_out (after $msgs msg(s), was '$old_title')"
+  else
+    log "warn: custom-title failed: $title_out"
+  fi
+fi
+
+# --- Refresh the searchable index (de-dupe by session) -------------------------
+epoch="$(date +%s 2>/dev/null || echo 0)"
+iso="$(date -Iseconds 2>/dev/null || echo unknown)"
+row="$(printf '%s\t%s\t%s\t%s\t%s\t%s' "$epoch" "$iso" "$slug" "$session_id" "$cwd" "$transcript")"
+
+touch "$INDEX"
+if [ -n "$session_id" ]; then
+  tmp="$(mktemp)"
+  grep -v -F "	${session_id}	" "$INDEX" > "$tmp" 2>/dev/null || true
+  mv "$tmp" "$INDEX"
+fi
+printf '%s\n' "$row" >> "$INDEX"
+log "ok: indexed session=$session_id title=$slug"
+
+exit 0
