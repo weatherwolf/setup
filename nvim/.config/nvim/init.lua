@@ -1,6 +1,8 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Random comment --
+
 -- Options (migrated from init.vim)
 vim.opt.number = true
 vim.opt.ignorecase = true
