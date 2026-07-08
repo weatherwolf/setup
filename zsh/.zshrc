@@ -69,3 +69,9 @@ alias jm="cd ~/Fyrm/mcp-jit"
 # Machine-specific overrides (untracked; create per machine as needed).
 # Put work-only aliases, env vars, or paths here instead of editing this file.
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# Added by sonarqube-cli installer
+export PATH="$HOME/.local/share/sonarqube-cli/bin:$PATH"
+
+# Load SonarQube token if present (file is gitignored / lives outside this repo)
+[ -f "$HOME/.config/sonar/env" ] && source "$HOME/.config/sonar/env"

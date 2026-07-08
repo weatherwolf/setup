@@ -6,13 +6,6 @@
     "defaultMode": "auto"
   },
   "model": "opus[1m]",
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.py"
-  },
-  "effortLevel": "medium",
-  "theme": "dark",
-  "skipAutoPermissionPrompt": true,
   "hooks": {
     "SessionEnd": [
       {
@@ -26,5 +19,15 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.py"
+  },
+  "effortLevel": "medium",
+  "theme": "dark",
+  "skipAutoPermissionPrompt": true,
+  "enabledPlugins": {
+    "sonarqube@claude-plugins-official": true
   }
 }
