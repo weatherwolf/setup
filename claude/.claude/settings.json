@@ -24,10 +24,10 @@
     "type": "command",
     "command": "~/.claude/statusline.py"
   },
-  "effortLevel": "medium",
-  "theme": "dark",
-  "skipAutoPermissionPrompt": true,
   "enabledPlugins": {
     "sonarqube@claude-plugins-official": true
-  }
+  },
+  "effortLevel": "medium",
+  "theme": "dark",
+  "skipAutoPermissionPrompt": true
 }

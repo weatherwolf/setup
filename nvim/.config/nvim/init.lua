@@ -136,6 +136,20 @@ require("lazy").setup({
       { "<leader>th", "<cmd>Telescope help_tags<cr>",  desc = "Telescope help tags" },
     },
   },
+  -- Git diff/merge viewer: https://github.com/sindrets/diffview.nvim
+  {
+    "sindrets/diffview.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory", "DiffviewToggleFiles", "DiffviewFocusFiles" },
+    keys = {
+      { "<leader>dv", "<cmd>DiffviewOpen<cr>", desc = "Diffview open" },
+      { "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "Diffview close" },
+      { "<leader>dh", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview file history" },
+    },
+    config = function()
+      require("diffview").setup({})
+    end,
+  },
 }, {
   performance = {
     rtp = {
