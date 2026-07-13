@@ -116,26 +116,26 @@ require("lazy").setup({
       require("comment_toggle").setup()
     end,
   },
-  -- Fuzzy finder: https://github.com/nvim-telescope/telescope.nvim
-  {
-    'nvim-telescope/telescope.nvim', version = '*',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      -- optional but recommended
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-    },
-    config = function()
-      require("telescope").setup({})
-      -- Load the native C sorter that was built above (build = 'make')
-      require("telescope").load_extension("fzf")
-    end,
-    keys = {
-      { "<leader>tf", "<cmd>Telescope find_files<cr>", desc = "Telescope find files" },
-      { "<leader>tg", "<cmd>Telescope live_grep<cr>",  desc = "Telescope live grep" },
-      { "<leader>tb", "<cmd>Telescope buffers<cr>",    desc = "Telescope buffers" },
-      { "<leader>th", "<cmd>Telescope help_tags<cr>",  desc = "Telescope help tags" },
-    },
-  },
+--  -- Fuzzy finder: https://github.com/nvim-telescope/telescope.nvim
+--  {
+--    'nvim-telescope/telescope.nvim', version = '*',
+--    dependencies = {
+--      'nvim-lua/plenary.nvim',
+--      -- optional but recommended
+--      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+--    },
+--    config = function()
+--      require("telescope").setup({})
+--      -- Load the native C sorter that was built above (build = 'make')
+--      require("telescope").load_extension("fzf")
+--    end,
+--    keys = {
+--      { "<leader>tf", "<cmd>Telescope find_files<cr>", desc = "Telescope find files" },
+--      { "<leader>tg", "<cmd>Telescope live_grep<cr>",  desc = "Telescope live grep" },
+--      { "<leader>tb", "<cmd>Telescope buffers<cr>",    desc = "Telescope buffers" },
+--      { "<leader>th", "<cmd>Telescope help_tags<cr>",  desc = "Telescope help tags" },
+--    },
+--  },
   -- Git diff/merge viewer: https://github.com/sindrets/diffview.nvim
   {
     "sindrets/diffview.nvim",
