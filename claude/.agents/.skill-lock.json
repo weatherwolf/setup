@@ -6,139 +6,140 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/ask-matt/SKILL.md",
-      "skillFolderHash": "3b69bc89acac9d0f9a746bc331613de3b0af877a",
+      "skillFolderHash": "c7d57789b230d6f88d26ca81ab9d03bad160171f",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.535Z",
-      "updatedAt": "2026-07-01T11:38:57.535Z"
+      "updatedAt": "2026-07-13T12:44:02.452Z"
     },
     "code-review": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/code-review/SKILL.md",
-      "skillFolderHash": "9df6fdac9c49f20944411ee45e1582e718d9a657",
+      "skillFolderHash": "474a27d46efb1eff9724a29ae1edc9cd8a75d911",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.536Z",
-      "updatedAt": "2026-07-01T11:38:57.536Z"
+      "updatedAt": "2026-07-13T12:44:02.454Z"
     },
     "codebase-design": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/codebase-design/SKILL.md",
-      "skillFolderHash": "c5dfc023e5ae146a4ceb9c509024f6ffe13db4a3",
+      "skillFolderHash": "7347168e8de2de105e2e55f07ecb33d25fd56f44",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.537Z",
-      "updatedAt": "2026-07-01T11:38:57.537Z"
+      "updatedAt": "2026-07-13T12:44:02.455Z"
     },
     "diagnosing-bugs": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/diagnosing-bugs/SKILL.md",
-      "skillFolderHash": "0ecacff09e31245c34727abe7cb7cff71f615a35",
+      "skillFolderHash": "27bf00e3ccc53491e938e8b5602be39238ce68f3",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.538Z",
-      "updatedAt": "2026-07-01T11:38:57.538Z"
+      "updatedAt": "2026-07-13T12:44:02.457Z"
     },
     "domain-modeling": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/domain-modeling/SKILL.md",
-      "skillFolderHash": "028a0e44b23909cbdd715aa00546d5c1c46ae4d6",
+      "skillFolderHash": "959e63161ff78b4b1cd553b2c0e09e0c68418e5f",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.540Z",
-      "updatedAt": "2026-07-01T11:38:57.540Z"
+      "updatedAt": "2026-07-13T12:44:02.458Z"
     },
     "grill-me": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/grill-me/SKILL.md",
-      "skillFolderHash": "8320e7b87f7b208f50ce165b1dd43d1e93c8e801",
+      "skillFolderHash": "c817f6f36acd483294144694a935a76d3e3eb101",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.541Z",
-      "updatedAt": "2026-07-01T11:38:57.541Z"
+      "updatedAt": "2026-07-13T12:44:02.497Z"
     },
     "grill-with-docs": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
-      "skillFolderHash": "21adba95de7d93065d9fec725ddf37f871e01d05",
+      "skillFolderHash": "5fdcdeedf2d0c73b3ecb1da0a464dd885590f8d6",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.543Z",
-      "updatedAt": "2026-07-01T11:38:57.543Z"
+      "updatedAt": "2026-07-13T12:44:02.460Z"
     },
     "grilling": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/grilling/SKILL.md",
-      "skillFolderHash": "ab318c66a36253e872b5d0bd271b3df8f6ef816f",
+      "skillFolderHash": "10b0db61f9b3869243db8a1a0ee84f862139b94e",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.544Z",
-      "updatedAt": "2026-07-01T11:38:57.544Z"
+      "updatedAt": "2026-07-13T12:44:02.499Z"
     },
     "handoff": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/handoff/SKILL.md",
-      "skillFolderHash": "aa82ffd61d7a3bda110060b4e24ec782b983cb8d",
+      "skillFolderHash": "184d485ae68a2132893a94239b2b85d253e6152b",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.546Z",
-      "updatedAt": "2026-07-01T11:38:57.546Z"
+      "updatedAt": "2026-07-13T12:44:02.500Z"
     },
     "improve-codebase-architecture": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
-      "skillFolderHash": "e5beae48471adf87c513b5cbcb0ca347467546da",
+      "skillFolderHash": "bce229692e60dff3462e49bc5e774e83bef348e6",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.547Z",
-      "updatedAt": "2026-07-01T11:38:57.547Z"
+      "updatedAt": "2026-07-13T12:44:02.463Z"
     },
     "prototype": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/prototype/SKILL.md",
-      "skillFolderHash": "046ef7c3aae3ec1934b075b26dba1cf87c9b1d5a",
+      "skillFolderHash": "dd3d782b69ccb67493fbe76b84149399da3c9fee",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.549Z",
-      "updatedAt": "2026-07-01T11:38:57.549Z"
+      "updatedAt": "2026-07-13T12:44:02.464Z"
     },
     "setup-matt-pocock-skills": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/setup-matt-pocock-skills/SKILL.md",
-      "skillFolderHash": "8d7fc1569ee7c4a50827091a795daa490212506d",
+      "skillFolderHash": "634cf9b010bca5701642aca736dce899822f08f7",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.550Z",
-      "updatedAt": "2026-07-01T11:38:57.550Z"
+      "updatedAt": "2026-07-13T12:44:02.469Z"
     },
     "tdd": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/tdd/SKILL.md",
-      "skillFolderHash": "9d29becb522dcdd0ed73c866a23f7dd40ba08fa4",
+      "skillFolderHash": "0a727bd358b855cbcc1c35cfff21ef31f9ffb8de",
+      "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.552Z",
-      "updatedAt": "2026-07-01T12:16:04.505Z"
+      "updatedAt": "2026-07-13T12:44:02.470Z"
     },
     "teach": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/teach/SKILL.md",
-      "skillFolderHash": "3b6a4245e2aaeacb308ba6175ab3e7f2e43b0c47",
+      "skillFolderHash": "15f8c86d39ef834e643d092733ca899b59049067",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.553Z",
-      "updatedAt": "2026-07-01T11:38:57.553Z"
+      "updatedAt": "2026-07-13T12:44:02.502Z"
     },
     "to-issues": {
       "source": "mattpocock/skills",
@@ -165,20 +166,20 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/triage/SKILL.md",
-      "skillFolderHash": "3e7a49151929d884365035cb322de099c15b33d3",
+      "skillFolderHash": "258364be8354f726bf4080077cd92d86d08c69eb",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.558Z",
-      "updatedAt": "2026-07-01T11:38:57.558Z"
+      "updatedAt": "2026-07-13T12:44:02.475Z"
     },
     "writing-great-skills": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/writing-great-skills/SKILL.md",
-      "skillFolderHash": "0875ef784dfdf0a3860f1cdc3937c2796b0314a5",
+      "skillFolderHash": "81d36946d48842f90358d8af54e3cdcc141f8e01",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.559Z",
-      "updatedAt": "2026-07-01T11:38:57.559Z"
+      "updatedAt": "2026-07-13T12:44:02.503Z"
     },
     "decision-mapping": {
       "source": "mattpocock/skills",
@@ -194,27 +195,27 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/deprecated/request-refactor-plan/SKILL.md",
-      "skillFolderHash": "b0617c9cf69ac1e73a6b30f78c82ff81372079fd",
+      "skillFolderHash": "603d197e4306ad8f1d8c4595d5aab4296b2d1f82",
       "installedAt": "2026-07-01T11:38:57.562Z",
-      "updatedAt": "2026-07-01T11:38:57.562Z"
+      "updatedAt": "2026-07-13T12:44:02.449Z"
     },
     "setup-pre-commit": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/misc/setup-pre-commit/SKILL.md",
-      "skillFolderHash": "5e6e9301b4826bd820401ea4114a797adb169f47",
+      "skillFolderHash": "dcc584ff84c4f040ea12742fcb46b7c3ad7070bd",
       "installedAt": "2026-07-01T11:38:57.563Z",
-      "updatedAt": "2026-07-01T11:38:57.563Z"
+      "updatedAt": "2026-07-13T12:44:02.493Z"
     },
     "wizard": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/in-progress/wizard/SKILL.md",
-      "skillFolderHash": "651aef462428e4370678733f8c9d9e3723f2cb07",
+      "skillFolderHash": "e4dc85309aebecd9759f6c4cb3fdcb7c4f69544c",
       "installedAt": "2026-07-01T11:38:57.565Z",
-      "updatedAt": "2026-07-01T11:38:57.565Z"
+      "updatedAt": "2026-07-13T12:44:02.482Z"
     },
     "find-skills": {
       "source": "vercel-labs/skills",
@@ -224,6 +225,202 @@
       "skillFolderHash": "eb6a23305aea6e340d14b9de3766e721f9f4861b",
       "installedAt": "2026-07-01T11:40:11.570Z",
       "updatedAt": "2026-07-01T11:40:11.570Z"
+    },
+    "design-an-interface": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/deprecated/design-an-interface/SKILL.md",
+      "skillFolderHash": "080dd14b88424aea0c6aca72357c617d6ab42625",
+      "installedAt": "2026-07-13T12:44:02.445Z",
+      "updatedAt": "2026-07-13T12:44:02.445Z"
+    },
+    "qa": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/deprecated/qa/SKILL.md",
+      "skillFolderHash": "f63fde811a0215ab15f5b83bcaae9627ecacbe8e",
+      "installedAt": "2026-07-13T12:44:02.447Z",
+      "updatedAt": "2026-07-13T12:44:02.447Z"
+    },
+    "ubiquitous-language": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/deprecated/ubiquitous-language/SKILL.md",
+      "skillFolderHash": "8e138d6b06a52aeaf5f329be7a0c8298e06f62e5",
+      "installedAt": "2026-07-13T12:44:02.451Z",
+      "updatedAt": "2026-07-13T12:44:02.451Z"
+    },
+    "implement": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/implement/SKILL.md",
+      "skillFolderHash": "f07d230f645fc9ac390cf13a450bbff12ad791a3",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-07-13T12:44:02.461Z",
+      "updatedAt": "2026-07-13T12:44:02.461Z"
+    },
+    "research": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/research/SKILL.md",
+      "skillFolderHash": "972a34cd8128b7952b7eb279b06715862db906a7",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-07-13T12:44:02.466Z",
+      "updatedAt": "2026-07-13T12:44:02.466Z"
+    },
+    "resolving-merge-conflicts": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/resolving-merge-conflicts/SKILL.md",
+      "skillFolderHash": "6aa1ed0b40fac0ebea5c0cf6f2addf82c99b6323",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-07-13T12:44:02.467Z",
+      "updatedAt": "2026-07-13T12:44:02.467Z"
+    },
+    "to-spec": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/to-spec/SKILL.md",
+      "skillFolderHash": "bf698b96b5d8798d110d9872e32b9310728555b0",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-07-13T12:44:02.472Z",
+      "updatedAt": "2026-07-13T12:44:02.472Z"
+    },
+    "to-tickets": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/to-tickets/SKILL.md",
+      "skillFolderHash": "5467d7a37ef365ed43ebe6eb466d6e952be881b8",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-07-13T12:44:02.473Z",
+      "updatedAt": "2026-07-13T12:44:02.473Z"
+    },
+    "wayfinder": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/wayfinder/SKILL.md",
+      "skillFolderHash": "33ed747fb30668c0e7b61698af5268c25c0d75cb",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-07-13T12:44:02.476Z",
+      "updatedAt": "2026-07-13T12:44:02.476Z"
+    },
+    "claude-handoff": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/in-progress/claude-handoff/SKILL.md",
+      "skillFolderHash": "5a245865fed8cc05df59f8a15a31acf6871ba729",
+      "installedAt": "2026-07-13T12:44:02.478Z",
+      "updatedAt": "2026-07-13T12:44:02.478Z"
+    },
+    "loop-me": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/in-progress/loop-me/SKILL.md",
+      "skillFolderHash": "e487ef6954cbf6f2d96991cf79332c98354df9ef",
+      "installedAt": "2026-07-13T12:44:02.479Z",
+      "updatedAt": "2026-07-13T12:44:02.479Z"
+    },
+    "setup-ts-deep-modules": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/in-progress/setup-ts-deep-modules/SKILL.md",
+      "skillFolderHash": "706cd1617d53587b0c4e6df5a8c56974f54cacd2",
+      "installedAt": "2026-07-13T12:44:02.481Z",
+      "updatedAt": "2026-07-13T12:44:02.481Z"
+    },
+    "writing-beats": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/in-progress/writing-beats/SKILL.md",
+      "skillFolderHash": "545d05c3fdbfdd094dd88900b0ef8c9a823eac90",
+      "installedAt": "2026-07-13T12:44:02.484Z",
+      "updatedAt": "2026-07-13T12:44:02.484Z"
+    },
+    "writing-fragments": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/in-progress/writing-fragments/SKILL.md",
+      "skillFolderHash": "ce7d2741a30df8a488f6248c84cf954cff98393f",
+      "installedAt": "2026-07-13T12:44:02.485Z",
+      "updatedAt": "2026-07-13T12:44:02.485Z"
+    },
+    "writing-shape": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/in-progress/writing-shape/SKILL.md",
+      "skillFolderHash": "31af0156520819c15d19358a8e0bd36f82e67ad3",
+      "installedAt": "2026-07-13T12:44:02.487Z",
+      "updatedAt": "2026-07-13T12:44:02.487Z"
+    },
+    "git-guardrails-claude-code": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/misc/git-guardrails-claude-code/SKILL.md",
+      "skillFolderHash": "e90e289cce7a31bdf1afdf591f0790d7ac6c3cbc",
+      "installedAt": "2026-07-13T12:44:02.488Z",
+      "updatedAt": "2026-07-13T12:44:02.488Z"
+    },
+    "migrate-to-shoehorn": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/misc/migrate-to-shoehorn/SKILL.md",
+      "skillFolderHash": "0aea91a3599a4bf7aeec17e3262d4cbcfcbeec23",
+      "installedAt": "2026-07-13T12:44:02.490Z",
+      "updatedAt": "2026-07-13T12:44:02.490Z"
+    },
+    "scaffold-exercises": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/misc/scaffold-exercises/SKILL.md",
+      "skillFolderHash": "44a0ee332b9d67ebbd59389c7eb4e5aff1ce845c",
+      "installedAt": "2026-07-13T12:44:02.491Z",
+      "updatedAt": "2026-07-13T12:44:02.491Z"
+    },
+    "edit-article": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/personal/edit-article/SKILL.md",
+      "skillFolderHash": "19ce34c6f4afcb58788e8e525dbb80c79a45a4a0",
+      "installedAt": "2026-07-13T12:44:02.494Z",
+      "updatedAt": "2026-07-13T12:44:02.494Z"
+    },
+    "obsidian-vault": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/personal/obsidian-vault/SKILL.md",
+      "skillFolderHash": "5fdd257588fefa400e8a0d505aac555a0b52311a",
+      "installedAt": "2026-07-13T12:44:02.496Z",
+      "updatedAt": "2026-07-13T12:44:02.496Z"
+    },
+    "reverse-engineer-to-regime": {
+      "source": "fyrm-ai/Development-General",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/fyrm-ai/Development-General.git",
+      "skillPath": "skills/fyrm/reverse-engineer-to-regime/SKILL.md",
+      "skillFolderHash": "101302b279ebaa4028ece4bb0477b414b36d30c8",
+      "pluginName": "development-general",
+      "installedAt": "2026-07-13T13:02:54.666Z",
+      "updatedAt": "2026-07-13T13:02:54.666Z"
     }
   },
   "dismissed": {

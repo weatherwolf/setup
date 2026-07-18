@@ -21,6 +21,8 @@ def fmt_window(key, label, include_date=False):
 
     return f"{label}: {used:.0f}% · resets {reset_fmt}"
 
+model = (data.get("model") or {}).get("display_name")
+
 parts = [
     fmt_window("five_hour", "5h"),
     fmt_window("seven_day", "7d", include_date=True),
@@ -28,4 +30,6 @@ parts = [
 
 parts = [p for p in parts if p]
 
-print(" | ".join(parts) if parts else "limits unavailable")
+limits_str = " | ".join(parts) if parts else "limits unavailable"
+
+print(f"{model} | {limits_str}" if model else limits_str)

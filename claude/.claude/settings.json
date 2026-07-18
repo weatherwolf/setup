@@ -5,7 +5,7 @@
   "permissions": {
     "defaultMode": "auto"
   },
-  "model": "opus[1m]",
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "SessionEnd": [
       {
@@ -15,6 +15,23 @@
             "type": "command",
             "command": "/home/wolf/.claude/hooks/rename-on-clear.sh",
             "timeout": 120
+          },
+          {
+            "type": "command",
+            "command": "/home/wolf/.claude/hooks/extract-facts-on-clear.sh",
+            "timeout": 120
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/wolf/.claude/hooks/propose-facts-on-start.sh",
+            "timeout": 15
           }
         ]
       }
@@ -27,7 +44,7 @@
   "enabledPlugins": {
     "sonarqube@claude-plugins-official": true
   },
-  "effortLevel": "medium",
+  "effortLevel": "xhigh",
   "theme": "dark",
   "skipAutoPermissionPrompt": true
 }
