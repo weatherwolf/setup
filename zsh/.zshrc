@@ -62,6 +62,22 @@ alias gd="git diff"
 alias gch="git checkout"
 alias jb="cd ~/Fyrm/jordex-boekingen"
 alias jm="cd ~/Fyrm/mcp-jit"
+alias vd="uv run --with visidata --with openpyxl -- vd"
+alias fman='print -rl -- ${(k)commands} ${(k)builtins} | fzf | xargs man'
+
+c_gs_review() {
+  local d
+  d=$(git diff --staged) || return
+  [[ -z $d ]] && { echo "cr: no staged changes" >&2; return 1 }
+  print -r -- "$d" | claude -p 'review this code for bugs and security issues'
+}
+
+c_gs_message() {
+  local d
+  d=$(git diff --staged) || return
+  [[ -z $d ]] && { echo "cgd: no staged changes" >&2; return 1 }
+  print -r -- "$d" | claude -p 'write a conventional commit message for these changes'
+}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

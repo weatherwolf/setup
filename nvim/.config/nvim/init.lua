@@ -101,7 +101,12 @@ require("lazy").setup({
   {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  opts = {},
+  opts = {
+    grep = {
+      rg_opts = "--column --line-number --no-heading --color=always --smart-case "
+        .. "--hidden --no-ignore --glob '!.git/' --max-columns=4096 -e",
+    },
+  },
   keys = {
     { "<leader>ff", "<cmd>FzfLua files<cr>", desc = "Find files" },
     { "<leader>fg", "<cmd>FzfLua live_grep<cr>", desc = "Live grep" },
@@ -143,6 +148,7 @@ require("lazy").setup({
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory", "DiffviewToggleFiles", "DiffviewFocusFiles" },
     keys = {
       { "<leader>dv", "<cmd>DiffviewOpen<cr>", desc = "Diffview open" },
+      { "<leader>ds", "<cmd>DiffviewOpen --staged<cr>", desc = "Diffview staged" },
       { "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "Diffview close" },
       { "<leader>dh", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview file history" },
     },
