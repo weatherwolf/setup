@@ -18,6 +18,11 @@ if vim.env.SSH_TTY then
   vim.g.clipboard = "osc52"
 end
 
+-- <leader>log: open a line below with a timestamp, ready to type a log entry
+vim.keymap.set("n", "<leader>lo", function()
+return "o" .. os.date("[%d-%m-%Y %H:%M:%S] ")
+end, { expr = true, desc = "Insert timestamped log line" })
+
 -- Bootstrap lazy.nvim (auto-installs if not present)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
