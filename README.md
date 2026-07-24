@@ -69,6 +69,13 @@ If you ever need to hand-edit a skill and keep the edit, that would require
 vendoring the content instead; this repo intentionally does not, to preserve
 `skills update`.
 
+The exception is hand-made local skills that were never installed via the CLI
+and so are not in the lockfile (currently `find-convo` and `rename-smart`).
+Their content IS vendored, under `claude/.agents/skills/`, and `install.sh`
+symlinks each one into both `~/.agents/skills/` and `~/.claude/skills/`.
+Project-level skills (for example `.claude/skills/` inside a project repo) are
+tracked by that project's own git, not here.
+
 ## Install on a fresh machine
 
 ```sh

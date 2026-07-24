@@ -29,6 +29,15 @@ LINKS=(
   # the `skills` CLI (npx skills), so ~/.claude/skills is deliberately NOT linked
   # here -- linking it would clobber the npx-managed directory on install.
   "claude/.agents/.skill-lock.json|$HOME/.agents/.skill-lock.json"
+  # Hand-made local skills (not installed via npx skills, so not in the
+  # lockfile): content is vendored in this repo. Each needs two links: its
+  # real location under ~/.agents/skills and the per-skill entry inside
+  # ~/.claude/skills that Claude Code actually reads. Linking individual
+  # entries does not clobber the npx-managed directory itself.
+  "claude/.agents/skills/find-convo|$HOME/.agents/skills/find-convo"
+  "claude/.agents/skills/find-convo|$HOME/.claude/skills/find-convo"
+  "claude/.agents/skills/rename-smart|$HOME/.agents/skills/rename-smart"
+  "claude/.agents/skills/rename-smart|$HOME/.claude/skills/rename-smart"
 )
 
 # Back up an existing real file/dir, then symlink src -> dst.
