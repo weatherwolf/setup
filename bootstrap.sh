@@ -77,16 +77,19 @@ fi
 #   jq              - JSON parsing used by the Claude Code hooks
 #   xclip           - system clipboard on X11 (tmux/nvim, non-SSH)
 #   wl-clipboard    - system clipboard on Wayland
+#   nodejs + npm    - provide node and npx, required by the "reproduce the
+#                     Claude Code skill set" step at the end of this script;
+#                     without them that step is silently skipped
 APT_PACKAGES=(git curl zsh neovim tmux build-essential ripgrep fd-find fzf
-              python3-pynvim jq xclip wl-clipboard)
+              python3-pynvim jq xclip wl-clipboard nodejs npm)
 
 # macOS (Homebrew). git/curl/zsh ship with macOS (git via the Xcode Command
 # Line Tools, which Homebrew itself requires), so only the extra tools are
 # installed here. No clipboard packages: macOS provides pbcopy/pbpaste.
 # telescope-fzf-native compiles with the CLT toolchain. pynvim (for wilder.nvim)
 # is optional; install it with 'pip3 install --user pynvim' if you use
-# :UpdateRemotePlugins.
-BREW_PACKAGES=(neovim tmux ripgrep fd fzf jq)
+# :UpdateRemotePlugins. node provides npx for the skills reproduce step.
+BREW_PACKAGES=(neovim tmux ripgrep fd fzf jq node)
 
 # Install only packages not already present.
 if command -v apt-get >/dev/null 2>&1; then
