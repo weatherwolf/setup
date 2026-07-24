@@ -7,7 +7,7 @@ normal location (e.g. `~/.zshrc`) edits the tracked file here.
 ## Purpose (read this first)
 
 This repo is the single source of truth for a reproducible dev environment
-(zsh + powerlevel10k, tmux, Neovim, and Claude Code). Cloning it and running
+(zsh + powerlevel10k, tmux, herdr, Neovim, and Claude Code). Cloning it and running
 `./bootstrap.sh` on a fresh machine reinstalls the tools and re-creates the
 symlinks, reproducing the environment. The guiding rule: anything you'd want to
 survive a machine wipe is tracked here and symlinked into place; machine- or
@@ -26,6 +26,7 @@ The repo uses a Stow-compatible package layout (each top-level dir mirrors
 zsh/.zshrc                    -> ~/.zshrc
 zsh/.p10k.zsh                 -> ~/.p10k.zsh
 tmux/.tmux.conf               -> ~/.tmux.conf
+herdr/.config/herdr/config.toml -> ~/.config/herdr/config.toml
 nvim/.config/nvim             -> ~/.config/nvim
 claude/.claude/CLAUDE.md      -> ~/.claude/CLAUDE.md
 claude/.claude/settings.json  -> ~/.claude/settings.json
@@ -95,6 +96,12 @@ tracked.
 ## Not tracked here
 
 - **powerlevel10k** - third-party theme, cloned from upstream by `bootstrap.sh`.
+- **herdr** - third-party multiplexer binary, installed from herdr.dev by
+  `bootstrap.sh`; only its config (`herdr/.config/herdr/config.toml`) is tracked.
+  herdr runs alongside tmux and its config mirrors the tmux setup (prefix C-a,
+  vim pane nav, `|`/`-` splits, dark theme + green accent, server-based session
+  persistence in place of resurrect/continuum). The three tmux features with no
+  herdr equivalent are listed in the NOTES block at the bottom of the config.
 - **Skill content** (`~/.agents/skills/`, `~/.claude/skills/`) - reinstalled
   from the tracked `.skill-lock.json` by `bootstrap.sh`; only the manifest is
   tracked. See "Claude Code skills" above.

@@ -23,7 +23,7 @@ set -uo pipefail
 
 LOG="${HOME}/.claude/claudemd-facts.log"
 PENDING_DIR="${HOME}/.claude/pending-facts"
-log() { printf '%s %s\n' "$(date -Iseconds 2>/dev/null || echo now)" "$*" >> "$LOG"; }
+log() { printf '%s %s\n' "$(date +%Y-%m-%dT%H:%M:%S%z 2>/dev/null || echo now)" "$*" >> "$LOG"; }
 
 input="$(cat)"
 session_id="$(printf '%s' "$input" | jq -r '.session_id // empty' 2>/dev/null)"
@@ -58,7 +58,13 @@ if [ "${#convo}" -lt 200 ]; then
 fi
 
 mkdir -p "$PENDING_DIR"
-hash="$(printf '%s' "$cwd" | md5sum | awk '{print $1}')"
+# Portable md5: coreutils md5sum on Linux, BSD md5 on macOS. Both hooks must
+# compute the same hash for a given cwd, so keep this identical in both.
+if command -v md5sum >/dev/null 2>&1; then
+  hash="$(printf '%s' "$cwd" | md5sum | awk '{print $1}')"
+else
+  hash="$(printf '%s' "$cwd" | md5 -q)"
+fi
 pending="$PENDING_DIR/$hash.md"
 marker="$PENDING_DIR/$hash.extracting"
 
@@ -118,7 +124,7 @@ if [ ! -f "$pending" ]; then
   printf '# Proposed CLAUDE.md additions for %s\n' "$cwd" > "$pending"
 fi
 {
-  printf '\n## From session %s (%s)\n' "${session_id:-unknown}" "$(date -Iseconds 2>/dev/null || echo now)"
+  printf '\n## From session %s (%s)\n' "${session_id:-unknown}" "$(date +%Y-%m-%dT%H:%M:%S%z 2>/dev/null || echo now)"
   printf '%s\n' "$facts"
 } >> "$pending"
 

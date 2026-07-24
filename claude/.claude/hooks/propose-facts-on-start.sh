@@ -23,7 +23,13 @@ input="$(cat)"
 cwd="$(printf '%s' "$input" | jq -r '.cwd // empty' 2>/dev/null)"
 [ -n "$cwd" ] || exit 0
 
-hash="$(printf '%s' "$cwd" | md5sum | awk '{print $1}')"
+# Portable md5: coreutils md5sum on Linux, BSD md5 on macOS. Must match the
+# hash computed in extract-facts-on-clear.sh so the two hooks agree on the path.
+if command -v md5sum >/dev/null 2>&1; then
+  hash="$(printf '%s' "$cwd" | md5sum | awk '{print $1}')"
+else
+  hash="$(printf '%s' "$cwd" | md5 -q)"
+fi
 pending="$PENDING_DIR/$hash.md"
 marker="$PENDING_DIR/$hash.extracting"
 
@@ -32,7 +38,7 @@ if [ -s "$pending" ]; then
   emit=1
 elif [ -f "$marker" ]; then
   now="$(date +%s)"
-  mtime="$(stat -c %Y "$marker" 2>/dev/null || echo 0)"
+  mtime="$(stat -c %Y "$marker" 2>/dev/null || stat -f %m "$marker" 2>/dev/null || echo 0)"
   if [ $(( now - mtime )) -lt 180 ]; then
     emit=1
   fi

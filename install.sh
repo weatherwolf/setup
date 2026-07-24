@@ -19,6 +19,7 @@ LINKS=(
   "zsh/.zshrc|$HOME/.zshrc"
   "zsh/.p10k.zsh|$HOME/.p10k.zsh"
   "tmux/.tmux.conf|$HOME/.tmux.conf"
+  "herdr/.config/herdr/config.toml|$HOME/.config/herdr/config.toml"
   "nvim/.config/nvim|$HOME/.config/nvim"
   "claude/.claude/CLAUDE.md|$HOME/.claude/CLAUDE.md"
   "claude/.claude/settings.json|$HOME/.claude/settings.json"
@@ -38,8 +39,10 @@ link() {
     echo "  [skip]   source missing in repo: $src"
     return
   fi
-  # Already pointing at the right place: nothing to do.
-  if [[ -L "$dst" && "$(readlink -f "$dst")" == "$(readlink -f "$src")" ]]; then
+  # Already pointing at the right place: nothing to do. Compare the link target
+  # to $src directly (we always link with an absolute $src); portable, since
+  # macOS/BSD readlink has no -f.
+  if [[ -L "$dst" && "$(readlink "$dst")" == "$src" ]]; then
     echo "  [ok]     already linked: $dst"
     return
   fi

@@ -7,34 +7,111 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OS="$(uname -s)"
 
 # Use sudo only when not already root (root sessions / containers have no sudo).
 SUDO=""
 if [[ "$(id -u)" -ne 0 ]]; then SUDO="sudo"; fi
 
-# Prerequisites (Debian/Ubuntu). Package names, not binary names:
-#   git/curl/zsh   - shell + clone tooling
-#   neovim/tmux    - editors the configs are for
-#   build-essential- compiler + make, for telescope-fzf-native (build = 'make')
-#   ripgrep        - live_grep backend for telescope and fzf-lua  (binary: rg)
-#   fd-find        - faster file finding for telescope/fzf-lua     (binary: fdfind)
-#   fzf            - required by the fzf-lua plugin
-#   python3-pynvim - remote-plugin support for wilder.nvim (:UpdateRemotePlugins)
-#   xclip          - system clipboard on X11 (tmux/nvim, non-SSH)
-#   wl-clipboard   - system clipboard on Wayland
-PACKAGES=(git curl zsh neovim tmux build-essential ripgrep fd-find fzf
-          python3-pynvim xclip wl-clipboard)
+# macOS prerequisites: Xcode Command Line Tools + Homebrew. These underpin the
+# rest of the macOS path -- the Command Line Tools provide git and the compiler
+# (needed to build telescope-fzf-native), and Homebrew installs the packages
+# further below. For each: if it is already installed, offer to update it;
+# otherwise offer to install it. Best-effort throughout -- a declined or failed
+# step only warns, and '|| reply=""' keeps a non-interactive run (EOF on stdin)
+# from aborting under 'set -e'.
+if [[ "$OS" == "Darwin" ]]; then
+  # Xcode Command Line Tools (git, cc, make). Full Xcode.app is not required by
+  # any config here, so only the CLT are handled.
+  if xcode-select -p >/dev/null 2>&1; then
+    read -rp 'Xcode Command Line Tools are installed. Check for updates? [y/N] ' reply || reply=""
+    if [[ "$reply" == [Yy]* ]]; then
+      echo "[xcode] checking Software Update for Command Line Tools updates"
+      if softwareupdate --list 2>/dev/null | grep -i 'command line tools'; then
+        echo "  Update listed above; apply it via System Settings > General >"
+        echo "  Software Update, or: softwareupdate -i '<label shown above>'"
+      else
+        echo "  [ok] no Command Line Tools updates listed"
+      fi
+    fi
+  else
+    read -rp 'Xcode Command Line Tools are not installed. Install them now? [y/N] ' reply || reply=""
+    if [[ "$reply" == [Yy]* ]]; then
+      echo "[xcode] launching the Command Line Tools installer"
+      xcode-select --install || echo "  [warn] could not start installer (may already be in progress)"
+      echo "  Complete the on-screen dialog, then re-run ./bootstrap.sh."
+    fi
+  fi
 
-# Install only packages not already present (checked by package name via dpkg).
+  # Homebrew (installs the packages listed further below).
+  if command -v brew >/dev/null 2>&1; then
+    read -rp 'Homebrew is installed. Update it now (brew update)? [y/N] ' reply || reply=""
+    if [[ "$reply" == [Yy]* ]]; then
+      echo "[brew]  brew update"
+      brew update || echo "  [warn] brew update failed; continuing"
+    fi
+  else
+    read -rp 'Homebrew is not installed. Install it now? [y/N] ' reply || reply=""
+    if [[ "$reply" == [Yy]* ]]; then
+      echo "[brew]  installing Homebrew"
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+        || echo "  [warn] Homebrew install failed; continuing"
+      # A fresh install is not yet on PATH in this shell (Apple silicon uses
+      # /opt/homebrew, Intel uses /usr/local); load it so the package step below
+      # can find 'brew'.
+      if [[ -x /opt/homebrew/bin/brew ]]; then eval "$(/opt/homebrew/bin/brew shellenv)"
+      elif [[ -x /usr/local/bin/brew ]]; then eval "$(/usr/local/bin/brew shellenv)"; fi
+    fi
+  fi
+fi
+
+# Prerequisites, per platform. Package names, not binary names.
+# Debian/Ubuntu (apt):
+#   git/curl/zsh    - shell + clone tooling
+#   neovim/tmux     - editors the configs are for
+#   build-essential - compiler + make, for telescope-fzf-native (build = 'make')
+#   ripgrep         - live_grep backend for telescope and fzf-lua  (binary: rg)
+#   fd-find         - faster file finding for telescope/fzf-lua     (binary: fdfind)
+#   fzf             - required by the fzf-lua plugin
+#   python3-pynvim  - remote-plugin support for wilder.nvim (:UpdateRemotePlugins)
+#   jq              - JSON parsing used by the Claude Code hooks
+#   xclip           - system clipboard on X11 (tmux/nvim, non-SSH)
+#   wl-clipboard    - system clipboard on Wayland
+APT_PACKAGES=(git curl zsh neovim tmux build-essential ripgrep fd-find fzf
+              python3-pynvim jq xclip wl-clipboard)
+
+# macOS (Homebrew). git/curl/zsh ship with macOS (git via the Xcode Command
+# Line Tools, which Homebrew itself requires), so only the extra tools are
+# installed here. No clipboard packages: macOS provides pbcopy/pbpaste.
+# telescope-fzf-native compiles with the CLT toolchain. pynvim (for wilder.nvim)
+# is optional; install it with 'pip3 install --user pynvim' if you use
+# :UpdateRemotePlugins.
+BREW_PACKAGES=(neovim tmux ripgrep fd fzf jq)
+
+# Install only packages not already present.
 if command -v apt-get >/dev/null 2>&1; then
   missing=()
-  for pkg in "${PACKAGES[@]}"; do
+  for pkg in "${APT_PACKAGES[@]}"; do
     dpkg -s "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
   done
   if (( ${#missing[@]} )); then
     echo "[deps]  installing: ${missing[*]}"
     $SUDO apt-get update
     $SUDO apt-get install -y "${missing[@]}"
+  fi
+elif [[ "$OS" == "Darwin" ]]; then
+  if command -v brew >/dev/null 2>&1; then
+    missing=()
+    for pkg in "${BREW_PACKAGES[@]}"; do
+      brew list --formula "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
+    done
+    if (( ${#missing[@]} )); then
+      echo "[deps]  installing: ${missing[*]}"
+      brew install "${missing[@]}"
+    fi
+  else
+    echo "[warn]  Homebrew not found; install it from https://brew.sh then re-run,"
+    echo "        or install these manually: ${BREW_PACKAGES[*]}"
   fi
 fi
 
@@ -47,20 +124,25 @@ fi
 
 # MesloLGS Nerd Font (recommended by powerlevel10k; needed for nvim icons).
 # Only useful where the terminal renders LOCALLY. On a remote/SSH VM the font
-# must instead live on your local machine, so this is skipped when fontconfig
-# (fc-cache) is absent.
-if command -v fc-cache >/dev/null 2>&1; then
+# must instead live on your local machine. Fonts go to ~/Library/Fonts on macOS
+# and to the fontconfig dir on Linux; skipped when neither applies.
+font_dir=""
+run_fc_cache=0
+if [[ "$OS" == "Darwin" ]]; then
+  font_dir="$HOME/Library/Fonts"
+elif command -v fc-cache >/dev/null 2>&1; then
   font_dir="$HOME/.local/share/fonts"
-  if [[ ! -f "$font_dir/MesloLGS NF Regular.ttf" ]]; then
-    echo "[font]  installing MesloLGS NF -> $font_dir"
-    mkdir -p "$font_dir"
-    base="https://github.com/romkatv/powerlevel10k-media/raw/master"
-    curl -fsSL "$base/MesloLGS%20NF%20Regular.ttf"       -o "$font_dir/MesloLGS NF Regular.ttf"      || echo "  [warn] font download failed"
-    curl -fsSL "$base/MesloLGS%20NF%20Bold.ttf"          -o "$font_dir/MesloLGS NF Bold.ttf"         || echo "  [warn] font download failed"
-    curl -fsSL "$base/MesloLGS%20NF%20Italic.ttf"        -o "$font_dir/MesloLGS NF Italic.ttf"       || echo "  [warn] font download failed"
-    curl -fsSL "$base/MesloLGS%20NF%20Bold%20Italic.ttf" -o "$font_dir/MesloLGS NF Bold Italic.ttf"  || echo "  [warn] font download failed"
-    fc-cache -f >/dev/null 2>&1 || true
-  fi
+  run_fc_cache=1
+fi
+if [[ -n "$font_dir" && ! -f "$font_dir/MesloLGS NF Regular.ttf" ]]; then
+  echo "[font]  installing MesloLGS NF -> $font_dir"
+  mkdir -p "$font_dir"
+  base="https://github.com/romkatv/powerlevel10k-media/raw/master"
+  curl -fsSL "$base/MesloLGS%20NF%20Regular.ttf"       -o "$font_dir/MesloLGS NF Regular.ttf"      || echo "  [warn] font download failed"
+  curl -fsSL "$base/MesloLGS%20NF%20Bold.ttf"          -o "$font_dir/MesloLGS NF Bold.ttf"         || echo "  [warn] font download failed"
+  curl -fsSL "$base/MesloLGS%20NF%20Italic.ttf"        -o "$font_dir/MesloLGS NF Italic.ttf"       || echo "  [warn] font download failed"
+  curl -fsSL "$base/MesloLGS%20NF%20Bold%20Italic.ttf" -o "$font_dir/MesloLGS NF Bold Italic.ttf"  || echo "  [warn] font download failed"
+  [[ "$run_fc_cache" -eq 1 ]] && { fc-cache -f >/dev/null 2>&1 || true; }
 fi
 
 # Final guard: git is required regardless of distro.
@@ -95,6 +177,17 @@ if [[ -d "$TPM_DIR/.git" ]]; then
 else
   echo "[clone] tpm -> $TPM_DIR"
   git clone --depth=1 https://github.com/tmux-plugins/tpm.git "$TPM_DIR"
+fi
+
+# herdr: agent-aware terminal multiplexer used alongside tmux. Third-party
+# binary (not in apt/brew here), installed via the official script, which
+# downloads the right release for this platform and puts it on PATH. Skip if
+# already present. Never aborts bootstrap on failure.
+if command -v herdr >/dev/null 2>&1; then
+  echo "[ok]    herdr already installed: $(command -v herdr)"
+else
+  echo "[install] herdr (https://herdr.dev/install.sh)"
+  curl -fsSL https://herdr.dev/install.sh | sh || echo "  [warn] herdr install failed; continuing"
 fi
 
 # Optionally install Claude Code (official native installer). Never let a

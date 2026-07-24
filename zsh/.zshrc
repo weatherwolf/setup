@@ -9,6 +9,11 @@ fi
 # Timezone for the shell (drives the p10k clock and `date`)
 export TZ='Europe/Amsterdam'
 
+# herdr reads its config from a platform-specific dir by default (~/.config on
+# Linux, ~/Library/Application Support on macOS). Pin it to the tracked path so
+# the one symlinked config.toml is used on both. Harmless if herdr is absent.
+export HERDR_CONFIG_PATH="$HOME/.config/herdr/config.toml"
+
 # Set up the prompt
 
 autoload -Uz promptinit
@@ -34,7 +39,7 @@ zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
+command -v dircolors >/dev/null 2>&1 && eval "$(dircolors -b)"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s

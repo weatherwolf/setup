@@ -22,7 +22,7 @@ set -uo pipefail
 LOG="${HOME}/.claude/rename-on-clear.log"
 INDEX="${HOME}/.claude/conversation-index.tsv"
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-log() { printf '%s %s\n' "$(date -Iseconds 2>/dev/null || echo now)" "$*" >> "$LOG"; }
+log() { printf '%s %s\n' "$(date +%Y-%m-%dT%H:%M:%S%z 2>/dev/null || echo now)" "$*" >> "$LOG"; }
 
 input="$(cat)"
 session_id="$(printf '%s' "$input" | jq -r '.session_id // empty' 2>/dev/null)"
@@ -81,12 +81,12 @@ fi
 
 # Record in the searchable index for the find-convo skill (de-dupe by session).
 epoch="$(date +%s 2>/dev/null || echo 0)"
-iso="$(date -Iseconds 2>/dev/null || echo unknown)"
+iso="$(date +%Y-%m-%dT%H:%M:%S%z 2>/dev/null || echo unknown)"
 row="$(printf '%s\t%s\t%s\t%s\t%s\t%s' "$epoch" "$iso" "$slug" "$session_id" "$cwd" "$transcript")"
 
 touch "$INDEX"
 if [ -n "$session_id" ]; then
-  tmp="$(mktemp)"
+  tmp="$(mktemp "${TMPDIR:-/tmp}/conv-index.XXXXXX")"
   grep -v -F "	${session_id}	" "$INDEX" > "$tmp" 2>/dev/null || true
   mv "$tmp" "$INDEX"
 fi

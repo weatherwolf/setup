@@ -1,0 +1,117 @@
+# ~/.config/herdr/config.toml
+#
+# herdr config mirroring the tmux setup in ../../tmux/.tmux.conf.
+# Kept alongside the tmux config (both are tracked); either multiplexer works.
+#
+# herdr live-reloads this file on save. To verify key syntax against the
+# installed version, run `herdr --default-config` (prints the annotated
+# defaults) and `herdr server reload-config` (warns on invalid key combos).
+#
+# Three tmux features have no 1:1 herdr equivalent; see NOTES at the bottom.
+
+# ============================================
+# KEY BINDINGS
+# ============================================
+[keys]
+# tmux: unbind C-b; set prefix C-a. herdr defaults to ctrl+b.
+prefix = "ctrl+a"
+
+# Splits. tmux: `|` splits side-by-side, `-` splits stacked (both keep cwd).
+# herdr names splits by the divider orientation: split_vertical draws a
+# vertical divider (panes side-by-side), split_horizontal a horizontal one
+# (panes stacked). cwd inheritance is handled once by [terminal].new_cwd
+# below, so it covers splits and new tabs alike.
+# NOTE: if herdr rejects the literal "|" token, use "prefix+shift+backslash".
+split_vertical   = "prefix+|"      # tmux: bind | split-window -h
+split_horizontal = "prefix+minus"  # tmux: bind - split-window -v
+
+# New tab (tmux: bind c new-window). cwd handled by [terminal].new_cwd.
+new_tab = "prefix+c"
+
+# Vim-style pane focus (tmux: bind h/j/k/l select-pane -L/-D/-U/-R).
+# These already match herdr's defaults; set explicitly to mirror tmux 1:1.
+focus_pane_left  = "prefix+h"
+focus_pane_down  = "prefix+j"
+focus_pane_up    = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# Reload config (tmux: bind r source-file ~/.tmux.conf). herdr also reloads
+# on save, so this is mainly muscle memory. This takes herdr's default
+# reload key (prefix+shift+r) and moves it to prefix+r to match tmux, which
+# is why resize_mode below moves off prefix+r.
+reload_config = "prefix+r"
+
+# Resize. tmux used repeatable prefix+H/J/K/L (resize-pane by 5). herdr
+# resizing is modal: this enters resize mode, then h/j/k/l nudge the border
+# (esc/enter exits). Placed on shift+r so it does not clash with reload above.
+resize_mode = "prefix+shift+r"
+
+# Copy / scrollback mode (tmux: default copy-mode on prefix+[, mode-keys vi).
+copy_mode = "prefix+["
+
+# ============================================
+# TERMINAL
+# ============================================
+[terminal]
+# tmux ran the login shell; keep zsh explicit.
+default_shell = "/bin/zsh"
+# tmux kept the current pane's path on split/new-window
+# (-c "#{pane_current_path}"). "follow" opens new panes/tabs in the active
+# pane's cwd.
+new_cwd = "follow"
+
+# ============================================
+# UI  (herdr's sidebar stands in for the tmux status bar)
+# ============================================
+[ui]
+# tmux: set -g mouse on
+mouse_capture = true
+# Closest analog to the tmux window-status list: label each pane's border
+# with what is running in it.
+show_agent_labels_on_pane_borders = true
+
+# ============================================
+# THEME
+# ============================================
+# tmux used a hand-rolled dark palette: bg #13161d, fg #8b949e, accent green
+# #00e68a, borders #30363d. herdr themes are named; start from a dark base
+# and override the key colors to match.
+[theme]
+name = "catppuccin"   # dark base; colors overridden below
+auto_switch = false
+
+[theme.custom]
+panel_bg = "#13161d"  # tmux status-style bg
+accent   = "#00e68a"  # tmux active accent (session name / active pane border)
+green    = "#00e68a"
+
+# ============================================
+# SCROLLBACK
+# ============================================
+# tmux: set -g history-limit 50000 (lines). herdr caps scrollback by bytes,
+# not lines, so this is an equivalent-scale ceiling rather than an exact 50000.
+[advanced]
+scrollback_limit_bytes = 10000000
+
+# ============================================
+# SESSION PERSISTENCE  (replaces tmux-resurrect + tmux-continuum)
+# ============================================
+[session]
+# herdr's resident server keeps panes/tabs/sessions alive across detach and
+# server restarts, so the resurrect/continuum plugins are not needed. This
+# resumes agent conversations after a restart, the closest analog to
+# @continuum-restore 'on'.
+resume_agents_on_restore = true
+
+# ============================================
+# NOTES: tmux features with no direct herdr equivalent
+# ============================================
+# 1. Status bar widgets. tmux drew a top status bar with the session name and
+#    an Amsterdam-timezone clock/date (status-left / status-right). herdr has
+#    an agent-state sidebar instead of a text status bar; the clock/date have
+#    no native widget. The accent color above matches the tmux green.
+# 2. Plugins (TPM). set -g @plugin lines and `run tpm` have no herdr analog;
+#    persistence is built into the server (see [session] above).
+# 3. tmux terminal tuning -- escape-time, focus-events, aggressive-resize,
+#    default-terminal, terminal-features RGB, base-index/renumber-windows --
+#    is handled internally by herdr and has no config surface here.
