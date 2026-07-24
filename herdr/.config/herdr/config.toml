@@ -1,3 +1,4 @@
+onboarding = false
 # ~/.config/herdr/config.toml
 #
 # herdr config mirroring the tmux setup in ../../tmux/.tmux.conf.
@@ -27,6 +28,7 @@ split_horizontal = "prefix+minus"  # tmux: bind - split-window -v
 
 # New tab (tmux: bind c new-window). cwd handled by [terminal].new_cwd.
 new_tab = "prefix+c"
+detach = "prefix+d"
 
 # Vim-style pane focus (tmux: bind h/j/k/l select-pane -L/-D/-U/-R).
 # These already match herdr's defaults; set explicitly to mirror tmux 1:1.
@@ -115,3 +117,6 @@ resume_agents_on_restore = true
 # 3. tmux terminal tuning -- escape-time, focus-events, aggressive-resize,
 #    default-terminal, terminal-features RGB, base-index/renumber-windows --
 #    is handled internally by herdr and has no config surface here.
+
+[experimental]
+switch_ascii_input_source_in_prefix = true

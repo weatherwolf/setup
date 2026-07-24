@@ -69,6 +69,7 @@ alias jb="cd ~/Fyrm/jordex-boekingen"
 alias jm="cd ~/Fyrm/mcp-jit"
 alias vd="uv run --with visidata --with openpyxl -- vd"
 alias fman='print -rl -- ${(k)commands} ${(k)builtins} | fzf | xargs man'
+mkcd() { mkdir -p "$1" && cd "$1"}
 
 c_gs_review() {
   local d
@@ -96,3 +97,4 @@ export PATH="$HOME/.local/share/sonarqube-cli/bin:$PATH"
 
 # Load SonarQube token if present (file is gitignored / lives outside this repo)
 [ -f "$HOME/.config/sonar/env" ] && source "$HOME/.config/sonar/env"
+export PATH="$HOME/.local/bin:$PATH"

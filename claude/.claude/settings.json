@@ -1,51 +1,61 @@
 {
+  "effortLevel": "xhigh",
+  "enabledPlugins": {
+    "sonarqube@claude-plugins-official": true
+  },
   "env": {
     "TZ": "Europe/Amsterdam"
   },
-  "permissions": {
-    "defaultMode": "auto"
-  },
-  "model": "claude-fable-5[1m]",
   "hooks": {
     "SessionEnd": [
       {
-        "matcher": "clear",
         "hooks": [
           {
-            "type": "command",
             "command": "~/.claude/hooks/rename-on-clear.sh",
-            "timeout": 120
+            "timeout": 120,
+            "type": "command"
           },
           {
-            "type": "command",
             "command": "~/.claude/hooks/extract-facts-on-clear.sh",
-            "timeout": 120
+            "timeout": 120,
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "clear"
       }
     ],
     "SessionStart": [
       {
-        "matcher": "clear",
         "hooks": [
           {
-            "type": "command",
             "command": "~/.claude/hooks/propose-facts-on-start.sh",
-            "timeout": 15
+            "timeout": 15,
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "clear"
+      },
+      {
+        "hooks": [
+          {
+            "command": "bash '/Users/weatherwolf/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
       }
     ]
   },
+  "model": "claude-fable-5[1m]",
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "skipAutoPermissionPrompt": true,
   "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.py"
+    "command": "~/.claude/statusline.py",
+    "type": "command"
   },
-  "enabledPlugins": {
-    "sonarqube@claude-plugins-official": true
-  },
-  "effortLevel": "xhigh",
   "theme": "dark",
-  "verbose": true,
-  "skipAutoPermissionPrompt": true
+  "verbose": true
 }
