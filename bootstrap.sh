@@ -210,9 +210,12 @@ echo "Running install.sh..."
 # just above) symlinks ~/.agents/.skill-lock.json to the copy in this repo. The
 # CLI's `experimental_install` only restores *project* lockfiles, so for this
 # *global* manifest we parse it and re-add each source with its exact skill list
-# (`skills add <source> -g -y -s <skill,skill,...>`). This is faithful to the
-# recipe: only the skills recorded in the lockfile are installed. Requires npx
-# (Node) and python3; skipped with a warning if either is absent. Never blocks.
+# (`skills add <source> -g -y -s <skill> -s <skill> ...`; the CLI needs one -s
+# flag per skill, a comma-separated value silently matches nothing). Skills the
+# source repo no longer offers are skipped by the CLI without failing the rest.
+# This is faithful to the recipe: only the skills recorded in the lockfile are
+# installed. Requires npx (Node) and python3; skipped with a warning if either
+# is absent. Never blocks.
 LOCK="$HOME/.agents/.skill-lock.json"
 if command -v npx >/dev/null 2>&1 && command -v python3 >/dev/null 2>&1; then
   if [[ -f "$LOCK" ]]; then
@@ -230,8 +233,13 @@ for source, names in by_source.items():
 PY
       [[ -z "$source" ]] && continue
       echo "  [skills] $source -> $skills"
-      npx --yes skills add "$source" -g -y -s "$skills" \
-        || echo "  [warn] failed to install skills from $source; run manually: npx skills add $source -g -y -s $skills"
+      IFS=',' read -ra names <<< "$skills"
+      flags=()
+      for name in "${names[@]}"; do flags+=(-s "$name"); done
+      # </dev/null: npx must not inherit the loop's stdin, or it swallows the
+      # remaining piped source lines and only the first source is installed.
+      npx --yes skills add "$source" -g -y "${flags[@]}" </dev/null \
+        || echo "  [warn] failed to install skills from $source; run manually: npx skills add $source -g -y ${flags[*]}"
     done || echo "  [warn] could not parse $LOCK; skipping skill install"
   else
     echo "  [warn] $LOCK missing; skipping skill install"

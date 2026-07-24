@@ -141,26 +141,6 @@
       "installedAt": "2026-07-01T11:38:57.553Z",
       "updatedAt": "2026-07-13T12:44:02.502Z"
     },
-    "to-issues": {
-      "source": "mattpocock/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "skillPath": "skills/engineering/to-issues/SKILL.md",
-      "skillFolderHash": "8d7393a4127ee678f4b99070f436a2a87014c6e7",
-      "pluginName": "mattpocock-skills",
-      "installedAt": "2026-07-01T11:38:57.555Z",
-      "updatedAt": "2026-07-01T11:38:57.555Z"
-    },
-    "to-prd": {
-      "source": "mattpocock/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "skillPath": "skills/engineering/to-prd/SKILL.md",
-      "skillFolderHash": "d74909eec8906ceb3341a9b30e2e51cdf62a67c7",
-      "pluginName": "mattpocock-skills",
-      "installedAt": "2026-07-01T11:38:57.556Z",
-      "updatedAt": "2026-07-01T11:38:57.556Z"
-    },
     "triage": {
       "source": "mattpocock/skills",
       "sourceType": "github",
@@ -180,15 +160,6 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-01T11:38:57.559Z",
       "updatedAt": "2026-07-13T12:44:02.503Z"
-    },
-    "decision-mapping": {
-      "source": "mattpocock/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "skillPath": "skills/in-progress/decision-mapping/SKILL.md",
-      "skillFolderHash": "3453d54bf1fe8976e6dee09224c618e8c76cab17",
-      "installedAt": "2026-07-01T11:38:57.561Z",
-      "updatedAt": "2026-07-01T11:38:57.561Z"
     },
     "request-refactor-plan": {
       "source": "mattpocock/skills",
