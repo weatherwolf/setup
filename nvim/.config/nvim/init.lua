@@ -62,6 +62,7 @@ require("lazy").setup({
         filters = {
           git_ignored = false,
           dotfiles = false,
+          custom = { "^logs$" },
         },
       })
     end,
