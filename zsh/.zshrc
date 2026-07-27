@@ -98,3 +98,10 @@ export PATH="$HOME/.local/share/sonarqube-cli/bin:$PATH"
 # Load SonarQube token if present (file is gitignored / lives outside this repo)
 [ -f "$HOME/.config/sonar/env" ] && source "$HOME/.config/sonar/env"
 export PATH="$HOME/.local/bin:$PATH"
+
+prettyjson() {
+	file="$1"
+	tmp="$(mktemp)"
+
+	jq . $file > $tmp && mv $tmp $file
+}
