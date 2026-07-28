@@ -79,7 +79,7 @@ show_agent_labels_on_pane_borders = true
 # #00e68a, borders #30363d. herdr themes are named; start from a dark base
 # and override the key colors to match.
 [theme]
-name = "catppuccin"   # dark base; colors overridden below
+name = "catppuccin"
 auto_switch = false
 
 [theme.custom]

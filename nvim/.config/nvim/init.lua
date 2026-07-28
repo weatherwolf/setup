@@ -62,7 +62,6 @@ require("lazy").setup({
         filters = {
           git_ignored = false,
           dotfiles = false,
-          custom = { "^logs$" },
         },
       })
     end,
@@ -108,6 +107,7 @@ require("lazy").setup({
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = {
+    file_ignore_patterns = { "^logs/", "/logs/", "^docs/", "/docs/", "^.venv/", "/.venv/" },
     grep = {
       rg_opts = "--column --line-number --no-heading --color=always --smart-case "
         .. "--hidden --no-ignore --glob '!.git/' --max-columns=4096 -e",
