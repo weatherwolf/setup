@@ -40,6 +40,15 @@ azure_deep = '#5599D5'
 teal_deep = '#3490B5'
 deep_water = '#0B222C'
 
+# Greys, on the same hue axis as the blues above (hue 221.5, chroma 0.020) so
+# they read as part of the palette rather than beside it. Derived in OKLab, not
+# sampled. Nothing renders them yet; they are defined here so the ramp lives
+# somewhere a config can reach, and are indexed with their roles and contrast in
+# ../../palettes/glacier-wave.md.
+mist = '#A4B4BA'   # secondary text          7.67:1
+silt = '#88989E'   # dim text, comments      5.50:1
+scree = '#57666B'  # borders, separators     2.75:1, fill only
+till = '#324045'   # raised surface          1.53:1, fill only
 
 [directory]
 style = 'bold cyan_light'

@@ -17,7 +17,7 @@ glacier-wave is deliberately **two families, not one**:
 
 That split is the whole design. Chrome can be monochrome because it carries no
 information; meaning cannot, because hue is what makes it readable at a glance.
-See `glacier-wave-rationale.txt` for the four options this was chosen from.
+See "How this was chosen" at the bottom for the four options it was picked from.
 
 ## Reading the contrast column
 
@@ -28,11 +28,14 @@ opacity**. Real rendering is lighter than that, in two different ways:
   0.8`, so 20% of what you see is blurred wallpaper, rising to 38% on unfocused
   windows.
 - Cells that DO set a background - the `fill` rows below, nvim floats, visual
-  selections, herdr chrome - go through `text_background_opacity = 0.9` instead,
-  so 10% wallpaper.
+  selections, herdr chrome - are fully opaque, because
+  `window_background_opacity` only governs cells carrying no explicit
+  background. Those render at exactly the hex below.
 
-Actual contrast is therefore **lower** than every number below, including the
-text-on-fill pairs.
+So the two halves of this document have different error bars. The text-on-fill
+pairs are accurate as written. Everything measured against `#0B222C` is an
+upper bound, and the real figure is lower by an amount that depends on the
+wallpaper and on whether the window has focus.
 
 **Treat these as upper bounds.** A value at 4.6:1 here is not guaranteed to
 clear 4.5:1 on screen.
@@ -51,7 +54,8 @@ checked separately at the bottom.
 | `#93DCE6` | cyan_light | 10.65:1 | yes | wezterm `cursor_bg`, `cursor_border`; starship `directory`; herdr `overlay0` (commented) |
 | `#71CDDC` | cyan | 8.96:1 | yes | wezterm `inactive_tab.fg`, `new_tab.fg`; herdr `mauve`; claude `suggestion`; starship `vicmd_symbol` |
 | `#54BFC9` | cyan_deep | 7.56:1 | no | starship palette only, nothing renders it |
-| `#2DBCD3` | wave | 7.23:1 | yes | claude `permission`, `clawd_body`, `briefLabelClaude` |
+| `#97B0C9` | muted_blue | 7.32:1 | yes | claude `permission` |
+| `#2DBCD3` | wave | 7.23:1 | yes | claude `clawd_body`, `briefLabelClaude` |
 | `#8CA4BF` | grey_water | 6.39:1 | yes | claude `inactive` |
 | `#41AECD` | azure | 6.38:1 | no | starship palette only, nothing renders it |
 | `#5599D5` | azure_deep | 5.40:1 | no | starship palette only, nothing renders it |
@@ -143,7 +147,7 @@ animate; the rest are fills.
 | `#c6e6f0` | claudeShimmer | 12.49:1 | `#ADDBE9`, lightened |
 | `#9cdce6` | inactiveShimmer | 10.78:1 | `#71CDDC`, lightened |
 | `#dbc1f9` | autoAcceptShimmer | 10.17:1 | catppuccin mauve, lightened |
-| `#4DDCE3` | permissionShimmer | 9.90:1 | `#2DBCD3`, lightened |
+| `#B9CAD9` | permissionShimmer | 9.78:1 | `#97B0C9`, lightened |
 | `#71b1cb` | promptBorderShimmer | 6.92:1 | `#3490B5`, lightened |
 | `#3c5f48` | diffAddedDimmed | 2.28:1 `fill` | catppuccin green, darkened |
 | `#6c3d4a` | diffRemovedDimmed | 1.88:1 `fill` | catppuccin red, darkened |
@@ -236,12 +240,27 @@ the real figure is lower once the wallpaper blends through
 above as failing, so the accent now carries both the least readable chrome and
 a foreground glyph.
 
-**`#2DBCD3` is a third family.** `clawd_body`, `briefLabelClaude` and
-`permission` use a hex that is in neither the glacier ramp nor catppuccin
-mocha - it comes from the rationale file's "full wave blue". It measures fine
-at 7.23:1, but the two-families-not-one split at the top of this document no
-longer describes every color in use. `permission` is the pointed case: it is a
-state signal, which the split says catppuccin owns, and it moved to glacier.
+**There is a third family, at hue 248-251.** `#97B0C9`, `#8CA4BF`, `#355675`
+and `#2DBCD3` are in neither the glacier ramp nor catppuccin mocha, and the
+first three sit past the chrome ramp's upper hue bound of 247.1, leaning violet
+relative to everything else.
+
+This is less arbitrary than it looks. A k-means pass over the wallpaper in
+OKLab finds its muted blues cluster at exactly 248-250, distinct from the
+saturated cyans at 221 - so the palette has always had two blue axes and only
+one of them was written down. `#97B0C9` was sampled from that cluster, which is
+16.3% of the image.
+
+What remains true is that the two-families-not-one split at the top of this
+document no longer describes every color in use. `permission` is the pointed
+case: it is a state signal, which the split says catppuccin owns, and it sits
+on a sampled blue instead. That is defensible for this key - Claude Code's own
+dark default for it is `#B1B9F9`, a blue, and `#97B0C9` is the closest sample
+in the wallpaper to it at dE 0.079 - but it is a deviation and should be a
+deliberate one.
+
+`#355675` is still unconsumed, and at dE 0.026 from `selection` it is close
+enough to be hard to tell apart in place.
 
 **The two shimmer derivations are crossed.** `claudeShimmer` (`#c6e6f0`) is
 still a lightened `#ADDBE9`, but `#ADDBE9` is now `promptBorder`, not `claude`.
@@ -249,6 +268,52 @@ still a lightened `#ADDBE9`, but `#ADDBE9` is now `promptBorder`, not `claude`.
 `claude`. Each shimmer animates the other key's base color. Nothing renders
 wrong, but the derived values no longer track what they animate.
 
----
+## How this was chosen
 
-Why this palette and not another: `glacier-wave-rationale.txt`.
+Condensed from the design document this replaces. Four anchors were considered.
+
+**A. herdr's model: glacier chrome plus catppuccin semantics.** Chosen.
+Glacier owns the chrome, catppuccin owns meaning. Matches herdr, the tool most
+structurally similar to Claude Code, and keeps hue separation on everything
+that carries information. Against it: a hybrid matches nothing 1:1, and two
+palette families coexist in one file.
+
+**B. Pure glacier.** Rejected. Total visual unity, one rule to state - but
+success, warning and error would then differ by lightness alone. This is
+exactly the configuration tried and reverted at the ANSI level, for exactly the
+same reason.
+
+**C. Pure catppuccin mocha.** Rejected. Claude Code and nvim become
+indistinguishable, which is the simplest rule to maintain, but it drops the
+glacier tie entirely: the wezterm frame would no longer match anything inside
+it, and herdr would be the only tool still carrying the accent.
+
+**D. Glacier chrome, stock Claude semantics.** Rejected. Smallest diff, fewest
+keys, and the semantics track whatever Anthropic tunes them to - but Claude's
+stock red and green differ noticeably from catppuccin's, so diffs in Claude
+Code and diffs in nvim would not match. With diffview.nvim in regular use, that
+is a real cost.
+
+Three problems the document raised have since been resolved:
+
+- **Opaque fills.** Claude Code has no `reset`/transparent equivalent to
+  herdr's, so its background keys would punch opaque rectangles through the
+  blur. Resolved as tint-not-panel: the five background values in Derived are
+  pulled close to `#0B222C` so they read as a lift rather than a slab.
+- **Collisions.** `planMode` shared a value with `suggestion`, and `bashBorder`
+  with `permission`. Both pairs appear on screen simultaneously, so both were
+  split.
+- **`subtle` at 3.36:1.** It sat on catppuccin `overlay0`, which was picked
+  against catppuccin's lighter `base` rather than against `#0B222C`. It is now
+  glacier `steel` at 4.85:1.
+
+The last of those is only resolved for Claude Code. nvim still renders dim text
+in `overlay0`; the derived grey `silt` (`#88989E`, 5.50:1, hue 222) is the
+on-palette replacement if that is ever overridden.
+
+How custom Claude Code themes resolve, verified against the 2.1.220 binary: the
+themes directory is scanned at startup, the slug is the **filename** rather than
+the `name` field, `base` picks which built-in palette unlisted keys inherit
+from, and a partial file is legal and usually looks better than overriding
+everything. The directory is file-watched with a 300ms debounce, so edits
+hot-reload; changing the setting in `settings.json` still needs a restart.
