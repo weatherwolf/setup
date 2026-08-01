@@ -9,7 +9,7 @@
     "inactive": "#8CA4BF",
     "suggestion": "#71CDDC",
     "subtle": "#5E93A6",
-    "promptBorder": "#3490B5",
+    "promptBorder": "#ADDBE9",
     "selectionBg": "#24576B",
 
     "planMode": "#94e2d5",
@@ -33,9 +33,9 @@
     "memoryBackgroundColor": "#132b36",
     "bashMessageBackgroundColor": "#16262f",
 
-    "claudeShimmer": "#c6e6f0",
-    "promptBorderShimmer": "#71b1cb",
-    "inactiveShimmer": "#9cdce6",
+    "claudeShimmer": "#71b1cb",
+    "promptBorderShimmer": "#c6e6f0",
+    "inactiveShimmer": "#B4CDE9",
     "warningShimmer": "#fbebc7",
     "autoAcceptShimmer": "#dbc1f9",
 

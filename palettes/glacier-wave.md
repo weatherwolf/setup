@@ -50,7 +50,7 @@ checked separately at the bottom.
 |---|---|---|---|---|
 | `#EDF6F8` | ice_bright | 14.96:1 | yes | wezterm `selection_fg`, `active_tab.fg`; starship `read_only_style`, `error_symbol` |
 | `#CEE6EC` | ice | 12.63:1 | yes | wezterm `foreground`, `inactive_tab_hover.fg`, `new_tab_hover.fg`; claude `text`; starship (defined, unused) |
-| `#ADDBE9` | accent_bright | 11.01:1 | **no** | nothing renders it |
+| `#ADDBE9` | accent_bright | 11.01:1 | yes | claude `promptBorder` |
 | `#93DCE6` | cyan_light | 10.65:1 | yes | wezterm `cursor_bg`, `cursor_border`; starship `directory`; herdr `overlay0` (commented) |
 | `#71CDDC` | cyan | 8.96:1 | yes | wezterm `inactive_tab.fg`, `new_tab.fg`; herdr `mauve`; claude `suggestion`; starship `vicmd_symbol` |
 | `#54BFC9` | cyan_deep | 7.56:1 | no | starship palette only, nothing renders it |
@@ -60,15 +60,15 @@ checked separately at the bottom.
 | `#41AECD` | azure | 6.38:1 | no | starship palette only, nothing renders it |
 | `#5599D5` | azure_deep | 5.40:1 | no | starship palette only, nothing renders it |
 | `#5E93A6` | steel | 4.85:1 | yes | claude `subtle` |
-| `#3490B5` | teal_deep | 4.54:1 | yes | wezterm `split`, `active_tab.bg`; herdr `accent`; claude `claude` and `promptBorder`; starship `success_symbol` |
+| `#3490B5` | teal_deep | 4.54:1 | yes | wezterm `split`, `active_tab.bg`; herdr `accent`; claude `claude`; starship `success_symbol` |
 | `#24576B` | selection | 2.07:1 `fill` | yes | wezterm `selection_bg`, `scrollbar_thumb`, `*_hover.bg`; claude `selectionBg` |
 | `#10303C` | surface | 1.18:1 `fill` | yes | wezterm `inactive_tab.bg`, `new_tab.bg` |
 | `#0B222C` | deep_water | 1.00:1 `fill` | yes | wezterm `background`, `cursor_fg`, `tab_bar.background`; starship (defined, unused) |
 
-`#ADDBE9` is now fully orphaned. It was herdr's accent, then the Claude Code
-`promptBorder`; both have since moved to `#3490B5`. It is the brightest
-unused value in the palette at 11.01:1, and the obvious candidate if anything
-currently sitting at 4.54:1 needs more headroom. See Known issues.
+`#ADDBE9` was herdr's accent historically and is now the Claude Code
+`promptBorder`. At 11.01:1 it is the brightest value in regular use, which is
+why it sits on the border wrapping the prompt rather than on anything that
+needs to recede.
 
 ## Glacier - greys
 
@@ -146,11 +146,11 @@ animate; the rest are fills.
 | Hex | Key | Contrast | Derived from |
 |---|---|---|---|
 | `#fbebc7` | warningShimmer | 13.92:1 | catppuccin yellow, lightened |
-| `#c6e6f0` | claudeShimmer | 12.49:1 | `#ADDBE9`, lightened |
-| `#9cdce6` | inactiveShimmer | 10.78:1 | `#71CDDC`, lightened |
+| `#c6e6f0` | promptBorderShimmer | 12.49:1 | `#ADDBE9` +0.041 L |
+| `#B4CDE9` | inactiveShimmer | 10.04:1 | `#8CA4BF` +0.129 L |
 | `#dbc1f9` | autoAcceptShimmer | 10.17:1 | catppuccin mauve, lightened |
 | `#B9CAD9` | permissionShimmer | 9.78:1 | `#97B0C9`, lightened |
-| `#71b1cb` | promptBorderShimmer | 6.92:1 | `#3490B5`, lightened |
+| `#71b1cb` | claudeShimmer | 6.92:1 | `#3490B5` +0.112 L |
 | `#3c5f48` | diffAddedDimmed | 2.28:1 `fill` | catppuccin green, darkened |
 | `#6c3d4a` | diffRemovedDimmed | 1.88:1 `fill` | catppuccin red, darkened |
 | `#1e3a2f` | diffAdded | 1.33:1 `fill` | catppuccin green, darkened |
@@ -217,16 +217,10 @@ makes the active tab title fall through to the terminal foreground and land at
 
 ## Known issues
 
-**`claude` and `promptBorder` are now the same color.** Both are `#3490B5`.
-They are adjacent on screen -- the border draws around the prompt the spinner
-sits in -- so the two are no longer distinguishable from each other. `#ADDBE9`
-is free and was `promptBorder` until recently, which would restore the
-separation at 11.01:1.
-
-**`#3490B5` is carrying a lot at 4.54:1.** It is now the wezterm split and
-active tab background, the herdr accent, the starship success symbol, and both
-Claude Code's `claude` and `promptBorder`. 4.54:1 is nominal; the real figure
-is lower wherever it renders as text on the terminal background.
+**`#3490B5` is carrying a lot at 4.54:1.** The wezterm split and active tab
+background, the herdr accent, the starship success symbol, and Claude Code's
+`claude`. 4.54:1 is nominal; the real figure is lower wherever it renders as
+text on the terminal background.
 
 **herdr active tab title, 2.19:1.** `surface_dim` (`#24576B`) on `accent`
 (`#3490B5`). The comment in `herdr/config.toml` claims 5.31:1, which was correct
@@ -236,10 +230,6 @@ unreadable. Tracked as
 [issue #2](https://github.com/weatherwolf/setup/issues/2), which lays out why
 `surface_dim` cannot simply be darkened.
 
-**`#ADDBE9` is nearly orphaned.** Still one consumer, but the swap moved it
-from the Claude Code `claude` key to `promptBorder`. That relocated the color
-rather than retiring it, so the question stands: it is either the accent this
-palette should be using more widely, or it should be dropped for `#3490B5`.
 
 **The Claude Code icon fell to 4.54:1.** The same swap put `claude` - the
 six-pointed asterisk glyph, the `Claude Code` banner, the plugin marketplace
@@ -272,11 +262,11 @@ deliberate one.
 `#355675` is still unconsumed, and at dE 0.026 from `selection` it is close
 enough to be hard to tell apart in place.
 
-**The two shimmer derivations are crossed.** `claudeShimmer` (`#c6e6f0`) is
-still a lightened `#ADDBE9`, but `#ADDBE9` is now `promptBorder`, not `claude`.
-`promptBorderShimmer` (`#71b1cb`) is a lightened `#3490B5`, which is now
-`claude`. Each shimmer animates the other key's base color. Nothing renders
-wrong, but the derived values no longer track what they animate.
+Every base/shimmer pair in the theme now lightens its own base, with under 4
+degrees of hue drift. The lift per key follows what Claude Code's own dark
+defaults do for that key rather than one global rule: they range from +0.024
+lightness on `warning` to +0.129 on `inactive`, because an already-light base
+needs less lift than a mid one to read as the same color brightening.
 
 ## How this was chosen
 
