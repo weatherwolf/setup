@@ -4,12 +4,12 @@
   "overrides": {
     "text": "#CEE6EC",
     "claude": "#3490B5",
-    "permission": "#2DBCD3",
-    "permissionShimmer": "#4DDCE3",
+    "permission": "#97B0C9",
+    "permissionShimmer": "#B9CAD9",
     "inactive": "#8CA4BF",
     "suggestion": "#71CDDC",
     "subtle": "#5E93A6",
-    "promptBorder": "#ADDBE9",
+    "promptBorder": "#3490B5",
     "selectionBg": "#24576B",
 
     "planMode": "#94e2d5",
