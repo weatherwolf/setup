@@ -23,6 +23,12 @@ LINKS=(
   "nvim/.config/nvim|$HOME/.config/nvim"
   "claude/.claude/CLAUDE.md|$HOME/.claude/CLAUDE.md"
   "claude/.claude/settings.json|$HOME/.claude/settings.json"
+  # Custom Claude Code theme. The slug is the FILENAME, not the "name" field, so
+  # glacier_wave.json is what settings.json's "custom:glacier_wave" resolves to.
+  # The themes dir is file-watched, so edits to the repo file hot-reload. Edit
+  # the repo file, not /theme -- its built-in editor writes to this directory
+  # and would replace the symlink with a regular file.
+  "claude/.claude/themes/glacier_wave.json|$HOME/.claude/themes/glacier_wave.json"
   "claude/.claude/statusline.py|$HOME/.claude/statusline.py"
   "claude/.claude/hooks|$HOME/.claude/hooks"
   # Skill manifest only. The skill *content* under ~/.claude/skills is owned by

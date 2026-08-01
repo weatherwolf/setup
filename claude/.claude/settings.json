@@ -69,7 +69,7 @@
     "sonarqube@claude-plugins-official": true
   },
   "effortLevel": "high",
-  "theme": "custom:blue_wave",
+  "theme": "custom:glacier_wave",
   "verbose": true,
   "skipAutoPermissionPrompt": true
 }
