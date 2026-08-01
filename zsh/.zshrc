@@ -1,12 +1,4 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-
-# Timezone for the shell (drives the p10k clock and `date`)
+# Timezone for the shell (drives the starship clock and `date`)
 export TZ='Europe/Amsterdam'
 
 # herdr reads its config from a platform-specific dir by default (~/.config on
@@ -51,8 +43,6 @@ zstyle ':completion:*' verbose true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-export PATH="$HOME/.local/bin:$PATH"
 
 ## Source - https://stackoverflow.com/a/77056042
 ## Posted by Gairfowl
@@ -85,8 +75,13 @@ c_gs_message() {
   print -r -- "$d" | claude -p 'write a conventional commit message for these changes'
 }
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# starship prompt. Config lives in ~/.config/starship.toml (tracked in the setup
+# repo). Must be initialized after anything else that touches PROMPT/precmd.
+# (No equivalent of p10k's transient prompt: starship 1.26.0's zsh init does not
+# define enable_transience, so calling it just errors on every shell start.)
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
 
 # Machine-specific overrides (untracked; create per machine as needed).
 # Put work-only aliases, env vars, or paths here instead of editing this file.

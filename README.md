@@ -7,7 +7,7 @@ normal location (e.g. `~/.zshrc`) edits the tracked file here.
 ## Purpose (read this first)
 
 This repo is the single source of truth for a reproducible dev environment
-(zsh + powerlevel10k, tmux, herdr, Neovim, and Claude Code). Cloning it and running
+(zsh + starship, tmux, herdr, Neovim, and Claude Code). Cloning it and running
 `./bootstrap.sh` on a fresh machine reinstalls the tools and re-creates the
 symlinks, reproducing the environment. The guiding rule: anything you'd want to
 survive a machine wipe is tracked here and symlinked into place; machine- or
@@ -24,7 +24,7 @@ The repo uses a Stow-compatible package layout (each top-level dir mirrors
 
 ```
 zsh/.zshrc                    -> ~/.zshrc
-zsh/.p10k.zsh                 -> ~/.p10k.zsh
+starship/.config/starship.toml  -> ~/.config/starship.toml
 tmux/.tmux.conf               -> ~/.tmux.conf
 herdr/.config/herdr/config.toml -> ~/.config/herdr/config.toml
 nvim/.config/nvim             -> ~/.config/nvim
@@ -83,10 +83,10 @@ tracked by that project's own git, not here.
 ```sh
 git clone https://github.com/weatherwolf/setup.git ~/setup
 cd ~/setup
-./bootstrap.sh      # clones powerlevel10k, then runs install.sh
+./bootstrap.sh      # installs starship and the other tools, then runs install.sh
 ```
 
-Or, if powerlevel10k is already present, just:
+Or, if the tools are already present, just:
 
 ```sh
 ./install.sh
@@ -104,7 +104,11 @@ tracked.
 
 ## Not tracked here
 
-- **powerlevel10k** - third-party theme, cloned from upstream by `bootstrap.sh`.
+- **starship** - third-party prompt binary, installed by `bootstrap.sh` (brew on
+  macOS, the official installer elsewhere); only its config
+  (`starship/.config/starship.toml`) is tracked. `.zshrc` initializes it only if
+  the binary is on PATH, so a machine without it falls back to zsh's default
+  prompt instead of erroring.
 - **herdr** - third-party multiplexer binary, installed from herdr.dev by
   `bootstrap.sh`; only its config (`herdr/.config/herdr/config.toml`) is tracked.
   herdr runs alongside tmux and its config mirrors the tmux setup (prefix C-a,

@@ -1,0 +1,54 @@
+# starship prompt config -> ~/.config/starship.toml
+#
+# Replaces powerlevel10k. Deliberately minimal: an idle prompt shows the current
+# path and nothing else, on a single line.
+#
+# starship only renders the modules named in `format`, so every other module
+# (git, language versions, cloud contexts, clock, exit status, ...) is off simply
+# by not being listed -- no per-module `disabled = true` needed. Adding one back
+# means adding its `$name` to `format` below.
+#
+# ASCII-only, so the prompt renders identically in any terminal or font.
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+format = '$directory$character'
+
+# Same blues as the wezterm "glacier" scheme in ../../.wezterm.lua, sampled from
+# the icy blue wallpaper. Written as hex rather than as ANSI names ('cyan',
+# 'blue') so the prompt stays this exact palette even in a terminal themed
+# differently, for example over SSH.
+#
+# That choice is what keeps the prompt glacier now that .wezterm.lua no longer
+# overrides the 16 ANSI slots: an ANSI-named prompt would have reverted to
+# wezterm's default palette along with every other tool.
+palette = 'glacier'
+
+[palettes.glacier]
+ice_bright = '#EDF6F8'
+ice = '#CEE6EC'
+cyan_light = '#93DCE6'
+cyan = '#71CDDC'
+cyan_deep = '#54BFC9'
+azure = '#41AECD'
+azure_deep = '#5599D5'
+teal_deep = '#3490B5'
+deep_water = '#0B222C'
+
+[directory]
+style = 'bold cyan_light'
+truncation_length = 3
+truncate_to_repo = false
+truncation_symbol = '.../'
+read_only = ' [ro]'
+read_only_style = 'ice_bright'
+
+# The one thing besides the path: where typing starts. With no red left in the
+# palette, a failed command is signalled by BRIGHTNESS -- the character jumps from
+# a receding mid teal to the lightest ice blue -- rather than by hue.
+[character]
+success_symbol = '[>](teal_deep)'
+error_symbol = '[>](bold ice_bright)'
+vicmd_symbol = '[<](bold cyan)'

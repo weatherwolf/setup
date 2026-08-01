@@ -17,7 +17,7 @@ ts="$(date +%Y%m%d-%H%M%S)"
 # (one pair per line)
 LINKS=(
   "zsh/.zshrc|$HOME/.zshrc"
-  "zsh/.p10k.zsh|$HOME/.p10k.zsh"
+  "starship/.config/starship.toml|$HOME/.config/starship.toml"
   "tmux/.tmux.conf|$HOME/.tmux.conf"
   "herdr/.config/herdr/config.toml|$HOME/.config/herdr/config.toml"
   "nvim/.config/nvim|$HOME/.config/nvim"
@@ -82,4 +82,4 @@ for pair in "${LINKS[@]}"; do
   link "$REPO_DIR/${pair%%|*}" "${pair#*|}"
 done
 
-echo "Done. (Run ./bootstrap.sh first on a fresh machine to install powerlevel10k.)"
+echo "Done. (Run ./bootstrap.sh first on a fresh machine to install starship.)"

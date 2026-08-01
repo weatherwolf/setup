@@ -125,10 +125,12 @@ if command -v fdfind >/dev/null 2>&1 && ! command -v fd >/dev/null 2>&1; then
   echo "[link]  fd -> $(command -v fdfind)"
 fi
 
-# MesloLGS Nerd Font (recommended by powerlevel10k; needed for nvim icons).
-# Only useful where the terminal renders LOCALLY. On a remote/SSH VM the font
-# must instead live on your local machine. Fonts go to ~/Library/Fonts on macOS
-# and to the fontconfig dir on Linux; skipped when neither applies.
+# MesloLGS Nerd Font, needed for nvim's icons. The starship prompt config is
+# deliberately ASCII-only, so it does not depend on this font. Only useful where
+# the terminal renders LOCALLY. On a remote/SSH VM the font must instead live on
+# your local machine. Fonts go to ~/Library/Fonts on macOS and to the fontconfig
+# dir on Linux; skipped when neither applies. (Files are hosted in the
+# powerlevel10k-media repo, which is just a convenient mirror of the font.)
 font_dir=""
 run_fc_cache=0
 if [[ "$OS" == "Darwin" ]]; then
@@ -161,14 +163,20 @@ if [[ -n "$zsh_path" && "$SHELL" != "$zsh_path" ]]; then
   chsh -s "$zsh_path" || echo "  [warn] chsh failed; run 'chsh -s $zsh_path' manually"
 fi
 
-# powerlevel10k: third-party zsh theme sourced from ~/.zshrc. Clone from
-# upstream (not vendored here). Skip if already present.
-P10K_DIR="$HOME/powerlevel10k"
-if [[ -d "$P10K_DIR/.git" ]]; then
-  echo "[ok]    powerlevel10k already present at $P10K_DIR"
+# starship: cross-shell prompt, initialized at the end of ~/.zshrc. Third-party
+# binary (not vendored here). Homebrew carries it on macOS; on Linux it is not
+# reliably packaged, so fall back to the official installer. Skip if present.
+# Never aborts bootstrap on failure -- without it ~/.zshrc just uses zsh's
+# default prompt.
+if command -v starship >/dev/null 2>&1; then
+  echo "[ok]    starship already installed: $(command -v starship)"
+elif command -v brew >/dev/null 2>&1; then
+  echo "[install] starship (brew)"
+  brew install starship || echo "  [warn] starship install failed; continuing"
 else
-  echo "[clone] powerlevel10k -> $P10K_DIR"
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
+  echo "[install] starship (https://starship.rs/install.sh)"
+  curl -fsSL https://starship.rs/install.sh | sh -s -- --yes \
+    || echo "  [warn] starship install failed; continuing"
 fi
 
 # TPM (Tmux Plugin Manager): third-party, required by ~/.tmux.conf to load its
