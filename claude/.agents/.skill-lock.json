@@ -392,6 +392,15 @@
       "pluginName": "development-general",
       "installedAt": "2026-07-13T13:02:54.666Z",
       "updatedAt": "2026-07-13T13:02:54.666Z"
+    },
+    "herdr": {
+      "source": "ogulcancelik/herdr",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/ogulcancelik/herdr.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "e16d7d8c07a20f5ee0b4111808680bbcfd7df9ac",
+      "installedAt": "2026-07-28T20:08:07.837Z",
+      "updatedAt": "2026-07-28T20:08:34.921Z"
     }
   },
   "dismissed": {

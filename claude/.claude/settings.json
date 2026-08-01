@@ -3,9 +3,23 @@
     "TZ": "Europe/Amsterdam"
   },
   "permissions": {
+    "allow": [
+      "Bash(gh auth status)",
+      "Bash(gh --version)",
+      "Bash(gh issue list -R fyrm-ai/jordex-boekingen:*)",
+      "Bash(gh issue view -R fyrm-ai/jordex-boekingen:*)",
+      "Bash(gh pr list -R fyrm-ai/jordex-boekingen:*)",
+      "Bash(gh pr view -R fyrm-ai/jordex-boekingen:*)",
+      "Bash(gh api repos/fyrm-ai/jordex-boekingen/:*)",
+      "Bash(gh issue list -R fyrm-ai/mcp-jit:*)",
+      "Bash(gh issue view -R fyrm-ai/mcp-jit:*)",
+      "Bash(gh pr list -R fyrm-ai/mcp-jit:*)",
+      "Bash(gh pr view -R fyrm-ai/mcp-jit:*)",
+      "Bash(gh api repos/fyrm-ai/mcp-jit/:*)"
+    ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "opus[1m]",
   "hooks": {
     "SessionEnd": [
       {

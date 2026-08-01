@@ -38,6 +38,18 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   -- Colorscheme: https://github.com/catppuccin/nvim
   {
+    "catgoose/nvim-colorizer.lua",
+    event = "BufReadPre",
+    opts = {
+		parsers = {
+			css=true,
+			names= {
+				enable = false
+			}
+		}
+	},
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,

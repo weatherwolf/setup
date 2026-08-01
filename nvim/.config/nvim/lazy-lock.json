@@ -5,6 +5,7 @@
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "fzf-lua": { "branch": "main", "commit": "532d463f5c83595192fe740572d8fd6902b2217a" },
   "lazy.nvim": { "branch": "main", "commit": "85c7ff3711b730b4030d03144f6db6375044ae82" },
+  "nvim-colorizer.lua": { "branch": "master", "commit": "72a05f62c52241bc7441c820eb53946f92b2e6a4" },
   "nvim-tree.lua": { "branch": "master", "commit": "531b807b8f0d6f75016a0ee1e0cd5ce2086e9d95" },
   "nvim-web-devicons": { "branch": "master", "commit": "dad71387de386a946b123079d0e53f23028f3abd" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
