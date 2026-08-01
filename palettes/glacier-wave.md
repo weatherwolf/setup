@@ -50,7 +50,7 @@ checked separately at the bottom.
 |---|---|---|---|---|
 | `#EDF6F8` | ice_bright | 14.96:1 | yes | wezterm `selection_fg`, `active_tab.fg`; starship `read_only_style`, `error_symbol` |
 | `#CEE6EC` | ice | 12.63:1 | yes | wezterm `foreground`, `inactive_tab_hover.fg`, `new_tab_hover.fg`; claude `text`; starship (defined, unused) |
-| `#ADDBE9` | accent_bright | 11.01:1 | yes | claude `promptBorder` only |
+| `#ADDBE9` | accent_bright | 11.01:1 | **no** | nothing renders it |
 | `#93DCE6` | cyan_light | 10.65:1 | yes | wezterm `cursor_bg`, `cursor_border`; starship `directory`; herdr `overlay0` (commented) |
 | `#71CDDC` | cyan | 8.96:1 | yes | wezterm `inactive_tab.fg`, `new_tab.fg`; herdr `mauve`; claude `suggestion`; starship `vicmd_symbol` |
 | `#54BFC9` | cyan_deep | 7.56:1 | no | starship palette only, nothing renders it |
@@ -60,13 +60,15 @@ checked separately at the bottom.
 | `#41AECD` | azure | 6.38:1 | no | starship palette only, nothing renders it |
 | `#5599D5` | azure_deep | 5.40:1 | no | starship palette only, nothing renders it |
 | `#5E93A6` | steel | 4.85:1 | yes | claude `subtle` |
-| `#3490B5` | teal_deep | 4.54:1 | yes | wezterm `split`, `active_tab.bg`; herdr `accent`; claude `claude`; starship `success_symbol` |
+| `#3490B5` | teal_deep | 4.54:1 | yes | wezterm `split`, `active_tab.bg`; herdr `accent`; claude `claude` and `promptBorder`; starship `success_symbol` |
 | `#24576B` | selection | 2.07:1 `fill` | yes | wezterm `selection_bg`, `scrollbar_thumb`, `*_hover.bg`; claude `selectionBg` |
 | `#10303C` | surface | 1.18:1 `fill` | yes | wezterm `inactive_tab.bg`, `new_tab.bg` |
 | `#0B222C` | deep_water | 1.00:1 `fill` | yes | wezterm `background`, `cursor_fg`, `tab_bar.background`; starship (defined, unused) |
 
-`#ADDBE9` was herdr's accent historically. It still appears in exactly one
-place, now the Claude Code `promptBorder` key. See Known issues.
+`#ADDBE9` is now fully orphaned. It was herdr's accent, then the Claude Code
+`promptBorder`; both have since moved to `#3490B5`. It is the brightest
+unused value in the palette at 11.01:1, and the obvious candidate if anything
+currently sitting at 4.54:1 needs more headroom. See Known issues.
 
 ## Glacier - greys
 
@@ -171,7 +173,7 @@ The check the fill rows above do not answer.
 | `#71CDDC` on `#10303C` inactive tab | 7.59:1 | ok |
 | `#EDF6F8` on `#24576B` selection | 7.22:1 | ok |
 | `#CEE6EC` on `#24576B` tab hover | 6.09:1 | ok |
-| `#EDF6F8` on `#3490B5` active tab | 3.30:1 | **fails** |
+| `#0B222C` on `#3490B5` wezterm active tab | 4.54:1 | ok |
 | `#24576B` on `#3490B5` herdr active tab title | 2.19:1 | **fails** |
 
 ## Where each config reads from
@@ -215,10 +217,16 @@ makes the active tab title fall through to the terminal foreground and land at
 
 ## Known issues
 
-**wezterm active tab, 3.30:1.** `#EDF6F8` on `#3490B5` is under the threshold,
-and the real figure is lower once the wallpaper blends in. Either darken
-`active_tab.bg` or drop the fg toward `#0B222C`, which is 4.54:1 on the same
-background.
+**`claude` and `promptBorder` are now the same color.** Both are `#3490B5`.
+They are adjacent on screen -- the border draws around the prompt the spinner
+sits in -- so the two are no longer distinguishable from each other. `#ADDBE9`
+is free and was `promptBorder` until recently, which would restore the
+separation at 11.01:1.
+
+**`#3490B5` is carrying a lot at 4.54:1.** It is now the wezterm split and
+active tab background, the herdr accent, the starship success symbol, and both
+Claude Code's `claude` and `promptBorder`. 4.54:1 is nominal; the real figure
+is lower wherever it renders as text on the terminal background.
 
 **herdr active tab title, 2.19:1.** `surface_dim` (`#24576B`) on `accent`
 (`#3490B5`). The comment in `herdr/config.toml` claims 5.31:1, which was correct
