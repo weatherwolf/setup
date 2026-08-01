@@ -232,7 +232,9 @@ is lower wherever it renders as text on the terminal background.
 (`#3490B5`). The comment in `herdr/config.toml` claims 5.31:1, which was correct
 when the accent was `#ADDBE9` (11.01/2.07 = 5.32) and was not updated when the
 accent changed to `#3490B5`. The comment is stale; the color is genuinely
-unreadable.
+unreadable. Tracked as
+[issue #2](https://github.com/weatherwolf/setup/issues/2), which lays out why
+`surface_dim` cannot simply be darkened.
 
 **`#ADDBE9` is nearly orphaned.** Still one consumer, but the swap moved it
 from the Claude Code `claude` key to `promptBorder`. That relocated the color
