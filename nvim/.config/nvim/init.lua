@@ -42,6 +42,18 @@ require("lazy").setup({
     name = "catppuccin",
     priority = 1000,
     config = function()
+      -- Transparency is owned by the terminal, not by nvim: wezterm sets
+      -- window_background_opacity 0.8 + macos_window_background_blur, so the
+      -- blurred wallpaper is meant to show through. Any solid background nvim
+      -- paints covers that up, so ask catppuccin to leave the background
+      -- unset (bg = NONE) everywhere and inherit the terminal's instead.
+      --
+      -- float.transparent stays at its default false: popups (fzf-lua, lazy,
+      -- wilder) keep a solid mantle background so they read as a layer above
+      -- the buffer rather than as text floating over the wallpaper.
+      require("catppuccin").setup({
+        transparent_background = true,
+      })
       vim.cmd("colorscheme catppuccin")
     end,
   },

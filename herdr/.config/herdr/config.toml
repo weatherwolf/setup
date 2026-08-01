@@ -76,16 +76,55 @@ show_agent_labels_on_pane_borders = true
 # THEME
 # ============================================
 # tmux used a hand-rolled dark palette: bg #13161d, fg #8b949e, accent green
-# #00e68a, borders #30363d. herdr themes are named; start from a dark base
-# and override the key colors to match.
+# #00e68a, borders #30363d. herdr themes are named, so this starts from a dark
+# base and overrides individual tokens. The target is no longer the old tmux
+# look but the wezterm "glacier" scheme, plus transparency: herdr sits inside
+# wezterm, so it should paint as little background as possible and let the
+# terminal's blurred wallpaper through.
 [theme]
 name = "catppuccin"
 auto_switch = false
 
 [theme.custom]
-panel_bg = "#13161d"  # tmux status-style bg
-accent   = "#00e68a"  # tmux active accent (session name / active pane border)
-green    = "#00e68a"
+# "reset" makes herdr emit the terminal's default background instead of
+# painting a solid color, so wezterm's window_background_opacity (0.8) and
+# macos_window_background_blur show through the sidebar and pane gaps. The
+# old tmux status bg (#13161d) was opaque and covered that up.
+panel_bg = "reset"
+# panel_bg only clears the panel fill. Each entry in the sidebar's "spaces" and
+# "agents" lists is painted on its own row band from the surface* family, which
+# stayed opaque catppuccin (surface0 #313244 for a normal row, surface1 #45475a
+# for the active one) and showed as solid bars floating in the transparent rail.
+#
+# Token-to-element mapping, read off the herdr source rather than guessed:
+#   surface0     sidebar row band, inactive rows       (ui/sidebar.rs:795)
+#   surface_dim  sidebar row band, ACTIVE row          (ui/sidebar.rs:797)
+#   surface1     workspace/agent state fill            (ui/sidebar.rs:1241)
+# Any color value accepts reset / default / none / transparent as aliases.
+#
+# surface_dim must NOT be "reset". The active tab title is drawn as
+#   fg(panel_contrast_fg(p)).bg(p.accent)                  (ui/tabs.rs:325)
+# and panel_contrast_fg falls back to surface_dim when panel_bg is Reset:
+#   match p.panel_bg { Color::Reset => p.surface_dim, .. } (ui/widgets.rs:32)
+# With both cleared the title fg fell through to the terminal's default
+# foreground (#CEE6EC) on the bright accent (#ADDBE9): 1.15:1, unreadable.
+# #24576B is the glacier selection blue, and the only value that stays legible
+# in all three roles surface_dim fills: 5.31:1 as the tab title on accent,
+# 2.07:1 as a separator / inactive pane border, 5.48:1 under active row text.
+surface0    = "reset"
+surface1    = "reset"
+surface_dim = "reset"
+accent   = "#3490B5"  # glacier mid blue: active tab bg, active pane border, nav
+# The branch line under a space is drawn mauve when that space is selected or
+# active, overlay0 grey otherwise  (ui/sidebar.rs:1290). Catppuccin mauve is
+# #cba6f7, the leftover purple. mauve is used in only three places: this branch
+# line, the keybind help overlay (ui/keybind_help.rs:209), and a menu highlight
+# background (ui/menus.rs:267).
+mauve    = "#93DCE6"  # glacier inactive-tab cyan: branch line of the active space
+#green    = "#00e68a"  # still the old tmux green, used for agent state icons
+
+#overlay0 = "#93DCE6"
+#overlay1 = "#FFFFFF"
 
 # ============================================
 # SCROLLBACK
@@ -111,7 +150,9 @@ resume_agents_on_restore = true
 # 1. Status bar widgets. tmux drew a top status bar with the session name and
 #    an Amsterdam-timezone clock/date (status-left / status-right). herdr has
 #    an agent-state sidebar instead of a text status bar; the clock/date have
-#    no native widget. The accent color above matches the tmux green.
+#    no native widget. The accent color above is no longer the tmux green; it
+#    is sampled from the wezterm glacier palette so herdr's chrome matches the
+#    terminal. `green` still holds the tmux value.
 # 2. Plugins (TPM). set -g @plugin lines and `run tpm` have no herdr analog;
 #    persistence is built into the server (see [session] above).
 # 3. tmux terminal tuning -- escape-time, focus-events, aggressive-resize,
