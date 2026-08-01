@@ -2,8 +2,9 @@ local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
 
--- "glacier": an icy blue scheme sampled from the desktop wallpaper (pale ice
--- highlights through to deep water shadow).
+-- "glacier_wave": an icy blue scheme sampled from the desktop wallpaper (pale
+-- ice highlights through to deep water shadow). Indexed, with every consumer
+-- and every contrast ratio, in palettes/glacier-wave.md.
 --
 -- Only the non-ANSI slots are set below: default fg/bg, cursor, selection, the
 -- split divider, the scrollbar thumb, and the tab bar. Those account for most
@@ -28,7 +29,7 @@ local config = wezterm.config_builder()
 -- glacier-tuned lightness, computed against the blended background that
 -- transparency actually produces rather than against #0B222C.
 config.color_schemes = {
-	glacier = {
+	glacier_wave = {
 		foreground = "#CEE6EC", -- pale ice
 		background = "#0B222C", -- deep water, nearly black
 		cursor_bg = "#93DCE6",
@@ -49,7 +50,7 @@ config.color_schemes = {
 		},
 	},
 }
-config.color_scheme = "glacier"
+config.color_scheme = "glacier_wave"
 config.font = wezterm.font("Hack Nerd Font")
 config.font_size = 15.0
 config.window_background_opacity = 0.8
