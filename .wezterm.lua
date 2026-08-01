@@ -42,7 +42,11 @@ config.color_schemes = {
 
 		tab_bar = {
 			background = "#0B222C",
-			active_tab = { bg_color = "#3490B5", fg_color = "#EDF6F8" },
+			-- fg is deep_water, not ice: #EDF6F8 on this bg is only 3.30:1,
+			-- under the 4.5:1 threshold and lower still once the wallpaper
+			-- blends in. #0B222C is 4.54:1. teal_deep sits mid-lightness, so
+			-- readable text on it has to go dark rather than light.
+			active_tab = { bg_color = "#3490B5", fg_color = "#0B222C" },
 			inactive_tab = { bg_color = "#10303C", fg_color = "#71CDDC" },
 			inactive_tab_hover = { bg_color = "#24576B", fg_color = "#CEE6EC" },
 			new_tab = { bg_color = "#10303C", fg_color = "#71CDDC" },
