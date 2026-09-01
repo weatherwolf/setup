@@ -1,0 +1,46 @@
+{
+  "name": "Active",
+  "base": "dark-ansi",
+  "overrides": {
+    "text": "#EDDED2",
+    "claude": "#6F9062",
+    "permission": "#99B392",
+    "permissionShimmer": "#BACAB5",
+    "inactive": "#97A88F",
+    "suggestion": "#B5C799",
+    "subtle": "#819171",
+    "promptBorder": "#6F9062",
+    "selectionBg": "#5A3D1B",
+
+    "planMode": "#94e2d5",
+    "autoAccept": "#cba6f7",
+    "bashBorder": "#f5c2e7",
+
+    "success": "#a6e3a1",
+    "error": "#f38ba8",
+    "warning": "#f9e2af",
+
+    "diffAdded": "#1e3a2f",
+    "diffRemoved": "#462730",
+    "diffAddedDimmed": "#3c5f48",
+    "diffRemovedDimmed": "#6c3d4a",
+    "diffAddedWord": "#a6e3a1",
+    "diffRemovedWord": "#f38ba8",
+
+    "userMessageBackground": "#231606",
+    "userMessageBackgroundHover": "#2D1E0B",
+    "composerSidebarBackground": "#231504",
+    "memoryBackgroundColor": "#281907",
+    "bashMessageBackgroundColor": "#221608",
+
+    "claudeShimmer": "#92AD87",
+    "promptBorderShimmer": "#96B08D",
+    "inactiveShimmer": "#BFD1B7",
+    "warningShimmer": "#fbebc7",
+    "autoAcceptShimmer": "#dbc1f9",
+
+    "clawd_background": "#1F1102",
+    "clawd_body": "#D09D75",
+    "briefLabelClaude": "#D09D75"
+  }
+}

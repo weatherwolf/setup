@@ -1,0 +1,80 @@
+# granite-shallows - machine-readable palette
+#
+# Format: one role=hex per line, grouped into [sections] that carry no meaning
+# to a parser. Read it by line shape rather than by looking for an "=", since
+# comments contain those too:
+#
+#   grep -E '^[A-Za-z_][A-Za-z0-9_]*=#[0-9A-Fa-f]{6}$' granite-shallows.colors
+#
+# Sampled from an alpine lake shore: deep blue water and sky, turquoise
+# shallows, granite boulders, snow on the far range.
+#
+# ONE color, at hue 242. The turquoise shallows are a real presence in the
+# image - 15.3% by chroma-weighted share, at hue 202 - but they fail two gates
+# at once. They are 40 degrees from the main axis where 45 is needed to count
+# as a separate color rather than the same blue lighter, and 19 degrees from
+# catppuccin teal where an optional secondary needs 20. Sky, deep water and
+# shallows here really are one blue-cyan family.
+#
+# 16.9% of the image is effectively grey, chroma under 0.02 - the boulders,
+# which are the subject but contribute no hue. That is the highest grey share
+# of any wallpaper in this set.
+#
+# The band spans about 25 degrees centered on 242, inside the widest STATUS gap
+# on the wheel (catppuccin teal 182.7 to mauve 304.8). Closest approach to a
+# status hue is 49 degrees. Note that this lane is not empty of catppuccin's
+# SYNTAX colors, which nvim renders: sapphire sits at 228.7 and blue at 259.9.
+# accent_light lands dE 0.011 from sapphire, which is a genuine near-match.
+# That is advisory rather than disqualifying - see the skill - and the role
+# that now matters most, accent_bright, is dE 0.049 from its nearest catppuccin
+# color, the largest separation of any palette here.
+#
+# Same 21 roles and the same lightness and chroma per role as the other
+# palettes. Only hue moved, plus accent's lightness, which build raises to hold
+# 4.5:1 because WCAG luminance is hue-dependent.
+#
+# Provenance, measured rather than asserted (palette.py check --image):
+# 15 of 21 roles are within dE 0.03 of a color the photograph contains. The
+# dark and mid roles are genuine samples - bg at dE 0.002, accent at 0.008. The
+# TOP OF THE TEXT RAMP IS NOT: the image never exceeds lightness 0.892 and
+# text_bright needs 0.967, so text_bright, text, cursor and accent_bright are
+# extrapolated up the hue axis. This wallpaper has no lit snow close enough to
+# sample, unlike alpine-haze's.
+#
+# Semantic colors stay catppuccin mocha. Claude Code's shimmers are computed
+# from the roles below by palettes/recompute_shimmers.py, not stored here.
+# Hex case is not significant here but it is in the configs; match
+# case-insensitively when substituting.
+
+[background]
+bg=#12202E
+bg_surface=#192D3F
+bg_raised=#353F47
+bg_selection=#325371
+
+[text]
+text_bright=#EEF5F9
+text=#D1E4F1
+text_secondary=#A7B3BD
+text_muted=#8CA4C0
+text_dim=#6890AE
+text_hint=#8B97A1
+
+[chrome]
+border=#59656E
+cursor=#9CD7F6
+accent=#518BBF
+accent_bright=#B4D8F2
+accent_light=#7FC7ED
+accent_soft=#8EADD0
+accent_vivid=#4FB5E8
+
+[reserve]
+# reserve_1 is no longer spare: it paints nvim's folder names and folder
+# icon, one step darker than the files on accent_bright. reserve_2..4
+# still render nothing and are named by position rather than by job.
+# Promote one into a real role rather than adding a new hex.
+reserve_1=#63B9DD
+reserve_2=#5DA7DB
+reserve_3=#5798D5
+reserve_4=#355674

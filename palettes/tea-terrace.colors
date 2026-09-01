@@ -1,0 +1,71 @@
+# tea-terrace - machine-readable palette
+#
+# Format: one role=hex per line, grouped into [sections] that carry no
+# meaning to a parser. Read it by line shape rather than by looking for an
+# "=", since comments contain those too:
+#
+#   grep -E '^[A-Za-z_][A-Za-z0-9_]*=#[0-9A-Fa-f]{6}$' tea-terrace.colors
+#
+# Sampled from an aerial photograph of terraced tea fields. Same 21 roles as
+# glacier-wave, and the same lightness and chroma per role - that ladder was
+# tuned for readability and is reused unchanged. Only the hue moved.
+#
+# The hue band is deliberately narrow: 158-170, about 10 degrees, where
+# glacier-wave spans 25. Chrome carries no information, so it may be
+# monochrome. Here it must be: catppuccin green sits at hue 142.7 and teal at
+# 182.7, and a green chrome cannot be far from both. 163 is the midpoint, so
+# the band centered there maximizes the smaller of the two separations.
+# Consumed roles land 16.5 degrees from green and 12.8 from teal. In
+# glacier-wave those figures were 64 and 24 - this palette is tighter, and
+# semantic colors rely more on lightness and chroma to stand out.
+#
+# The dark roles are sampled: bg, bg_surface, bg_selection and reserve_4 all
+# sit within dE 0.01 of a color the photograph actually contains. The light
+# roles are NOT. The image has no light cool pixels at all - its 95th
+# percentile lightness is 0.629 against text_bright's 0.967 - so the text ramp
+# is extrapolated up this hue axis rather than sampled. That is a real
+# difference from glacier-wave, whose wallpaper contained lit ice to sample.
+#
+# Semantic colors (pass/fail, added/removed, warnings, syntax) are constant
+# across palettes and stay catppuccin mocha. Claude Code's derived values are
+# computed from the roles below, not stored here.
+#
+# Hex case is not significant here, but it is in the configs. Match
+# case-insensitively when substituting.
+
+[background]
+# Darkest first. Sampled directly from the photograph's shaded rows.
+bg=#0C241C
+bg_surface=#133227
+bg_raised=#34413B
+bg_selection=#295B49
+
+[text]
+# Brightest first. Extrapolated, not sampled - see the header. Every one
+# clears 4.5:1 against bg at full opacity, which is an upper bound.
+text_bright=#EFF6F2
+text=#D2E7DC
+text_secondary=#A6B5AE
+text_muted=#84AC9D
+text_dim=#659781
+text_hint=#8A9992
+
+[chrome]
+# Borders, cursor, and the accent family. accent is the load-bearing one.
+border=#596760
+cursor=#A4DDBD
+accent=#3A9879
+accent_bright=#B4DEC9
+accent_light=#88CFA9
+accent_soft=#84B7A4
+accent_vivid=#5BC090
+
+[reserve]
+# reserve_1 is no longer spare: it paints nvim's folder names and folder
+# icon, one step darker than the files on accent_bright. reserve_2..4
+# still render nothing and are named by position rather than by job.
+# Promote one into a real role rather than adding a new hex.
+reserve_1=#75C095
+reserve_2=#56B48E
+reserve_3=#3CA986
+reserve_4=#2A5E4C

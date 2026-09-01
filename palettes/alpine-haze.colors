@@ -1,0 +1,84 @@
+# alpine-haze - machine-readable palette
+#
+# Format: one role=hex per line, grouped into [sections] that carry no meaning
+# to a parser. Read it by line shape rather than by looking for an "=", since
+# comments contain those too:
+#
+#   grep -E '^[A-Za-z_][A-Za-z0-9_]*=#[0-9A-Fa-f]{6}$' alpine-haze.colors
+#
+# Sampled from a Himalayan valley photograph. TWO colors: the forested massif
+# in the foreground carries the backgrounds and the text ramp, and the sky
+# carries the cursor and the accent family. That split is the photograph's own
+# structure - dark ground, bright sky - rather than a stylistic choice.
+#
+# Measured area share of the image: blue 69%, green 18%, dark grey 9%, olive
+# 2%, brown 0%. The distant mountain wall on the right reads blue rather than
+# grey-brown because atmospheric haze makes it so; only the NEAR massif is
+# green, and that is the green used here.
+#
+# The primary is placed at hue 120 rather than at the forest's own 134. At 134
+# the backgrounds would sit 3 degrees from catppuccin green and text_muted 0.6
+# degrees from it, so "test passed" and "dimmed text" would be the same hue.
+# 120 is inside the 86.5-142.7 gap between catppuccin yellow and green, where
+# every role clears its floor: the tightest is text_muted at 15 degrees. The
+# shift moves the green toward olive, which is if anything closer to the
+# rock-and-scrub color of the massif than pure forest green was.
+#
+# The secondary is the sky at 236, in the 122-degree gap between catppuccin
+# teal and mauve - the widest on the wheel. Closest approach is 43 degrees,
+# reserve_1 to teal. The two axes are 116 degrees apart, well past the 45
+# needed to count as two colors rather than one wide band.
+#
+# Same 21 roles as glacier-wave and tea-terrace, and the same lightness and
+# chroma per role - that ladder is tuned for readability and is reused
+# unchanged. Only the hue moved, and accent's lightness was raised from 0.615
+# to 0.619, because WCAG luminance is hue-dependent and holding L across a hue
+# change does not hold contrast.
+#
+# Provenance, measured rather than asserted (palette.py check --image):
+# 20 of the 21 roles sit within dE 0.03 of a color the photograph actually
+# contains. Only cursor is extrapolated, at dE 0.031. The text ramp is genuine,
+# unlike tea-terrace's, because this image has lit snow to sample: its maximum
+# lightness is 0.965 against text_bright's 0.966, though that top rung matches
+# only the extreme highlights rather than a broad region.
+#
+# Semantic colors (pass/fail, added/removed, warnings, syntax) are constant
+# across palettes and stay catppuccin mocha. Claude Code's shimmers are
+# computed from the roles below by palettes/recompute_shimmers.py, not stored
+# here and not substituted.
+#
+# Hex case is not significant here, but it is in the configs. Match
+# case-insensitively when substituting.
+
+[background]
+bg=#1B220F
+bg_surface=#272F16
+bg_raised=#3C3F34
+bg_selection=#49562E
+
+[text]
+text_bright=#F4F5EE
+text=#DFE4D0
+text_secondary=#AFB3A6
+text_muted=#99A887
+text_dim=#859165
+text_hint=#93978A
+
+[chrome]
+border=#626558
+cursor=#9AD8F4
+accent=#478DBD
+accent_bright=#B1D9F0
+accent_light=#7CC8EB
+accent_soft=#89AFCE
+accent_vivid=#48B7E5
+
+[reserve]
+# reserve_1 is no longer spare: it paints nvim's folder names and folder
+# icon, one step darker than the files on accent_bright. reserve_2..4
+# still render nothing and are named by position rather than by job.
+# Promote one into a real role rather than adding a new hex.
+reserve_1=#61BADC
+reserve_2=#55A9D8
+reserve_3=#4B9BD1
+reserve_4=#305773

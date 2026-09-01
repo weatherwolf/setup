@@ -1,0 +1,78 @@
+# glacier-wave - machine-readable palette
+#
+# Format: one role=hex per line, grouped into [sections] that carry no
+# meaning to a parser. Read it by line shape rather than by looking for an
+# "=", since comments contain those too:
+#
+#   grep -E '^[A-Za-z_][A-Za-z0-9_]*=#[0-9A-Fa-f]{6}$' glacier-wave.colors
+#
+# That pattern also rejects a malformed hex instead of passing it through,
+# which is what you want: an invalid value should fail loudly here rather
+# than reach a config, where it is dropped silently.
+#
+# Role names are the contract, and they name a JOB, not a color. A swap maps
+# old to new by role, so a palette in any hue must be able to answer every
+# name below. Nothing here may describe an appearance - the moment a role is
+# called "cyan" or "deep_water", only one palette can ever fill it.
+#
+# What is deliberately absent:
+#
+#   Semantic colors (pass/fail, added/removed, warnings, syntax) are constant
+#   across palettes, not variables of one. They stay catppuccin mocha, and
+#   live in glacier-wave.md.
+#
+#   Claude Code's derived values (shimmers and fills) are that app's own key
+#   names, computed from the roles below rather than independent of them.
+#   A swap must recompute them, not substitute them.
+#
+#   The five legacy tmux colors are a record of what this theme replaced.
+#
+# Hex case is not significant here, but it is in the configs: glacier values
+# are written uppercase and the catppuccin and derived families lowercase.
+# Match case-insensitively when substituting.
+#
+# This file and glacier-wave.md are both maintained by hand and must agree.
+# Generating the doc's tables from this file is issue #1.
+
+[background]
+# Darkest first. Only wezterm paints a real background; everything else
+# leaves it transparent so the wallpaper shows through, so these are used
+# far less than their count suggests.
+bg=#0B222C
+bg_surface=#10303C
+bg_raised=#324045
+bg_selection=#24576B
+
+[text]
+# Brightest first, down to hint. Every one of these is measured against bg
+# at full opacity in the doc, which is an upper bound - the real contrast is
+# lower once window_background_opacity blends the wallpaper in.
+text_bright=#EDF6F8
+text=#CEE6EC
+text_secondary=#A4B4BA
+text_muted=#8CA4BF
+text_dim=#5E93A6
+text_hint=#88989E
+
+[chrome]
+# Borders, cursors, and the accent family. accent is the load-bearing one:
+# it paints the herdr accent, the wezterm split and active tab, the starship
+# success symbol, and two Claude Code keys. That overload is a known problem
+# rather than a naming one - see issue #2.
+border=#57666B
+cursor=#93DCE6
+accent=#3490B5
+accent_bright=#ADDBE9
+accent_light=#71CDDC
+accent_soft=#8FADCF
+accent_vivid=#2DBCD3
+
+[reserve]
+# reserve_1 is no longer spare: it paints nvim's folder names and folder
+# icon, one step darker than the files on accent_bright. reserve_2..4
+# still render nothing and are named by position rather than by job.
+# Promote one into a real role rather than adding a new hex.
+reserve_1=#54BFC9
+reserve_2=#41AECD
+reserve_3=#5599D5
+reserve_4=#355675

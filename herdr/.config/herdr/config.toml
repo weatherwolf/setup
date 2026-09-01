@@ -51,6 +51,14 @@ resize_mode = "prefix+shift+r"
 # Copy / scrollback mode (tmux: default copy-mode on prefix+[, mode-keys vi).
 copy_mode = "prefix+["
 
+# Select/switch between agents
+next_agent="prefix+s"
+previous_agent="prefix+a"
+# Jump straight to agent row N in the sidebar, no prefix. Tabs stay on the
+# herdr default prefix+1..9. Requires the terminal to transmit ctrl+number
+# distinctly (works in wezterm; plain Terminal.app may swallow these).
+focus_agent = "prefix+shift+1..9"
+
 # ============================================
 # TERMINAL
 # ============================================
@@ -102,29 +110,37 @@ panel_bg = "reset"
 #   surface1     workspace/agent state fill            (ui/sidebar.rs:1241)
 # Any color value accepts reset / default / none / transparent as aliases.
 #
-# surface_dim must NOT be "reset". The active tab title is drawn as
+# surface_dim is left "reset" deliberately: no single value fixes every role.
+# The active tab title is drawn as
 #   fg(panel_contrast_fg(p)).bg(p.accent)                  (ui/tabs.rs:325)
 # and panel_contrast_fg falls back to surface_dim when panel_bg is Reset:
 #   match p.panel_bg { Color::Reset => p.surface_dim, .. } (ui/widgets.rs:32)
-# With both cleared the title fg fell through to the terminal's default
-# foreground (#CEE6EC) on the bright accent (#ADDBE9): 1.15:1, unreadable.
-# #24576B is the glacier selection blue, and the only value that stays legible
-# in all three roles surface_dim fills: 5.31:1 as the tab title on accent,
-# 2.07:1 as a separator / inactive pane border, 5.48:1 under active row text.
+# So with both cleared the title fg falls through to the terminal foreground
+# (#EDDED2) on the accent. Measured against the CURRENT accent, #6F9062:
+#
+#   reset (now)  2.78:1 title | separator and active row take terminal defaults
+#   #5A3D1B      2.19:1 title | 2.07:1 separator | 6.09:1 ice on active row
+#   #1F1102      4.54:1 title | 1.00:1 separator, invisible
+#
+# An earlier version of this comment said surface_dim must NOT be reset and
+# recommended #5A3D1B at 5.31:1. That was computed when accent was #BDCAA7,
+# and is stale twice over: the accent moved to #6F9062, and #5A3D1B is now the
+# WORST of the three for the title. Only #1F1102 clears 4.5:1, and it is
+# unusable as a separator. One token fills three roles with opposite lightness
+# requirements, so the fix belongs upstream in panel_contrast_fg rather than
+# here. Tracked as issue #2. Do not "restore" a value here without
+# re-measuring against whatever accent is in force at the time.
 surface0    = "reset"
 surface1    = "reset"
 surface_dim = "reset"
-accent   = "#3490B5"  # glacier mid blue: active tab bg, active pane border, nav
+accent   = "#6F9062"  # palette accent: active tab bg, active pane border, nav
 # The branch line under a space is drawn mauve when that space is selected or
 # active, overlay0 grey otherwise  (ui/sidebar.rs:1290). Catppuccin mauve is
 # #cba6f7, the leftover purple. mauve is used in only three places: this branch
 # line, the keybind help overlay (ui/keybind_help.rs:209), and a menu highlight
 # background (ui/menus.rs:267).
-mauve    = "#93DCE6"  # glacier inactive-tab cyan: branch line of the active space
+mauve    = "#C6D4AE"  # palette cursor: branch line of the active space
 #green    = "#00e68a"  # still the old tmux green, used for agent state icons
-
-#overlay0 = "#93DCE6"
-#overlay1 = "#FFFFFF"
 
 # ============================================
 # SCROLLBACK

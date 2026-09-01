@@ -1,0 +1,73 @@
+# wastelands-bart - machine-readable palette
+#
+# HAND-CONFIGURED by tricolor.py. Do NOT regenerate with
+# `palette.py build` - that emits the fixed two-axis seam and
+# would silently discard the layout below.
+#
+# ground 105, leaf 94, accent 262, detail 262, saturation 1.45.
+#
+# Source: wildflower-field wallpaper (Screenshot 2026-08-31 at 14-46-55.png),
+# a golden-yellow bloom field under a blue sky. Two-color duo:
+#   MAJOR  the field   - backgrounds, near-neutral text ramp, accent_vivid
+#   SECOND the sky     - border, cursor, accent family, text_muted/dim, reserves
+#
+# The sky measured 9.9% chroma-weighted share, 0.1% under the 10% floor,
+# and was kept anyway: it covers 14.5% of pixels at median chroma 0.064,
+# a coherent region rather than noise, and moving all visible chrome onto
+# blue (hue 262, in the wide blue gap: 79 deg from teal, 43 from mauve) is
+# what keeps the accent family clear of warning-yellow. A one-color build
+# at the measured hue 94 would have parked every accent 8 deg from yellow.
+#
+# Hue shifts:
+#   ground 94 -> 105  to widen clearance from yellow (86.5) for the
+#                     chroma-boosted dark roles; the image's own green
+#                     patches at 117 keep this honest.
+#   leaf stays 94     the text ramp is low-chroma, judged by dE not hue,
+#                     and keeps the field's golden cast.
+#
+# Saturation 1.45: image median chroma is 0.091 (1.78x goa-cove) but that
+# is dominated by the field; the sky axis measures 0.064 (1.25x). 1.45
+# splits the difference. At 1.78 the collision resolver had to drag text
+# down to L 0.804; at 1.45 it lands at 0.828 (#D4C6A0, 9.68:1), a warm
+# parchment accepted deliberately - a pale warm ramp is inherently near
+# catppuccin yellow, and it stays under the 60% saturation guard.
+#
+# Provenance (palette.py check --image): SAMPLED - bg_raised, bg_selection,
+# text_muted, text_dim, accent_bright, accent_vivid. Everything else is
+# EXTRAPOLATED: the image's darkest chromatic pixels sit near L 0.39 so the
+# bg pair is extrapolated downward, and the whole image tops out at L 0.833
+# so text_bright (needs 0.967) and the upper text ramp are invented.
+#
+# Advisory warnings accepted: text/text_secondary/text_hint/accent_vivid sit
+# 4-13 deg from yellow by hue, but all clear the binding dE-plus-saturation
+# gate; accent_bright is dE 0.032 from syntax blue (advisory, matches the
+# 0.023-0.05 range every palette here lands in).
+
+[background]
+bg=#202101
+bg_surface=#2E2D03
+bg_raised=#423F1B
+bg_selection=#54530B
+
+[text]
+text_bright=#F8F4E7
+text=#D4C6A0
+text_secondary=#BAB191
+text_muted=#85A1DE
+text_dim=#5E8AD2
+text_hint=#9E9575
+
+[chrome]
+border=#4576CD
+cursor=#ADD1FD
+accent=#5780F6
+accent_bright=#87B2E4
+accent_light=#83B0EA
+accent_soft=#84A0F3
+accent_vivid=#C0AA27
+
+[reserve]
+reserve_1=#7FADFA
+reserve_2=#6C9DF9
+reserve_3=#608DF8
+reserve_4=#204BA8

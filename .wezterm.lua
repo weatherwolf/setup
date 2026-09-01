@@ -21,40 +21,57 @@ local config = wezterm.config_builder()
 -- lost their meaning entirely.
 --
 -- Known cost of the fallback: wezterm's defaults are tuned for a black
--- background, not this one. Measured against #0B222C, default blue (#5455cb) is
+-- background, not this one. Measured against #1F1102, default blue (#5455cb) is
 -- 2.77:1 and default red (#cc5555) is 3.91:1, both under the 4.5:1 readability
 -- threshold; bright black (#555555, used for dim/hint text such as fish
 -- autosuggestions) is 2.20:1. Directory names in `ls` are the most affected.
 -- Fixing it properly means re-specifying all 16 with conventional hues but
 -- glacier-tuned lightness, computed against the blended background that
--- transparency actually produces rather than against #0B222C.
+-- transparency actually produces rather than against #1F1102.
 config.color_schemes = {
-	glacier_wave = {
-		foreground = "#CEE6EC", -- pale ice
-		background = "#0B222C", -- deep water, nearly black
-		cursor_bg = "#93DCE6",
-		cursor_fg = "#0B222C",
-		cursor_border = "#93DCE6",
-		selection_bg = "#24576B",
-		selection_fg = "#EDF6F8",
-		scrollbar_thumb = "#24576B",
-		split = "#3490B5",
+	active = {
+		foreground = "#EDDED2", -- pale ice
+		background = "#1F1102", -- deep water, nearly black
+		cursor_bg = "#C6D4AE",
+		cursor_fg = "#1F1102",
+		cursor_border = "#C6D4AE",
+		selection_bg = "#5A3D1B",
+		selection_fg = "#F8F3EF",
+		scrollbar_thumb = "#5A3D1B",
+		split = "#6F9062",
+
+		-- Claude Code's dark-ansi base maps `permission` (inline code) to
+		-- blueBright, which is brights[5]. Defining brights here is the only
+		-- way to control that color: the custom-theme override never reaches
+		-- the markdown renderer, which re-derives the built-in palette from
+		-- the base name and drops the overrides. Values reuse hues already
+		-- present in the glacier theme rather than introducing new ones.
+		brights = {
+			"#819171", -- bright black, theme subtle
+			"#f38ba8", -- bright red, theme error
+			"#a6e3a1", -- bright green, theme success
+			"#f9e2af", -- bright yellow, theme warning
+			"#99B392", -- bright blue, theme permission (inline code)
+			"#cba6f7", -- bright magenta, theme autoAccept
+			"#B5C799", -- bright cyan, theme suggestion
+			"#F8F3EF", -- bright white, ice
+		},
 
 		tab_bar = {
-			background = "#0B222C",
-			-- fg is deep_water, not ice: #EDF6F8 on this bg is only 3.30:1,
+			background = "#1F1102",
+			-- fg is deep_water, not ice: #F8F3EF on this bg is only 3.30:1,
 			-- under the 4.5:1 threshold and lower still once the wallpaper
-			-- blends in. #0B222C is 4.54:1. teal_deep sits mid-lightness, so
+			-- blends in. #1F1102 is 4.54:1. teal_deep sits mid-lightness, so
 			-- readable text on it has to go dark rather than light.
-			active_tab = { bg_color = "#3490B5", fg_color = "#0B222C" },
-			inactive_tab = { bg_color = "#10303C", fg_color = "#71CDDC" },
-			inactive_tab_hover = { bg_color = "#24576B", fg_color = "#CEE6EC" },
-			new_tab = { bg_color = "#10303C", fg_color = "#71CDDC" },
-			new_tab_hover = { bg_color = "#24576B", fg_color = "#CEE6EC" },
+			active_tab = { bg_color = "#6F9062", fg_color = "#1F1102" },
+			inactive_tab = { bg_color = "#2F1C05", fg_color = "#B5C799" },
+			inactive_tab_hover = { bg_color = "#5A3D1B", fg_color = "#EDDED2" },
+			new_tab = { bg_color = "#2F1C05", fg_color = "#B5C799" },
+			new_tab_hover = { bg_color = "#5A3D1B", fg_color = "#EDDED2" },
 		},
 	},
 }
-config.color_scheme = "glacier_wave"
+config.color_scheme = "active"
 config.font = wezterm.font("Hack Nerd Font")
 config.font_size = 15.0
 config.window_background_opacity = 0.8

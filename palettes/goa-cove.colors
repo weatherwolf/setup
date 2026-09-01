@@ -1,0 +1,108 @@
+# goa-cove - machine-readable palette
+#
+# Format: one role=hex per line, grouped into [sections] that carry no meaning
+# to a parser. Read it by line shape rather than by looking for an "=", since
+# comments contain those too:
+#
+#   grep -E '^[A-Za-z_][A-Za-z0-9_]*=#[0-9A-Fa-f]{6}$' goa-cove.colors
+#
+# Sampled from an aerial photograph of a tropical cove, and HAND-CONFIGURED.
+# Reproduce it with:
+#
+#   tricolor.py --name goa-cove --ground 115 --accent 66 --detail 206 \
+#               --leaf 138 --move reserve_1:accent
+#
+# Do NOT regenerate it with `palette.py build` - that emits the fixed two-axis
+# seam and would silently replace the whole layout below.
+#
+# THREE axes, one per major color in the photograph:
+#
+#   olive ground 115   bg, bg_surface, bg_raised, bg_selection
+#   foliage      138   text_bright, text, text_secondary, text_hint
+#   sand gold     66   border, cursor, and the whole accent family
+#   water blue   206   text_muted, text_dim, reserve_1..4
+#
+# The green is deliberately split in two. The backgrounds stay on the olive at
+# 115, where they have 22 degrees of clearance from catppuccin green; the text
+# moves to 138, the photograph's true foliage hue, because at 115 the text read
+# as yellow rather than green. Ground and text differ by about 20 degrees of
+# hue, which is visible as a tint difference and not as two colors.
+#
+# The text ramp is split again by axis. text_muted and text_dim carry the
+# water. Those two are the visible ones downstream:
+# text_muted paints Claude's `inactive`, and text_dim paints nvim's folder
+# arrows, Claude's `subtle` and wezterm's brights[0].
+#
+# Measured share in the image was jungle 41.8% at hue 135, sand 27.5% at 78,
+# water 20.0% at 195. All three sat within 12 degrees of a catppuccin hue, so
+# each was moved into the nearest gap: 135 -> 115, 78 -> 66, 195 -> 206. The
+# clearances are 22, 15 and 21 degrees at the closest role in each band.
+#
+# SATURATION is raised over the standard ladder, because the photograph is
+# vibrant and the standard ladder is not. The boost is largest at the dark end,
+# which is where the ladder was flattest, and tapers to almost nothing at the
+# near-white text roles, which have to stay near-white: bg goes from chroma
+# 0.034 to 0.055, bg_selection from 0.062 to 0.095, while text_bright moves
+# only 0.009 to 0.012.
+#
+# Every value is capped at 92% of the sRGB gamut ceiling for its lightness and
+# hue. Without that cap the boosted dark olives clipped a channel to zero, so
+# the emitted hex was not the color requested and would band on screen.
+#
+# border departs from the ladder twice over: lightness 0.500 -> 0.575 and
+# chroma 0.020 -> 0.100. At the ladder's values a gold border renders as a dark
+# brown and reads as grey. It is now a visible gold at 3.7:1 against bg.
+#
+# accent's lightness is raised to hold 4.5:1, as always, because WCAG luminance
+# is hue-dependent and gold is in the demanding half of the wheel.
+#
+# The foliage text sits 4 to 9 degrees from catppuccin green, well under the
+# advisory 13, and `check` warns about all four roles. That is accepted rather
+# than overlooked: hue separation is the wrong measure at these chromas. A
+# near-white role carrying chroma 0.038 cannot be mistaken for catppuccin green
+# at 0.109, whatever their hue difference, because a signal color reads as a
+# signal by being saturated. tricolor.py checks perceptual distance with that
+# saturation guard applied, and no role here is confusable with a status color.
+#
+# accent_bright departs from the ladder: lightness 0.864 -> 0.820. At the
+# ladder value it sat dE 0.062 from catppuccin yellow at matching chroma, which
+# matters because accent_bright paints the whole nvim file tree while yellow
+# means warning. At 0.820 it is dE 0.107 away and still 9.3:1 against bg.
+#
+# NOTE: bg is also Claude Code's clawd_background, so it renders as the
+# mascot's eyes as well as the terminal background. accent_vivid is
+# clawd_body. Saturating bg saturates the eyes.
+#
+# Semantic colors stay catppuccin mocha. Claude Code's shimmers are computed
+# from the roles below by palettes/recompute_shimmers.py, not stored here.
+# Hex case is not significant here but it is in the configs; match
+# case-insensitively when substituting.
+
+[background]
+bg=#1B2201
+bg_surface=#292F03
+bg_raised=#3D4029
+bg_selection=#4B570C
+
+[text]
+text_bright=#F1F6EE
+text=#D7E7CE
+text_secondary=#A7B6A3
+text_muted=#6FADB8
+text_dim=#4499A1
+text_hint=#8C9A87
+
+[chrome]
+border=#A16B32
+cursor=#FAC094
+accent=#B67A20
+accent_bright=#EEB78E
+accent_light=#F1AC74
+accent_soft=#CDA168
+accent_vivid=#E79246
+
+[reserve]
+reserve_1=#E19C58
+reserve_2=#27B3C1
+reserve_3=#23A5B6
+reserve_4=#0E5D67

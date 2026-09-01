@@ -19,3 +19,6 @@ nvim/.config/nvim/spell/
 
 # Claude local settings (only the shared CLAUDE.md is tracked)
 claude/.claude/settings.local.json
+
+# Snapshot of the palette as last applied to the configs; local state.
+palettes/.applied.colors

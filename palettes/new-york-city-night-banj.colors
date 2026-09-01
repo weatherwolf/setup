@@ -1,0 +1,81 @@
+# new-york-city-night-banj - machine-readable palette
+#
+# Format: one role=hex per line, grouped into [sections] that carry no
+# meaning to a parser. Read it by line shape rather than by looking for an
+# "=", since comments contain those too:
+#
+#   grep -E '^[A-Za-z_][A-Za-z0-9_]*=#[0-9A-Fa-f]{6}$' new-york-city-night-banj.colors
+#
+# Sampled from an aerial photograph of Manhattan at night: sodium street
+# lighting over near-black blocks. Same 21 roles as glacier-wave, and the same
+# chroma and lightness for the text and chrome ramps.
+#
+# THE BACKGROUNDS ARE DARKER THAN THE OTHER PALETTES, deliberately. bg sits at
+# lightness 0.130, below this wallpaper's own 5th percentile of 0.144, where
+# glacier-wave's bg is 0.239. The terminal renders at 80% opacity, so a
+# background lighter than the wallpaper behind it reads as a pale film laid
+# over the desktop rather than as a window. glacier-wave could sit at 0.239
+# because its wallpaper was far lighter; this one cannot.
+#
+# Every contrast ratio is therefore HIGHER here than in the other palettes:
+# text_dim reaches 5.89:1 against bg where glacier-wave's manages 4.85:1, and
+# accent 5.53:1 against 4.54:1. The ladder is the same, the floor is lower.
+#
+# The hue band is 107-121, centered on 114. That is both this image's own dark
+# body and the midpoint of the gap between catppuccin yellow (86.5) and green
+# (142.7) - the two semantic colors an olive chrome could collide with. The
+# nearest semantic to any consumed role is 21.7 degrees away, which is wider
+# than tea-terrace manages and the main reason this wallpaper suits a palette
+# better than its darkness suggests.
+#
+# The backgrounds are sampled almost exactly: bg_surface is dE 0.000 from a
+# color in the photograph, and bg, bg_raised and bg_selection are all within
+# 0.003. The text ramp is NOT sampled - the image's 99th percentile lightness
+# is 0.336 against text_bright's 0.967, so the top of the ramp is extrapolated
+# up this hue axis.
+#
+# The image body is nearly colorless (median chroma 0.015), but its street
+# lamps reach 0.165. That is what justifies the saturated accents: they are
+# the lights, not the asphalt.
+#
+# Semantic colors stay catppuccin mocha. Claude Code's derived values are
+# computed from the roles below, not stored here.
+#
+# Hex case is not significant here, but it is in the configs. Match
+# case-insensitively when substituting.
+
+[background]
+# Darkest first, and darker than the other palettes - see the header.
+bg=#070803
+bg_surface=#121308
+bg_raised=#1F2016
+bg_selection=#2F331E
+
+[text]
+# Brightest first. Extrapolated above the photograph's range, not sampled.
+text_bright=#F4F5ED
+text=#E1E3CF
+text_secondary=#B0B2A4
+text_muted=#A3A582
+text_dim=#888F63
+text_hint=#949789
+
+[chrome]
+# Borders, cursor, and the accent family, taken from the lamp hues.
+border=#626458
+cursor=#D1D29A
+accent=#7E8D43
+accent_bright=#CFD7B1
+accent_light=#BFC37E
+accent_soft=#A4B086
+accent_vivid=#A8B154
+
+[reserve]
+# reserve_1 is no longer spare: it paints nvim's folder names and folder
+# icon, one step darker than the files on accent_bright. reserve_2..4
+# still render nothing and are named by position rather than by job.
+# Promote one into a real role rather than adding a new hex.
+reserve_1=#B4B166
+reserve_2=#99A858
+reserve_3=#98993F
+reserve_4=#4E582E

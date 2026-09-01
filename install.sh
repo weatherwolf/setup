@@ -24,11 +24,11 @@ LINKS=(
   "claude/.claude/CLAUDE.md|$HOME/.claude/CLAUDE.md"
   "claude/.claude/settings.json|$HOME/.claude/settings.json"
   # Custom Claude Code theme. The slug is the FILENAME, not the "name" field, so
-  # glacier_wave.json is what settings.json's "custom:glacier_wave" resolves to.
+  # theme.json is what settings.json's "custom:theme" resolves to.
   # The themes dir is file-watched, so edits to the repo file hot-reload. Edit
   # the repo file, not /theme -- its built-in editor writes to this directory
   # and would replace the symlink with a regular file.
-  "claude/.claude/themes/glacier_wave.json|$HOME/.claude/themes/glacier_wave.json"
+  "claude/.claude/themes/theme.json|$HOME/.claude/themes/theme.json"
   "claude/.claude/statusline.py|$HOME/.claude/statusline.py"
   "claude/.claude/hooks|$HOME/.claude/hooks"
   # Skill manifest only. The skill *content* under ~/.claude/skills is owned by
@@ -51,6 +51,8 @@ LINKS=(
   "claude/.agents/skills/to-issues|$HOME/.claude/skills/to-issues"
   "claude/.agents/skills/to-prd|$HOME/.agents/skills/to-prd"
   "claude/.agents/skills/to-prd|$HOME/.claude/skills/to-prd"
+  "claude/.agents/skills/palette-from-wallpaper|$HOME/.agents/skills/palette-from-wallpaper"
+  "claude/.agents/skills/palette-from-wallpaper|$HOME/.claude/skills/palette-from-wallpaper"
 )
 
 # Back up an existing real file/dir, then symlink src -> dst.

@@ -120,3 +120,11 @@ export BUNDLE_SSL_CA_CERT="/Library/Application Support/AikidoSecurity/EndpointP
 export SSL_CERT_FILE="/Library/Application Support/AikidoSecurity/EndpointProtection/run/endpoint-protection-openssl-combined-ca.pem"
 export CURL_CA_BUNDLE="/Library/Application Support/AikidoSecurity/EndpointProtection/run/endpoint-protection-openssl-combined-ca.pem"
 # aikido-endpoint-curl-cert-config-v2-end
+# Complete ./update_palette.sh with the palettes that actually exist, taken
+# from the .colors filenames rather than a hardcoded list. Both command
+# spellings are registered because ./update_palette.sh and update_palette.sh
+# are different words to the completion system.
+_update_palette() {
+  compadd -- ~/setup/palettes/*.colors(N:t:r)
+}
+compdef _update_palette update_palette.sh ./update_palette.sh

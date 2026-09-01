@@ -1,0 +1,44 @@
+# sequioa-morning - machine-readable palette
+#
+# HAND-CONFIGURED by tricolor.py. Do NOT regenerate with
+# `palette.py build` - that emits the fixed two-axis seam and
+# would silently discard the layout below.
+#
+# ground 65, leaf 65, accent 132, detail 132, saturation 0.60.
+#
+# TODO: replace this header. Record which roles are SAMPLED and
+# which are EXTRAPOLATED, the hue shifts and why each was made,
+# and any warning you accepted deliberately.
+
+[background]
+bg=#1F1102
+bg_surface=#2F1C05
+bg_raised=#3A3026
+bg_selection=#5A3D1B
+
+[text]
+text_bright=#F8F3EF
+text=#EDDED2
+text_secondary=#B9AFA5
+text_muted=#97A88F
+text_dim=#819171
+text_hint=#9D9389
+
+[chrome]
+border=#6C805B
+cursor=#C6D4AE
+accent=#6F9062
+accent_bright=#BDCAA7
+accent_light=#B5C799
+accent_soft=#99B392
+accent_vivid=#D09D75
+
+[reserve]
+# reserve_1 is no longer spare: it paints nvim's folder names and folder
+# icon, one step darker than the files on accent_bright. reserve_2..4
+# still render nothing and are named by position rather than by job.
+# Promote one into a real role rather than adding a new hex.
+reserve_1=#9EB687
+reserve_2=#8DA978
+reserve_3=#7E9F6C
+reserve_4=#445A34
