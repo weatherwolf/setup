@@ -1,0 +1,77 @@
+# colors.example - the 21 chrome roles and what each one paints
+#
+# Copy to palettes/<name>.colors and fill in the hexes. Keep the roles in
+# THIS order: update_palette.sh pairs roles positionally, so reordering
+# silently mismaps every colour. Never use #000000 or #FFFFFF as a value.
+#
+# Roles name a JOB, not a colour. Everything here is chrome: it is sampled
+# from the wallpaper and carries no meaning. Pass/fail, added/removed,
+# warnings and syntax are catppuccin mocha and are NOT palette variables.
+#
+# Consumers: .wezterm.lua, starship.toml, herdr config.toml, claude
+# theme.json, nvim init.lua. Contrast targets are against bg. Roles marked
+# "unrendered" are on the record but currently painted nowhere.
+#
+# For a filled-in, annotated example see coal-mine-canyon.colors.
+
+[background]
+# wezterm window and tab bar background, active tab text, cursor_fg;
+# claude clawd_background (the mascot's eyes). Also the base that Claude's
+# five message/panel fills and starship deep_water/mist/till are derived from.
+bg=#RRGGBB
+# wezterm inactive and new tab background.
+bg_surface=#RRGGBB
+# unrendered.
+bg_raised=#RRGGBB
+# wezterm selection_bg, scrollbar thumb, tab hover background; claude selectionBg.
+bg_selection=#RRGGBB
+
+[text]
+# Brightest thing on screen (keep near L 0.96). wezterm selection_fg and
+# brights[7]; starship error symbol and read-only marker; nvim-tree root path.
+text_bright=#RRGGBB
+# Body text. wezterm foreground and tab hover text; claude text; starship ice.
+text=#RRGGBB
+# unrendered.
+text_secondary=#RRGGBB
+# claude inactive (and the base of inactiveShimmer). Mid-chroma, so this is
+# one of two text roles where a hue actually reads as a colour.
+text_muted=#RRGGBB
+# Floor of the readable range, must hold 4.5:1. nvim-tree folder arrows;
+# claude subtle; wezterm brights[0] (bright black).
+text_dim=#RRGGBB
+# starship silt (defined, unused).
+text_hint=#RRGGBB
+
+[chrome]
+# starship scree (defined, unused). Needs its own L and C, or it reads grey.
+border=#RRGGBB
+# wezterm cursor_bg and cursor_border; herdr mauve (branch line of the active
+# space); starship directory style.
+cursor=#RRGGBB
+# The load-bearing one, needs 4.5:1 at any hue. wezterm split and active tab
+# background; herdr accent (active tab, active pane border, nav); claude
+# claude and promptBorder (and their shimmers); starship success symbol.
+accent=#RRGGBB
+# The whole nvim-tree file list: file names, exec, special, symlink, opened
+# and image files. Must be genuinely readable next to syntax colours.
+accent_bright=#RRGGBB
+# wezterm inactive tab text and brights[6]; claude suggestion; starship vicmd symbol.
+accent_light=#RRGGBB
+# claude permission (inline code, plus permissionShimmer); wezterm brights[4].
+accent_soft=#RRGGBB
+# claude clawd_body (the mascot) and briefLabelClaude. Keep it clearly
+# lighter than bg or the eyes vanish.
+accent_vivid=#RRGGBB
+
+[reserve]
+# NOT spare: nvim-tree folder names and folder icon. Normally accent_bright's
+# hue a step darker (0.03 to 0.20 in L); coal-mine-canyon puts it on the
+# second colour instead. Must hold 4.5:1. Also starship cyan_deep (unused).
+reserve_1=#RRGGBB
+# starship azure (defined, unused). Good home for a third wallpaper colour.
+reserve_2=#RRGGBB
+# starship azure_deep (defined, unused).
+reserve_3=#RRGGBB
+# unrendered.
+reserve_4=#RRGGBB

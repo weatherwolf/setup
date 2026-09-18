@@ -5,21 +5,11 @@
   "permissions": {
     "allow": [
       "Bash(gh auth status)",
-      "Bash(gh --version)",
-      "Bash(gh issue list -R fyrm-ai/jordex-boekingen:*)",
-      "Bash(gh issue view -R fyrm-ai/jordex-boekingen:*)",
-      "Bash(gh pr list -R fyrm-ai/jordex-boekingen:*)",
-      "Bash(gh pr view -R fyrm-ai/jordex-boekingen:*)",
-      "Bash(gh api repos/fyrm-ai/jordex-boekingen/:*)",
-      "Bash(gh issue list -R fyrm-ai/mcp-jit:*)",
-      "Bash(gh issue view -R fyrm-ai/mcp-jit:*)",
-      "Bash(gh pr list -R fyrm-ai/mcp-jit:*)",
-      "Bash(gh pr view -R fyrm-ai/mcp-jit:*)",
-      "Bash(gh api repos/fyrm-ai/mcp-jit/:*)"
+      "Bash(gh --version)"
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "claude-fable-5-1[1m]",
   "hooks": {
     "SessionEnd": [
       {
@@ -66,7 +56,8 @@
     "command": "~/.claude/statusline.py"
   },
   "enabledPlugins": {
-    "sonarqube@claude-plugins-official": true
+    "sonarqube@claude-plugins-official": true,
+    "posthog@claude-plugins-official": true
   },
   "effortLevel": "high",
   "theme": "custom:theme",
@@ -74,35 +65,7 @@
   "skipAutoPermissionPrompt": true,
   "autoMode": {
     "soft_deny": [
-      "$defaults",
-      "Bash(docker run:* --rm -i mcp-jit:latest)",
-      "Bash(./redeploy.sh:*)"
-    ],
-    "environment": [
-      "### Org-wide",
-      "**Organization**: fyrm-ai (GitHub org; repo fyrm-ai/jordex-boekingen)",
-      "**Cloud provider(s)**: None configured",
-      "**Repository visibility**: Private (fyrm-ai/jordex-boekingen, confirmed via gh)",
-      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
-      "**Secrets management**: .env files (gitignored, untracked) for LLM backend keys, JIT MyFreight ApiKey pair, Microsoft Graph app creds, Langfuse keys; CI secrets CODECOV_TOKEN and MCP_JIT_TOKEN referenced by name only (values not gathered)",
-      "**Default / protected branches**: main (default). No branch protection rules or rulesets listed via gh for this repo — treat main as unprotected unless later evidence shows otherwise",
-      "**CI/CD deploy targets**: None configured (GitHub Actions workflow present under .github/workflows, but no deploy target identified)",
-      "**Network posture**: None configured",
-      "**Source control**: The trusted repo (fyrm-ai/jordex-boekingen, private) and its origin remote only — no additional orgs configured",
-      "**Trusted internal domains**: None configured",
-      "**Trusted cloud buckets**: None configured",
-      "**Key internal services**: jordex.acc.myfreight.nl / api.jordex.acc.myfreight.nl (JIT acceptatie TMS API, contacted 6x per transcript mining), auth.myfreight.nl (auth, 1x), connector-docs.rc.myfreight.nl (1x) — all acceptatie/non-production endpoints for this project's JIT integration",
-      "**Internal package registry**: None configured",
-      "**Sensitive data locations & audiences**: .env and .env.bak-* files (LLM/JIT/Graph/Langfuse credentials), local_information/ (untracked, holds vessel catalog and coldstore addresses), local_eval/ (git-ignored eval kit); share only with audiences cleared for Jordex-internal booking data and credentials",
-      "**Data retention / declassification**: None configured",
-      "**Sensitive remote targets**: any namespace, host, or container whose name carries prod/production as a whole word or segment; the repo's own JIT_ENV=shell-prod / shell-acc data-plane selector and production branch/customer UUIDs are explicitly called out as unconfigured placeholders pending owner action — treat as protected once populated",
-      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic; note JIT's acceptatie environment (acc) is the routine target and not itself sensitive, but shell-prod/shell-acc (production data plane) is",
-      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries prod or production as a whole word or name segment",
-      "### User-specific",
-      "**Primary use of Claude Code**: software development (Jordex booking-automation agent: LangGraph flow, JIT/MCP integration, playbook fitting, observability)",
-      "**Trusted repo**: /Users/weatherwolf/Fyrm/jordex-boekingen (working directory) and its origin remote https://github.com/fyrm-ai/jordex-boekingen (private) — confidential material (playbooks, prompts, docs) is fine to commit here; content ported from outside this repo/session is not its own work",
-      "**Org-specific CLIs**: herdr (76x in-project, 57x in shell history — frequent but unexplained custom CLI; jb/gb/gc/gch/gnhf/gd/gs also appear frequently in shell history and look like custom git aliases, provenance unclear)",
-      "**routine under <user>/ prefix**: none identified"
+      "$defaults"
     ]
   }
 }

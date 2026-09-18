@@ -22,3 +22,7 @@ claude/.claude/settings.local.json
 
 # Snapshot of the palette as last applied to the configs; local state.
 palettes/.applied.colors
+
+# Copy of .zshrc left behind by the Aikido endpoint installer; identical
+# to the tracked file, so never commit it.
+zsh/.zshrc.aikido-backup

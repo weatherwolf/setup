@@ -1,0 +1,88 @@
+# yosemite-from-above - machine-readable palette
+#
+# Format: one role=hex per line, grouped into [sections] that carry no meaning
+# to a parser. Read it by line shape rather than by looking for an "=", since
+# comments contain those too:
+#
+#   grep -E '^[A-Za-z_][A-Za-z0-9_]*=#[0-9A-Fa-f]{6}$' yosemite-from-above.colors
+#
+# HAND-CONFIGURED by tricolor.py. Do NOT regenerate with
+# `palette.py build` - that emits the fixed two-axis seam and
+# would silently discard the layout below.
+#
+#   tricolor.py --name yosemite-from-above --ground 261 --leaf 261 --accent 261 \
+#               --detail 68 --saturation 0.35 --move reserve_1:accent
+#
+# Sampled from an aerial photograph of Yosemite: a river meander through a
+# snowfield. 93% of the pixels are near-grey snow (image median chroma 0.011),
+# the snow shadows are a pale blue at hue 261, and the dark peaty river is a
+# brown at hue 60-75 covering a sliver of the frame.
+#
+# The picture is white, so the palette is nearly grey. ONE chrome colour, the
+# shadow blue, at very low chroma (bg C 0.021, accent 0.045 - a slate, not a
+# blue theme), plus the river as the DETAIL colour only:
+#
+#   shadow 261  bg family, the whole text ramp except text_muted/text_dim,
+#               border, cursor, the accent family, accent_vivid, reserve_1
+#   river   68  text_muted, text_dim, reserve_2..4
+#
+# Why not the river as ground: a first cut (snow-meander, retired) put the
+# brown on the backgrounds because that is where the photo's only dark pixels
+# are. On screen, through wezterm's 0.8 opacity over a white wallpaper, a dark
+# hue-70 brown blends to khaki and reads GREEN. The ground has to be the colour
+# the picture reads as, and this picture reads as cool white.
+#
+# Saturation 0.35: the chromatic axes' median chroma (0.025-0.034) over
+# goa-cove's 0.051 gives 0.5-0.65, pulled down further on purpose so the
+# terminal is as pale as the snowfield. The 0.50 build was compared side by
+# side and read as a blue theme.
+#
+# Provenance, from `palette.py check yosemite-from-above --image <photo>`
+# (OKLab dE to the nearest pixel; under 0.030 counts as a genuine sample):
+# 20 of 21 roles SAMPLED; only reserve_3 (unrendered) is EXTRAPOLATED, at
+# dE 0.033. The snow's shadow gradient covers the whole ladder from bg (0.008)
+# to text_bright, and the river covers the two brown text roles (0.006 / 0.012).
+#
+# Separations: blue band 251-268 deg, 37-53 deg from mauve (304.8), 70+ from
+# teal. River roles 65-75 deg, 14-21 deg from yellow (86.5): text_muted 14.4,
+# reserve_2..4 15-19, all advisory, all at chroma <= 0.03 so none can read as
+# a signal (the check flags no dE collision). reserve_1 was moved into the
+# blue family so nvim folders match files; reserve_2..4 render nothing.
+#
+# Contrast: every text role and the accent family hold 4.5:1 against bg on
+# paper (accent 4.53:1, text_dim 4.76:1). wezterm renders at opacity 0.8, so
+# these are upper bounds.
+#
+# The 21 roles, in canonical order (update_palette.sh pairs them positionally):
+#   bg bg_surface bg_raised bg_selection
+#   text_bright text text_secondary text_muted text_dim text_hint
+#   border cursor accent accent_bright accent_light accent_soft accent_vivid
+#   reserve_1 reserve_2 reserve_3 reserve_4
+[background]
+bg=#1A1F29
+bg_surface=#242B39
+bg_raised=#3A3E45
+bg_selection=#465065
+
+[text]
+text_bright=#F2F4F7
+text=#DCE1EA
+text_secondary=#ADB1B8
+text_muted=#ABA093
+text_dim=#978778
+text_hint=#91959C
+
+[chrome]
+border=#6D7A8E
+cursor=#C0CFE2
+accent=#7A86A2
+accent_bright=#B7C6D7
+accent_light=#ADBFD5
+accent_soft=#A1AABF
+accent_vivid=#95ABC7
+
+[reserve]
+reserve_1=#9EAEC8
+reserve_2=#B29A82
+reserve_3=#A68F74
+reserve_4=#614F3C

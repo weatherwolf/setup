@@ -55,8 +55,6 @@ alias gc="git commit -m"
 alias gb="git branch"
 alias gd="git diff"
 alias gch="git checkout"
-alias jb="cd ~/Fyrm/jordex-boekingen"
-alias jm="cd ~/Fyrm/mcp-jit"
 alias vd="uv run --with visidata --with openpyxl -- vd"
 alias fman='print -rl -- ${(k)commands} ${(k)builtins} | fzf | xargs man'
 mkcd() { mkdir -p "$1" && cd "$1"}

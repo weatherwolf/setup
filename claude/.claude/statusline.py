@@ -2,7 +2,12 @@
 import sys, json
 from datetime import datetime
 
-data = json.load(sys.stdin)
+# DEBUG: dump the raw stdin payload so the available fields can be inspected.
+# Remove once done: jq . /tmp/statusline-input.json
+raw = sys.stdin.read()
+with open("/tmp/statusline-input.json", "w") as f:
+    f.write(raw)
+data = json.loads(raw)
 limits = data.get("rate_limits") or {}
 
 def fmt_window(key, label, include_date=False):

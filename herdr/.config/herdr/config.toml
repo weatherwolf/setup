@@ -116,16 +116,16 @@ panel_bg = "reset"
 # and panel_contrast_fg falls back to surface_dim when panel_bg is Reset:
 #   match p.panel_bg { Color::Reset => p.surface_dim, .. } (ui/widgets.rs:32)
 # So with both cleared the title fg falls through to the terminal foreground
-# (#EDDED2) on the accent. Measured against the CURRENT accent, #6F9062:
+# (#D7E7CE) on the accent. Measured against the CURRENT accent, #B67A20:
 #
 #   reset (now)  2.78:1 title | separator and active row take terminal defaults
-#   #5A3D1B      2.19:1 title | 2.07:1 separator | 6.09:1 ice on active row
-#   #1F1102      4.54:1 title | 1.00:1 separator, invisible
+#   #4B570C      2.19:1 title | 2.07:1 separator | 6.09:1 ice on active row
+#   #1B2201      4.54:1 title | 1.00:1 separator, invisible
 #
 # An earlier version of this comment said surface_dim must NOT be reset and
-# recommended #5A3D1B at 5.31:1. That was computed when accent was #BDCAA7,
-# and is stale twice over: the accent moved to #6F9062, and #5A3D1B is now the
-# WORST of the three for the title. Only #1F1102 clears 4.5:1, and it is
+# recommended #4B570C at 5.31:1. That was computed when accent was #EEB78E,
+# and is stale twice over: the accent moved to #B67A20, and #4B570C is now the
+# WORST of the three for the title. Only #1B2201 clears 4.5:1, and it is
 # unusable as a separator. One token fills three roles with opposite lightness
 # requirements, so the fix belongs upstream in panel_contrast_fg rather than
 # here. Tracked as issue #2. Do not "restore" a value here without
@@ -133,13 +133,13 @@ panel_bg = "reset"
 surface0    = "reset"
 surface1    = "reset"
 surface_dim = "reset"
-accent   = "#6F9062"  # palette accent: active tab bg, active pane border, nav
+accent   = "#B67A20"  # palette accent: active tab bg, active pane border, nav
 # The branch line under a space is drawn mauve when that space is selected or
 # active, overlay0 grey otherwise  (ui/sidebar.rs:1290). Catppuccin mauve is
 # #cba6f7, the leftover purple. mauve is used in only three places: this branch
 # line, the keybind help overlay (ui/keybind_help.rs:209), and a menu highlight
 # background (ui/menus.rs:267).
-mauve    = "#C6D4AE"  # palette cursor: branch line of the active space
+mauve    = "#FAC094"  # palette cursor: branch line of the active space
 #green    = "#00e68a"  # still the old tmux green, used for agent state icons
 
 # ============================================

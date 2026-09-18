@@ -77,25 +77,22 @@ require("lazy").setup({
       require("catppuccin").setup({
         transparent_background = true,
         custom_highlights = {
-          -- Folders are reserve_1, 8.33:1, one step darker than the files
-          -- below them: lightness 0.746 against 0.820, same hue. reserve_1 was
-          -- chosen over accent_soft, which sits at almost the same lightness,
-          -- because accent_soft already paints wezterm's brights[5] and
-          -- Claude's permission colour and would have been overloaded. This
-          -- promotes a reserve into a real job, which is what the reserves are
-          -- for; the palette files record that reserve_1 is no longer spare.
+          -- Folders are reserve_1. In coal-mine-canyon it sits on the pale
+          -- blue-grey rock (hue 222, L 0.80) beside rust files at L 0.82, by
+          -- request, so folder/file is told apart by hue rather than lightness.
+          -- Other palettes keep reserve_1 in the accent family; the palette
+          -- files record that reserve_1 is no longer spare.
           --
           -- The icon takes the folder colour too, so a folder row reads as one
-          -- unit. Colour now carries the folder/file distinction, which until
-          -- now rested on the icon and the arrow alone.
-          NvimTreeFolderName = { fg = "#9EB687" },
-          NvimTreeOpenedFolderName = { fg = "#9EB687" },
-          NvimTreeEmptyFolderName = { fg = "#9EB687" },
-          NvimTreeSymlinkFolderName = { fg = "#9EB687" },
-          NvimTreeFolderIcon = { fg = "#9EB687" },
+          -- unit.
+          NvimTreeFolderName = { fg = "#E19C58" },
+          NvimTreeOpenedFolderName = { fg = "#E19C58" },
+          NvimTreeEmptyFolderName = { fg = "#E19C58" },
+          NvimTreeSymlinkFolderName = { fg = "#E19C58" },
+          NvimTreeFolderIcon = { fg = "#E19C58" },
           -- accent_bright, 10.68:1. Files are the brighter of the pair.
-          NvimTreeNormal = { fg = "#BDCAA7" },
-          NvimTreeImageFile = { fg = "#BDCAA7" },
+          NvimTreeNormal = { fg = "#EEB78E" },
+          NvimTreeImageFile = { fg = "#EEB78E" },
           -- A plain file gets no highlight group and falls through to
           -- NvimTreeNormal, but these four have their own and would otherwise
           -- stay catppuccin: executables, special files (README, Makefile),
@@ -103,16 +100,16 @@ require("lazy").setup({
           -- tree. Symlinks keep their underline, which is the only thing left
           -- distinguishing them from a plain file, since all four share the
           -- file colour.
-          NvimTreeExecFile = { fg = "#BDCAA7" },
-          NvimTreeSpecialFile = { fg = "#BDCAA7" },
-          NvimTreeSymlink = { fg = "#BDCAA7", underline = true },
-          NvimTreeOpenedFile = { fg = "#BDCAA7" },
+          NvimTreeExecFile = { fg = "#EEB78E" },
+          NvimTreeSpecialFile = { fg = "#EEB78E" },
+          NvimTreeSymlink = { fg = "#EEB78E", underline = true },
+          NvimTreeOpenedFile = { fg = "#EEB78E" },
           -- text_bright: 15.02:1, so the root path outranks the tree below it.
-          NvimTreeRootFolder = { fg = "#F8F3EF" },
+          NvimTreeRootFolder = { fg = "#F1F6EE" },
           -- text_dim: 5.46:1, replacing overlay0's 3.36:1. Left as-is: the
           -- arrows are a third, dimmer level below both folders and files.
-          NvimTreeFolderArrowClosed = { fg = "#819171" },
-          NvimTreeFolderArrowOpen = { fg = "#819171" },
+          NvimTreeFolderArrowClosed = { fg = "#4499A1" },
+          NvimTreeFolderArrowOpen = { fg = "#4499A1" },
         },
       })
       vim.cmd("colorscheme catppuccin")

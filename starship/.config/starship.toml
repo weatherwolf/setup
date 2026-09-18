@@ -30,25 +30,25 @@ format = '$directory$character'
 palette = 'active'
 
 [palettes.active]
-ice_bright = '#F8F3EF'
-ice = '#EDDED2'
-cyan_light = '#C6D4AE'
-cyan = '#B5C799'
-cyan_deep = '#9EB687'
-azure = '#8DA978'
-azure_deep = '#7E9F6C'
-teal_deep = '#6F9062'
-deep_water = '#1F1102'
+ice_bright = '#F1F6EE'
+ice = '#D7E7CE'
+cyan_light = '#FAC094'
+cyan = '#F1AC74'
+cyan_deep = '#E19C58'
+azure = '#27B3C1'
+azure_deep = '#23A5B6'
+teal_deep = '#B67A20'
+deep_water = '#1B2201'
 
 # Greys, on the same hue axis as the blues above (hue 221.5, chroma 0.020) so
 # they read as part of the palette rather than beside it. Derived in OKLab, not
 # sampled. Nothing renders them yet; they are defined here so the ramp lives
 # somewhere a config can reach, and are indexed with their roles and contrast in
 # ../../palettes/glacier-wave.md.
-mist = '#B9AFA5'   # secondary text          7.67:1
-silt = '#9D9389'   # dim text, comments      5.50:1
-scree = '#6C805B'  # borders, separators     2.75:1, fill only
-till = '#3A3026'   # raised surface          1.53:1, fill only
+mist = '#1B2201'   # secondary text          7.67:1
+silt = '#8C9A87'   # dim text, comments      5.50:1
+scree = '#A16B32'  # borders, separators     2.75:1, fill only
+till = '#1B2201'   # raised surface          1.53:1, fill only
 
 [directory]
 style = 'bold cyan_light'

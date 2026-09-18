@@ -40,7 +40,8 @@ python3 $S/palette.py check my-palette --image ~/Pictures/wallpaper.png
 ```
 
 For a wallpaper with two real colours, prefer `tricolor.py --duo` over `build`
-(Step 2a). For three, see Step 2b. `build` is the plainest mapping, not the best
+(Step 2a) - unless the brief wants the DOMINANT colour emphasised, in which
+case the dominant colour takes the accents too (end of Step 2a). For three, see Step 2b. `build` is the plainest mapping, not the best
 one. And if you edit a palette that is already live, read "Editing a palette
 that is already live" first - a plain edit strands roles in the configs.
 
@@ -193,6 +194,51 @@ bark is still the major, because share measures how much of a picture a colour
 covers, not what should carry a terminal's ground. Pick the one that reads as
 substrate, and check it has dark pixels to sample.
 
+### When the second colour must NOT be the accent
+
+`sample`'s VERDICT and `--duo` both assume the second colour is what should
+pop. That is a default, not a rule. When the brief is "emphasise the X parts"
+and X is the DOMINANT colour, putting the minority colour on the accents does
+the opposite of what was asked: the terminal's visible chrome ends up the
+colour the wallpaper has least of.
+
+`coal-mine-canyon` is the worked example. Rust covers 63% of the photograph
+and blue-grey rock 21%; the VERDICT said `--primary 37 --secondary 222`,
+which would have made a rust terminal with blue borders, cursor and file
+tree. The brief was the red. So the dominant colour took BOTH the ground and
+the highlight family, and the minority colour became the `detail` group:
+
+```bash
+python3 $S/tricolor.py --name NAME --ground 37 --leaf 37 --accent 33 --detail 222 \
+        --saturation 1.0 --move accent_vivid:ground --move reserve_1:accent
+```
+
+```
+ground/leaf  bg family, text_bright..text_secondary, text_hint, accent_vivid
+accent       border cursor accent accent_bright accent_light accent_soft
+             reserve_1                        the SAME colour, more chroma
+detail       text_muted text_dim reserve_2..4  the minority colour
+```
+
+Three things make this work rather than turning into a one-colour palette:
+
+- **`--accent` is the ground hue nudged a few degrees toward the brief.** Rust
+  at 37 became 33 on the accents, and the ladder's per-role offsets spread the
+  family across 31-42. Same colour, visibly more saturated and a touch redder
+  than the ground. Do not nudge past the secondary floor of 20 from the
+  nearest status hue: red sits at 2.8, so 23 is the limit for a rust family.
+- **The minority colour lives on `text_muted` and `text_dim`**, exactly as in
+  Step 2a, because those are the two text roles with enough chroma to read
+  as a colour. It is present, it is the photograph's counterpoint, and it
+  never carries chrome.
+- **`--move reserve_1:accent` is mandatory here**, or folders come out in the
+  minority colour against files in the dominant one (the goa-cove mistake).
+
+Check that the dominant colour has dark pixels before doing this: it is
+taking `bg`. Rust did (p05 0.29), so all four backgrounds were genuine
+samples. `--duo` is still right when the dominant colour is the ground and
+the second colour is what the brief wants seen.
+
 ## Step 2b. Three colors, by hand
 
 The two-axis limit is `build`'s, not the format's. A wallpaper with three real
@@ -291,6 +337,52 @@ which matters because it now paints the whole nvim file tree while yellow means
 warning - fixed by dropping its lightness to 0.820. And when a role does need
 distance, **raise its lightness first**: it buys separation without touching
 hue, whereas cutting chroma undoes the reason the colour was put there.
+
+**"Raise lightness first" fails for a red or rust family.** The pastel end
+of a warm family - `accent_bright` at L 0.82 and `accent_light` at 0.80 -
+sits between catppuccin `red` (L 0.76, C 0.13, hue 2.8) and `pink` (L 0.87,
+C 0.075, hue 336). At the ladder's chroma of about 0.07, EVERY lightness from
+0.70 to 0.88 is within dE 0.10 of one of them, at any hue from 20 to 45. So
+the resolver walks `accent_bright` up until it clears pink at L 0.92, where
+it is a near-white that paints the whole nvim file tree the same as body
+text, and `reserve_1` gets walked DOWN to clear red, leaving folders 0.25
+darker than files. `--lightness` pins do not help: the resolver runs after
+them and moves the role again. `coal-mine-canyon` hit all of this.
+
+The way out is the rule's own chroma clause: a role under 60% of the status
+colour's chroma is exempt, because a pale colour cannot masquerade as a
+signal. Place those roles by CHROMA, at the lightness the file tree needs,
+and hand-edit them into the file after the build:
+
+```
+accent_bright  L 0.820  C 0.045  hue 39   #EEB78E   60% of pink is 0.045
+accent_light   L 0.781  C 0.064  hue 38   #F1AC74
+reserve_1      L 0.740  C 0.065  hue 38   #D09D8D   0.08 darker than files
+```
+
+Every one is a genuine sample (dE 0.011-0.025 from a real pixel) because
+the rock's pale bands are exactly that: low-chroma rust. Verify each
+candidate with `palette.status_collision(hex, role)` and `contrast(hex, bg)`
+from a python one-liner rather than trusting the arithmetic; a grid over
+L x C x hue takes seconds and shows the exact edge.
+
+So the rule is: **saturated roles get distance from lightness, pastel roles
+get it from chroma.** The goa-cove advice above is for the saturated ones.
+
+### Look at it before you check it
+
+`swatch.py` next to this file renders one or more `.colors` files as a
+strip of 21 blocks, one row per file, so candidates can be compared side by
+side without swapping any of them in:
+
+```bash
+python3 $S/swatch.py a.colors b.colors c.colors out.bmp
+sips -s format png out.bmp --out out.png     # then Read out.png
+```
+
+It is pure stdlib (writes a BMP by hand, since there is no PIL). The
+numbers decided between warm ground and cool ground for `coal-mine-canyon`
+only after the strips showed the cool one reading as a stock teal theme.
 
 ### Mark it, or it will be regenerated
 
@@ -449,12 +541,25 @@ never hand-edit them, or they will go stale again the next time.
 
 ## Reference
 
-Existing palettes, both single-color:
+Existing palettes:
 
 ```
-glacier-wave   hue 203.7 - 251.8   48 deg wide   min sep 24.0 (cursor to teal)
-tea-terrace    hue 157.8 - 169.9   12 deg wide   min sep 12.8 (text_muted to teal)
+glacier-wave      hue 203.7 - 251.8   48 deg wide   min sep 24.0 (cursor to teal)     single
+tea-terrace       hue 157.8 - 169.9   12 deg wide   min sep 12.8 (text_muted to teal) single
+coal-mine-canyon  hue 30.9 - 43.0 + 220-225          min sep 28 (accent_vivid to red)  duo, dominant on accents
+yosemite-from-above  hue 251-268 + 65-75             min sep 14 (text_muted to yellow, C 0.02)  near-grey, river as detail only
 ```
+
+`yosemite-from-above` is the worked example for a near-white photograph: the
+ground follows what the picture READS as, not where its dark pixels are. A
+first cut put the dark river on the backgrounds (the only dark pixels, best
+provenance) and through wezterm's 0.8 opacity over white the hue-70 brown
+blended to khaki and read green. The rebuilt palette is the snow-shadow blue
+at saturation 0.35 everywhere, with the river only on `text_muted`/`text_dim`.
+
+`coal-mine-canyon` is the worked example for a duo where the dominant colour
+takes the accents (Step 2a, "When the second colour must NOT be the accent")
+and for the warm-family pastel trap ("Judge low-chroma roles by distance").
 
 `tea-terrace` is narrow because it had to be: the green gap is 40 degrees, so a
 band centered on its midpoint of 162.7 is the best available and 20 degrees is

@@ -1,0 +1,73 @@
+# coal-mine-canyon - machine-readable palette
+#
+# HAND-CONFIGURED by tricolor.py, then hand-tuned. Do NOT regenerate
+# with `palette.py build` - that emits the fixed two-axis seam and
+# would silently discard the layout below.
+#
+# Wallpaper: red-and-white hoodoo canyon (Coal Mine Canyon style),
+# Screenshot 2026-09-02 at 09-24-25.png. Built to put the emphasis on
+# the red rock, so the rust carries the ground AND the whole
+# highlight family; the pale blue-grey rock is the counterpoint.
+#
+# Sampled axes: rust hue 37 (63.2% chroma-weighted share), sky/grey
+# rock hue 222 (20.7%). Image median chroma 0.053, so saturation 1.0.
+#
+#   ground 37 / leaf 37   bg family, text_bright..text_secondary,
+#                         text_hint, accent_vivid (Claude's clawd_body)
+#   accent 33             border, cursor, accent family
+#   detail 222            text_muted, text_dim, reserve_1..4
+#
+# Hand-tuned after the build: tricolor's collision resolver pushed
+# accent_bright and accent_light up to L 0.92 (dE 0.08 from pink at
+# L 0.82), which made the nvim file tree a near-white pink and left
+# reserve_1 folders 0.25 darker than files. Placed by chroma instead:
+#   accent_bright #DFBBAF  L0.820 C0.045 H39  dE 0.084 from pink,
+#                          under 60% of pink's chroma so exempt
+#   accent_light  #DDAA9A  L0.781 C0.064 H38
+#   reserve_1     #A6C3CE  L0.800 C0.035 H222 nvim folders in the pale
+#                          blue-grey rock, on request. Only 0.02 below the
+#                          files, so folder/file is carried by hue, not
+#                          lightness. Deliberate exception to the
+#                          "reserve_1 stays with accent_bright" rule.
+#   cursor        #F0B49D  L0.819 C0.077 H42  moved off the pink side
+#
+# Provenance (palette.py check --image): 17 of 21 roles SAMPLED
+# (dE < 0.03 from a real pixel), incl. all four backgrounds, the
+# accent family, both blue text roles and reserve_1 (dE 0.004). EXTRAPOLATED: text_bright,
+# text (image max L is 0.844, the ramp needs 0.97), cursor,
+# accent_vivid, reserve_4.
+#
+# Hue separation: warm axis 30.9-43.0, nearest status colour red at
+# 2.8 -> 28 deg min (accent_vivid); blue axis 220-225, 38 deg from
+# teal. No role within dE 0.10 of a status colour at signal chroma.
+# accent 4.58:1, text_dim 5.03:1, reserve_1 9.09:1 vs bg.
+# All ratios are upper bounds at wezterm opacity 0.8 - looked at.
+
+[background]
+bg=#361203
+bg_surface=#4A1A08
+bg_raised=#4F372F
+bg_selection=#7F381C
+
+[text]
+text_bright=#FCF1EF
+text=#F9D9D1
+text_secondary=#C3ABA3
+text_muted=#74ABC1
+text_dim=#4A96AD
+text_hint=#A78F87
+
+[chrome]
+border=#AC6153
+cursor=#F0B49D
+accent=#C96B4E
+accent_bright=#DFBBAF
+accent_light=#DDAA9A
+accent_soft=#CD8972
+accent_vivid=#DE7361
+
+[reserve]
+reserve_1=#A6C3CE
+reserve_2=#25AFD5
+reserve_3=#21A2C9
+reserve_4=#0B5C72
