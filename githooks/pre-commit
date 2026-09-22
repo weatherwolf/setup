@@ -38,4 +38,15 @@ fi
 # theme.json's shimmers are recomputed by a separate step.
 git add -- "$CURRENT_FILE" "$REPO_DIR/claude/.claude/themes/theme.json"
 
+# If the only staged changes were palette hexes, the swap has just made the
+# index identical to HEAD and git would happily write an empty commit. Refuse,
+# and put the live palette back ourselves since post-commit will not run.
+if git rev-parse -q --verify HEAD >/dev/null && git diff --cached --quiet HEAD; then
+    echo "pre-commit: nothing to commit once the palette is normalised to $TARGET" >&2
+    echo "pre-commit: the staged changes were only the live palette ($current); aborting" >&2
+    rm -f "$RESTORE_FILE"
+    "$REPO_DIR/update_palette.sh" "$current" >/dev/null
+    exit 1
+fi
+
 echo "pre-commit: committing with $TARGET; $current is restored after the commit"
