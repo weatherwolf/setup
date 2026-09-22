@@ -355,8 +355,8 @@ signal. Place those roles by CHROMA, at the lightness the file tree needs,
 and hand-edit them into the file after the build:
 
 ```
-accent_bright  L 0.820  C 0.045  hue 39   #EEB78E   60% of pink is 0.045
-accent_light   L 0.781  C 0.064  hue 38   #F1AC74
+accent_bright  L 0.820  C 0.045  hue 39   #ADDBE9   60% of pink is 0.045
+accent_light   L 0.781  C 0.064  hue 38   #71CDDC
 reserve_1      L 0.740  C 0.065  hue 38   #D09D8D   0.08 darker than files
 ```
 

@@ -65,7 +65,37 @@
   "skipAutoPermissionPrompt": true,
   "autoMode": {
     "soft_deny": [
-      "$defaults"
+      "$defaults",
+      "Bash(docker run:* --rm -i mcp-jit:latest)",
+      "Bash(./redeploy.sh:* --shell-acc)",
+      "Bash(./redeploy.sh:* --prod)"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: fyrm-ai (GitHub org; repo fyrm-ai/jordex-boekingen)",
+      "**Cloud provider(s)**: None configured",
+      "**Repository visibility**: Private (fyrm-ai/jordex-boekingen, confirmed via gh)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: .env files (gitignored, untracked) for LLM backend keys, JIT MyFreight ApiKey pair, Microsoft Graph app creds, Langfuse keys; tokens*.json/.lock/.cooldown files gitignored; CI secrets CODECOV_TOKEN and MCP_JIT_TOKEN referenced by name only (values not gathered)",
+      "**Default / protected branches**: main (default, via gh). Rulesets: none listed. Protected branches: none listed — treat main as unprotected unless later evidence shows otherwise",
+      "**CI/CD deploy targets**: None configured (GitHub Actions workflow present under .github/workflows, but no deploy target identified)",
+      "**Network posture**: None configured",
+      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine with open internet",
+      "**Source control**: The trusted repo (github.com/fyrm-ai/jordex-boekingen, private) and its origin remote only — no additional orgs configured",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: api.jordex.acc.myfreight.nl (JIT acceptatie TMS API, this repo's sole external write target, contacted in transcript mining), auth.myfreight.nl and connector-docs.rc.myfreight.nl (seen once each in transcript mining, both acceptatie/non-production JIT-adjacent endpoints)",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: .env / .env.bak-* / .env.production* files (LLM backend keys, JIT MyFreight ApiKey pair, Microsoft Graph app creds, Langfuse keys, callback signing secrets), tokens*.json/.lock/.cooldown (Auth0/session token caches), local_information/ (untracked vessel catalog and coldstore addresses), local_eval/ (git-ignored eval kit) — share only with audiences cleared for Jordex-internal booking data and credentials",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries prod or production as a whole word or name segment — explicitly includes this repo's own JIT_ENV=shell-prod / shell-acc production data-plane selector, the docker-compose.prod.yml overlay, and the tokens.prod.json* cache files; JIT's acceptatie environment (acc, api.jordex.acc.myfreight.nl) is the routine/default target and is not itself sensitive",
+      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic (shell-prod/shell-acc and docker-compose.prod.yml are the namespaces this repo defines as sensitive)",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries prod or production as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development (Jordex booking-automation agent: LangGraph flow, JIT/MCP integration, playbook fitting, observability)",
+      "**Trusted repo**: /Users/weatherwolf/Fyrm/jordex-boekingen (working directory) and its origin remote https://github.com/fyrm-ai/jordex-boekingen (private) — confidential material (playbooks, prompts, docs, non-secret config) is fine to commit here; content ported, repointed, or first read from outside this repo/session is not its own work regardless of who directed the port; secrets and sensitive data are never cleared into the repo by its visibility",
+      "**Org-specific CLIs**: None configured — herdr and the jb/gb/gc/gch/gnhf/gd/gs shell aliases appear frequently in this project's history and shell history but their provenance and function could not be verified, so they are not adopted as trusted org CLIs",
+      "**routine under <user>/ prefix**: none identified"
     ]
   }
 }

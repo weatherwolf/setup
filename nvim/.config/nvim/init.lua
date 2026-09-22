@@ -85,14 +85,14 @@ require("lazy").setup({
           --
           -- The icon takes the folder colour too, so a folder row reads as one
           -- unit.
-          NvimTreeFolderName = { fg = "#E19C58" },
-          NvimTreeOpenedFolderName = { fg = "#E19C58" },
-          NvimTreeEmptyFolderName = { fg = "#E19C58" },
-          NvimTreeSymlinkFolderName = { fg = "#E19C58" },
-          NvimTreeFolderIcon = { fg = "#E19C58" },
+          NvimTreeFolderName = { fg = "#54BFC9" },
+          NvimTreeOpenedFolderName = { fg = "#54BFC9" },
+          NvimTreeEmptyFolderName = { fg = "#54BFC9" },
+          NvimTreeSymlinkFolderName = { fg = "#54BFC9" },
+          NvimTreeFolderIcon = { fg = "#54BFC9" },
           -- accent_bright, 10.68:1. Files are the brighter of the pair.
-          NvimTreeNormal = { fg = "#EEB78E" },
-          NvimTreeImageFile = { fg = "#EEB78E" },
+          NvimTreeNormal = { fg = "#ADDBE9" },
+          NvimTreeImageFile = { fg = "#ADDBE9" },
           -- A plain file gets no highlight group and falls through to
           -- NvimTreeNormal, but these four have their own and would otherwise
           -- stay catppuccin: executables, special files (README, Makefile),
@@ -100,16 +100,16 @@ require("lazy").setup({
           -- tree. Symlinks keep their underline, which is the only thing left
           -- distinguishing them from a plain file, since all four share the
           -- file colour.
-          NvimTreeExecFile = { fg = "#EEB78E" },
-          NvimTreeSpecialFile = { fg = "#EEB78E" },
-          NvimTreeSymlink = { fg = "#EEB78E", underline = true },
-          NvimTreeOpenedFile = { fg = "#EEB78E" },
+          NvimTreeExecFile = { fg = "#ADDBE9" },
+          NvimTreeSpecialFile = { fg = "#ADDBE9" },
+          NvimTreeSymlink = { fg = "#ADDBE9", underline = true },
+          NvimTreeOpenedFile = { fg = "#ADDBE9" },
           -- text_bright: 15.02:1, so the root path outranks the tree below it.
-          NvimTreeRootFolder = { fg = "#F1F6EE" },
+          NvimTreeRootFolder = { fg = "#EDF6F8" },
           -- text_dim: 5.46:1, replacing overlay0's 3.36:1. Left as-is: the
           -- arrows are a third, dimmer level below both folders and files.
-          NvimTreeFolderArrowClosed = { fg = "#4499A1" },
-          NvimTreeFolderArrowOpen = { fg = "#4499A1" },
+          NvimTreeFolderArrowClosed = { fg = "#5E93A6" },
+          NvimTreeFolderArrowOpen = { fg = "#5E93A6" },
         },
       })
       vim.cmd("colorscheme catppuccin")

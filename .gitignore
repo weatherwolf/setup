@@ -26,3 +26,7 @@ palettes/.applied.colors
 # Copy of .zshrc left behind by the Aikido endpoint installer; identical
 # to the tracked file, so never commit it.
 zsh/.zshrc.aikido-backup
+
+# Marker left by githooks/pre-commit for post-commit: the palette that was
+# live before the commit swapped the tree to glacier-wave. Local state.
+palettes/.palette-before-commit

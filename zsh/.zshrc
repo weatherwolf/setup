@@ -126,3 +126,30 @@ _update_palette() {
   compadd -- ~/setup/palettes/*.colors(N:t:r)
 }
 compdef _update_palette update_palette.sh ./update_palette.sh
+
+
+qwen() {
+  curl -s http://100.103.200.103:8101/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d "$(jq -n \
+      --arg prompt "$*" \
+      '{
+        model: "/var/lib/fyrm/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_XL.gguf",
+        messages: [
+          {role: "user", content: $prompt}
+        ],
+        max_tokens: 1000
+      }')" \
+    | jq -r '.choices[0].message.content'
+}
+
+gbd() {
+	# Check for each branch if it is ahead or behind, for deletion purposes
+	echo "behind  ahead"
+	
+	for b in $(git branch --format='%(refname:short)'); do
+		if [[ "$b" != "main" ]]; then
+			echo "$(git rev-list --left-right --count main..."$b") : $b"
+		fi
+	done
+}

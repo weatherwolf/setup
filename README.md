@@ -42,6 +42,15 @@ tracked automatically. A hook also needs an entry under `"hooks"` in
 Machine-specific Claude overrides go in `~/.claude/settings.local.json`
 (untracked; Claude merges it over the shared `settings.json`).
 
+## Git hooks
+
+`githooks/` holds the repo's own git hooks; `install.sh` points
+`core.hooksPath` at it. `pre-commit` swaps the tree to the `glacier-wave`
+palette (via `update_palette.sh`) and stages the files it touched, so commits
+never carry whatever palette happens to be live. `post-commit` swaps the live
+palette back. Note that a file the swap touches is staged whole, so partially
+staged hunks in it go along.
+
 ## Claude Code skills
 
 Skills are managed by the `skills` CLI (`npx skills`), not vendored here. The

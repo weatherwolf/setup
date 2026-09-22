@@ -2,15 +2,15 @@
   "name": "Active",
   "base": "dark-ansi",
   "overrides": {
-    "text": "#D7E7CE",
-    "claude": "#B67A20",
-    "permission": "#CDA168",
-    "permissionShimmer": "#DBBF9D",
-    "inactive": "#6FADB8",
-    "suggestion": "#F1AC74",
-    "subtle": "#4499A1",
-    "promptBorder": "#B67A20",
-    "selectionBg": "#4B570C",
+    "text": "#CEE6EC",
+    "claude": "#3490B5",
+    "permission": "#8FADCF",
+    "permissionShimmer": "#B3C6DC",
+    "inactive": "#8CA4BF",
+    "suggestion": "#71CDDC",
+    "subtle": "#5E93A6",
+    "promptBorder": "#3490B5",
+    "selectionBg": "#24576B",
 
     "planMode": "#94e2d5",
     "autoAccept": "#cba6f7",
@@ -27,20 +27,20 @@
     "diffAddedWord": "#a6e3a1",
     "diffRemovedWord": "#f38ba8",
 
-    "userMessageBackground": "#202706",
-    "userMessageBackgroundHover": "#28300B",
-    "composerSidebarBackground": "#1F2604",
-    "memoryBackgroundColor": "#232B07",
-    "bashMessageBackgroundColor": "#20260B",
+    "userMessageBackground": "#112630",
+    "userMessageBackgroundHover": "#18303B",
+    "composerSidebarBackground": "#0F2630",
+    "memoryBackgroundColor": "#142B35",
+    "bashMessageBackgroundColor": "#14262F",
 
-    "claudeShimmer": "#CD9D5F",
-    "promptBorderShimmer": "#CFA167",
-    "inactiveShimmer": "#97D6E2",
+    "claudeShimmer": "#6BADCB",
+    "promptBorderShimmer": "#73B1CD",
+    "inactiveShimmer": "#B4CDE9",
     "warningShimmer": "#fbebc7",
     "autoAcceptShimmer": "#dbc1f9",
 
-    "clawd_background": "#1B2201",
-    "clawd_body": "#E79246",
-    "briefLabelClaude": "#E79246"
+    "clawd_background": "#0B222C",
+    "clawd_body": "#2DBCD3",
+    "briefLabelClaude": "#2DBCD3"
   }
 }

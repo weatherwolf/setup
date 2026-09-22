@@ -90,4 +90,11 @@ for pair in "${LINKS[@]}"; do
   link "$REPO_DIR/${pair%%|*}" "${pair#*|}"
 done
 
+# Git hooks live in githooks/ (tracked) rather than .git/hooks (not tracked).
+# pre-commit pins the committed palette to glacier-wave; see the file itself.
+if git -C "$REPO_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  git -C "$REPO_DIR" config core.hooksPath githooks
+  echo "  [hooks]  core.hooksPath -> githooks"
+fi
+
 echo "Done. (Run ./bootstrap.sh first on a fresh machine to install starship.)"
