@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#
+# pre-commit - pin the committed palette to glacier-wave.
+#
+# The live palette is swapped freely with update_palette.sh, which rewrites
+# hexes across every config. Without this hook each commit drags the palette
+# of the moment along as noise. So: if the working tree is on another palette,
+# swap it to glacier-wave right before the commit and stage every file the
+# swap touched. post-commit swaps back to what was live.
+#
+# Installed by install.sh via `git config core.hooksPath githooks`.
+set -euo pipefail
+
+REPO_DIR="$(git rev-parse --show-toplevel)"
+PALETTE_DIR="$REPO_DIR/palettes"
+CURRENT_FILE="$PALETTE_DIR/current_pallete.txt"
+RESTORE_FILE="$PALETTE_DIR/.palette-before-commit"
+TARGET="glacier-wave"
+
+current="$(cat "$CURRENT_FILE" 2>/dev/null || true)"
+if [[ -z "$current" || "$current" == "$TARGET" ]]; then
+    exit 0
+fi
+
+echo "pre-commit: live palette is $current, swapping to $TARGET for the commit"
+# Remember what was live so post-commit can put it back. Written before the
+# swap so a swap that fails halfway still leaves a record of where we were.
+echo "$current" > "$RESTORE_FILE"
+
+# update_palette.sh prints "  updated <file>" per rewritten file; stage those.
+# Fail the commit if the swap fails: better no commit than a half-swapped one.
+touched="$("$REPO_DIR/update_palette.sh" "$TARGET" | tee /dev/stderr | sed -n 's/^  updated //p')"
+
+if [[ -n "$touched" ]]; then
+    printf '%s\n' "$touched" | xargs git add --
+fi
+# Not in the "updated" list: current_pallete.txt is written directly, and
+# theme.json's shimmers are recomputed by a separate step.
+git add -- "$CURRENT_FILE" "$REPO_DIR/claude/.claude/themes/theme.json"
+
+echo "pre-commit: committing with $TARGET; $current is restored after the commit"

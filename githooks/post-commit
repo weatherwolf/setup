@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+# post-commit - restore the palette that was live before pre-commit swapped
+# the tree to glacier-wave. No-op when pre-commit left no marker.
+#
+# Installed by install.sh via `git config core.hooksPath githooks`.
+set -euo pipefail
+
+REPO_DIR="$(git rev-parse --show-toplevel)"
+RESTORE_FILE="$REPO_DIR/palettes/.palette-before-commit"
+
+[[ -s "$RESTORE_FILE" ]] || exit 0
+
+previous="$(cat "$RESTORE_FILE")"
+rm -f "$RESTORE_FILE"
+
+echo "post-commit: restoring live palette $previous"
+"$REPO_DIR/update_palette.sh" "$previous"
