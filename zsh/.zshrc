@@ -138,7 +138,6 @@ qwen() {
         messages: [
           {role: "user", content: $prompt}
         ],
-        max_tokens: 1000
       }')" \
     | jq -r '.choices[0].message.content'
 }
