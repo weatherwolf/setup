@@ -12,7 +12,7 @@ replaceColors() {
 
 	# check if the palettes have the same size
 	if [ "${#old_colors[@]}" != "${#new_colors[@]}" ]; then
-		echo "palettes don't have the same size: old_palette_size=${#old_colors[@]} , new_palette_size=${#new_colors[@]}"
+		echo "palettes don't have the same size: old_palette_size=${#old_colors[@]} , new_palette_size=${#new_colors[@]}" >&2
 		return 1
 	fi
 
@@ -36,11 +36,14 @@ replaceColors() {
 	# Target all files except the palette definitions, git internals and
 	# binaries. tmux is excluded too: it consumes no palette role, but its
 	# message-style uses #000000, which collides with any palette that puts
-	# an ordinary color in a role and would be rewritten by mistake.
+	# an ordinary color in a role and would be rewritten by mistake. .agents
+	# holds skill docs, whose worked examples quote fixed hexes that must not
+	# follow the live palette.
 	grep -rlIEi "$old_hexes" ~/setup \
 		--exclude-dir=.git \
 		--exclude-dir=palettes \
 		--exclude-dir=tmux \
+		--exclude-dir=.agents \
 		--exclude=update_palette.sh |
 	while IFS= read -r file
 	do
@@ -84,6 +87,12 @@ fi
 
 echo "palette has been found in $palette.colors"
 
+# From here on, stdout goes nowhere: the swap's progress lines and the output
+# of herdr and recompute_shimmers.py are not shown. fd 3 keeps the real
+# terminal so the final clear can still reach it. Errors still show, because
+# they go to stderr.
+exec 3>&1 >/dev/null
+
 CURRENT_FILE="$PALETTE_DIR/current_pallete.txt"
 
 # First run: nothing is recorded yet, so there is no "from" palette to swap
@@ -104,7 +113,7 @@ fi
 echo "swapping $current -> $palette"
 
 if ! replaceColors "$current" "$palette"; then
-	echo "swap failed, current_pallete.txt left at $current"
+	echo "swap failed, current_pallete.txt left at $current" >&2
 	exit 1
 fi
 
@@ -126,6 +135,64 @@ cp "$PALETTE_DIR/$palette.colors" "$PALETTE_DIR/.applied.colors"
 if herdr config check; then
 	herdr server reload-config
 else
-	echo "herdr config check failed; not reloading. The swap already wrote the files."
+	echo "herdr config check failed; not reloading. The swap already wrote the files." >&2
 	exit 1
 fi
+
+# Print "<pane_id> <foreground process names>" for every herdr pane, so each
+# step below can pick the panes whose foreground program it knows how to drive.
+# Keys sent to a pane go to that program, so the same key means different
+# things in nvim and in zsh.
+listPaneForegrounds() {
+	herdr pane list | python3 -c '
+import json, sys
+for pane in json.load(sys.stdin)["result"]["panes"]:
+    print(pane["pane_id"])
+' | while IFS= read -r pane
+	do
+		fg=$(herdr pane process-info --pane "$pane" | python3 -c '
+import json, sys
+info = json.load(sys.stdin)["result"]["process_info"]
+print(" ".join(p["name"] for p in info["foreground_processes"]))
+')
+		echo "$pane $fg"
+	done
+}
+
+# A running nvim keeps the highlights it loaded at startup, so the new hexes in
+# init.lua only show after a restart. Type :restart! into every pane whose
+# foreground process is nvim. Esc first, so a pane left in insert or cmdline
+# mode still receives the command. The ! skips the unsaved-changes prompt, so
+# unsaved edits in those buffers are discarded. nvim running over ssh in a pane
+# is not detected (the foreground is ssh).
+restartNvimPanes() {
+	listPaneForegrounds | while read -r pane fg
+	do
+		if [ "$fg" = "nvim" ]; then
+			herdr pane send-keys "$pane" esc > /dev/null &&
+			herdr pane send-text "$pane" ":restart!" > /dev/null &&
+			herdr pane send-keys "$pane" enter > /dev/null &&
+			echo "  restarted nvim in $pane"
+		fi
+	done
+}
+
+# Clean up every pane sitting at an idle zsh prompt. zsh runs in emacs mode
+# (bindkey -e): ctrl+u is kill-whole-line (wipes the typed input) and ctrl+l
+# is clear-screen (wipes the screen and redraws the prompt).
+clearShellPanes() {
+	listPaneForegrounds | while read -r pane fg
+	do
+		if [ "$fg" = "zsh" ]; then
+			herdr pane send-keys "$pane" ctrl+u > /dev/null &&
+			herdr pane send-keys "$pane" ctrl+l > /dev/null
+		fi
+	done
+}
+
+restartNvimPanes
+clearShellPanes
+# The invoking pane runs this script in the foreground, not zsh, so
+# clearShellPanes skips it. Clear it directly, but only when fd 3 is a real
+# terminal: under a capturing runner the escape codes would print as text.
+[ -n "$HERDR_PANE_ID" ] && [ -t 3 ] && clear >&3

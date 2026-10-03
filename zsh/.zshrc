@@ -101,6 +101,10 @@ prettyjson() {
 # aikido-endpoint-cert-config-start
 # Allow Node.js tooling to trust the SafeChain MITM CA while preserving public roots.
 export NODE_EXTRA_CA_CERTS="/Library/Application Support/AikidoSecurity/EndpointProtection/run/endpoint-protection-node-combined-ca.pem"
+case "${NODE_OPTIONS:-}" in
+  *--use-openssl-ca*) unset NODE_USE_SYSTEM_CA ;;
+  *) export NODE_USE_SYSTEM_CA=1 ;;
+esac
 # aikido-endpoint-cert-config-end
 # aikido-endpoint-pip-cert-config-start
 # Allow Python package managers to trust the SafeChain MITM CA while preserving user-provided roots.
