@@ -10,6 +10,7 @@ vim.opt.list = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.textwidth = 80
+vim.opt.linebreak = true
 
 -- Clipboard over SSH: this machine is headless (no X11/Wayland), so tools
 -- like xclip cannot work. OSC 52 sends yanked text through the terminal
@@ -22,6 +23,7 @@ end
 vim.keymap.set("n", "<leader>lo", function()
 return "o" .. os.date("[%d-%m-%Y %H:%M:%S] ")
 end, { expr = true, desc = "Insert timestamped log line" })
+
 
 -- Bootstrap lazy.nvim (auto-installs if not present)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -85,14 +87,14 @@ require("lazy").setup({
           --
           -- The icon takes the folder colour too, so a folder row reads as one
           -- unit.
-          NvimTreeFolderName = { fg = "#75C095" },
-          NvimTreeOpenedFolderName = { fg = "#75C095" },
-          NvimTreeEmptyFolderName = { fg = "#75C095" },
-          NvimTreeSymlinkFolderName = { fg = "#75C095" },
-          NvimTreeFolderIcon = { fg = "#75C095" },
+          NvimTreeFolderName = { fg = "#54BFC9" },
+          NvimTreeOpenedFolderName = { fg = "#54BFC9" },
+          NvimTreeEmptyFolderName = { fg = "#54BFC9" },
+          NvimTreeSymlinkFolderName = { fg = "#54BFC9" },
+          NvimTreeFolderIcon = { fg = "#54BFC9" },
           -- accent_bright, 10.68:1. Files are the brighter of the pair.
-          NvimTreeNormal = { fg = "#B4DEC9" },
-          NvimTreeImageFile = { fg = "#B4DEC9" },
+          NvimTreeNormal = { fg = "#ADDBE9" },
+          NvimTreeImageFile = { fg = "#ADDBE9" },
           -- A plain file gets no highlight group and falls through to
           -- NvimTreeNormal, but these four have their own and would otherwise
           -- stay catppuccin: executables, special files (README, Makefile),
@@ -100,16 +102,16 @@ require("lazy").setup({
           -- tree. Symlinks keep their underline, which is the only thing left
           -- distinguishing them from a plain file, since all four share the
           -- file colour.
-          NvimTreeExecFile = { fg = "#B4DEC9" },
-          NvimTreeSpecialFile = { fg = "#B4DEC9" },
-          NvimTreeSymlink = { fg = "#B4DEC9", underline = true },
-          NvimTreeOpenedFile = { fg = "#B4DEC9" },
+          NvimTreeExecFile = { fg = "#ADDBE9" },
+          NvimTreeSpecialFile = { fg = "#ADDBE9" },
+          NvimTreeSymlink = { fg = "#ADDBE9", underline = true },
+          NvimTreeOpenedFile = { fg = "#ADDBE9" },
           -- text_bright: 15.02:1, so the root path outranks the tree below it.
-          NvimTreeRootFolder = { fg = "#EFF6F2" },
+          NvimTreeRootFolder = { fg = "#EDF6F8" },
           -- text_dim: 5.46:1, replacing overlay0's 3.36:1. Left as-is: the
           -- arrows are a third, dimmer level below both folders and files.
-          NvimTreeFolderArrowClosed = { fg = "#659781" },
-          NvimTreeFolderArrowOpen = { fg = "#659781" },
+          NvimTreeFolderArrowClosed = { fg = "#5E93A6" },
+          NvimTreeFolderArrowOpen = { fg = "#5E93A6" },
         },
       })
       vim.cmd("colorscheme catppuccin")

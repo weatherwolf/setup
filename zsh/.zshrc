@@ -138,7 +138,7 @@ qwen() {
     -d "$(jq -n \
       --arg prompt "$*" \
       '{
-        model: "/var/lib/fyrm/models/qwen3.8-27b/Qwen3.8-27B-UD-Q4_K_XL.gguf",
+        model: "/var/lib/fyrm/models/qwen3.8-flash-next/UD-IQ3_XXS/Qwen3.8-Flash-Next-UD-IQ3_XXS-00001-of-00003.gguf",
         messages: [
           {role: "user", content: $prompt}
         ],
