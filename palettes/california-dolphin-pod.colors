@@ -1,0 +1,100 @@
+# california-dolphin-pod - machine-readable palette
+#
+# Format: one role=hex per line, grouped into [sections] that carry no meaning
+# to a parser. Read it by line shape rather than by looking for an "=", since
+# comments contain those too:
+#
+#   grep -E '^[A-Za-z_][A-Za-z0-9_]*=#[0-9A-Fa-f]{6}$' california-dolphin-pod.colors
+#
+# HAND-CONFIGURED by tricolor.py, then three roles placed by hand. Do NOT
+# regenerate with `palette.py build` - that emits the fixed two-axis seam and
+# would silently discard the layout below.
+#
+#   tricolor.py --name california-dolphin-pod --ground 261 --leaf 261 \
+#               --accent 261 --detail 261 --saturation 1.5 --move reserve_1:accent
+#
+# then reserve_1, text_muted and text_dim set by hand to the dolphin grey.
+#
+# Sampled from an underwater photograph of a pod of common dolphins: open
+# ocean at hue 261 covering 99% of the chroma-weighted image, with the
+# dolphins' bodies a cool lavender-grey at hue ~285.
+#
+# TWO colours, the second used sparingly on purpose:
+#
+#   ocean  261  backgrounds, the whole text ramp except text_muted/text_dim,
+#               border, cursor, the accent family, reserve_2..4
+#   dolphin 285 reserve_1   nvim folder names and folder icon
+#               text_dim    nvim folder arrows, Claude `subtle`, wezterm bright black
+#               text_muted  Claude `inactive`
+#
+# The dolphin grey fails sample's gates as a secondary - 24 deg from the ocean
+# axis where 45 is needed, and 0.7% share - so it is a deliberate override,
+# and that is why it is kept off every load-bearing role. It is 20 deg from
+# catppuccin mauve (304.8), exactly the secondary floor, but it is placed BY
+# CHROMA at the dolphins' own measured level (C 0.040-0.050, against the
+# water's median 0.150), so it reads as grey, not violet, and the dE status
+# check flags nothing. tricolor's own ladder at hue 285 gave C 0.10-0.18,
+# which is lavender, not dolphin.
+#
+# Folders (reserve_1, L 0.730) sit one step under files (accent_bright,
+# L 0.751), as the other palettes do, but in grey against blue files.
+#
+# Saturation 1.5: the photograph's median chroma is 0.150, 2.9x goa-cove's
+# 0.051. A 2.94 build was compared side by side and clipped into a garish
+# ultramarine (reserve_4 came out #003CCE); 1.5 still reads as deep ocean.
+#
+# Provenance, from `palette.py check california-dolphin-pod --image <photo>`
+# (OKLab dE to the nearest pixel; under 0.030 counts as a genuine sample):
+# the four backgrounds are SAMPLED (0.008-0.029), as are text_secondary,
+# text_hint, reserve_4 and all three dolphin roles (0.013-0.016). The image never exceeds
+# lightness 0.876 and is a single saturated blue, so the light text roles and
+# the saturated accent family are EXTRAPOLATED up the hue axis.
+#
+# Separations: ocean band 252-269 deg, 36+ deg from mauve and 70+ from teal.
+# The lane holds catppuccin's SYNTAX blue (259.9) and lavender; that proximity
+# is advisory only. Contrast against bg on paper: accent 4.58:1, text_dim
+# 4.90:1, every other text role higher. wezterm renders at opacity 0.8, so
+# these are upper bounds.
+#
+# Semantic colors stay catppuccin mocha. Claude Code's shimmers are computed
+# from the roles below by palettes/recompute_shimmers.py, not stored here.
+# Hex case is not significant here but it is in the configs; match
+# case-insensitively when substituting.
+#
+# The 21 roles, in canonical order (update_palette.sh pairs them positionally):
+#   bg bg_surface bg_raised bg_selection
+#   text_bright text text_secondary text_muted text_dim text_hint
+#   border cursor accent accent_bright accent_light accent_soft accent_vivid
+#   reserve_1 reserve_2 reserve_3 reserve_4
+
+[background]
+bg=#0B194B
+bg_surface=#0B2465
+bg_raised=#2C3E5B
+bg_selection=#2346A6
+
+[text]
+text_bright=#EEF5FF
+text=#D0E3FE
+text_secondary=#A1B2CF
+text_muted=#9B9BBA
+text_dim=#8888AA
+text_hint=#8496B3
+
+[chrome]
+border=#4076D0
+cursor=#ACD1FD
+accent=#537FF7
+accent_bright=#86B2E4
+accent_light=#82B2ED
+accent_soft=#84A1F5
+accent_vivid=#6EACFA
+
+[reserve]
+# reserve_1 is no longer spare: it paints nvim's folder names and folder
+# icon, here in the dolphin grey against blue files. reserve_2..4 still
+# render nothing and are named by position rather than by job.
+reserve_1=#A4A5C1
+reserve_2=#6A9EF9
+reserve_3=#5D8EF8
+reserve_4=#1A4BAB
